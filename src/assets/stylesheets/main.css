@@ -1,12 +1,44 @@
+/* Shared layout and main palette; Cyb imports this and replaces the palette. */
+:root {
+	--theme-text-strong: #ffcaf2;
+	--theme-text: #f6b3e5;
+	--theme-field: #ffcaf2;
+	--theme-ground: #c876ff;
+	--theme-accent: #be00ff;
+	--theme-chrome: #8c53b3;
+	--theme-bevel-light: #a96fd0;
+	--theme-bevel-dark: #4a2563;
+	--theme-frame: #1e0042;
+	--theme-tab-face: #6b3a8d;
+	--theme-tab-light: #bc94d4;
+	--theme-text-rgb: 246,179,229;
+	--theme-accent-rgb: 190,0,255;
+	--theme-chrome-rgb: 140,83,179;
+	--theme-frame-rgb: 30,0,66;
+	--theme-background-image: url(../../../public/dist/images/bg.png);
+	--theme-font: sans-serif;
+	--theme-banner-background-color: rgba(0,0,0,.4);
+	--theme-banner-border-color: rgba(0,0,0,.4);
+	--theme-input-text: #000;
+	--theme-post-background: rgba(0,0,0,.2);
+	--theme-post-border: rgba(0,0,0,.2);
+	--theme-greentext: lime;
+	--theme-link: deeppink;
+	--theme-link-hover: lightpink;
+	--theme-mobile-font: Charcoal, Geneva, Chicago, "Lucida Grande", Tahoma, Verdana, sans-serif;
+	--theme-field-font: Geneva, Charcoal, "Lucida Grande", Tahoma, Verdana, sans-serif;
+	--theme-heading-text: #8c53b3;
+}
+
 body {
-	color: #f6b3e5;
-	background-color: #c876ff;
-	background-image: url(../../../public/dist/images/bg.png);
-	font-family: sans-serif;
+	color: var(--theme-text);
+	background-color: var(--theme-ground);
+	background-image: var(--theme-background-image);
+	font-family: var(--theme-font);
 }
 
 a {
-	color: #f6b3e5;
+	color: var(--theme-text);
 	font-weight: bold;
 	text-decoration: none;
 }
@@ -49,8 +81,8 @@ a:hover {
 
 .banner {
 	text-align: center;
-	background-color:rgba(0,0,0,.4);
-	border-color: rgba(0,0,0,.4);
+	background-color:var(--theme-banner-background-color);
+	border-color: var(--theme-banner-border-color);
 	border-width: 2px;
 	border-style: solid;
 	padding: 8px;
@@ -59,24 +91,24 @@ a:hover {
 
 input {
 	outline-width: 0;
-	color: black;
-	background-color: #ffcaf2;
+	color: var(--theme-input-text);
+	background-color: var(--theme-field);
 }
 
 input:focus {
-	border-color: #8c53b3;
+	border-color: var(--theme-chrome);
 	border-style: inset;
 	border-width: 2px;
 }
 
 textarea {
 	outline-width: 0;
-	color: black;
-	background-color: #ffcaf2;
+	color: var(--theme-input-text);
+	background-color: var(--theme-field);
 }
 
 textarea:focus {
-		border-color: #8c53b3;
+		border-color: var(--theme-chrome);
 		border-style: inset;
 		border-width: 2px;
 }
@@ -91,7 +123,7 @@ textarea:focus {
 }
 
 .form {
-	border-color: #8c53b3;
+	border-color: var(--theme-chrome);
 	border-width: 2px;
 	border-style: solid;
 	padding: 8px;
@@ -100,16 +132,16 @@ textarea:focus {
 	position: fixed;
 	bottom: 0;
 	right: 0;
-	background-color: #8c53b3;
+	background-color: var(--theme-chrome);
 	z-index: 255;
 }
 
 .panel {
-	border-color: #8c53b3;
+	border-color: var(--theme-chrome);
 	border-width: 2px;
 	border-style: solid;
 	padding: 8px;
-	background-color: #8c53b3;
+	background-color: var(--theme-chrome);
 }
 
 .form textarea {
@@ -119,7 +151,7 @@ textarea:focus {
 
 input[type=button],input[type=submit] {
 	padding: 4px;
-	color: #f6b3e5;
+	color: var(--theme-text);
 	text-decoration: none;
 	font-weight: bold;
 	border-width: 2px;
@@ -136,27 +168,30 @@ input[type=button]:hover, input[type=submit]:hover {
 }
 
 .post_header {
+	display: flex;
+	align-items: center;
+	gap: .35em;
 	padding: 4px;
-	background-color: rgba(30,0,66,.4);
+	background-color: rgba(var(--theme-frame-rgb),.4);
 }
 
 .post {
-	color: #f6b3e5;
+	color: var(--theme-text);
 	border-radius: 4px;
 	margin-left: 0.5em;
 	margin-bottom: 0.5em;
 	border-width: 2px;
 	border-style: solid;
-	background-color:rgba(0,0,0,.2);
-	border-color: rgba(0,0,0,.2);
+	background-color:var(--theme-post-background);
+	border-color: var(--theme-post-border);
 }
 
 .selected_post {
-	border-color: #be00ff;
+	border-color: var(--theme-accent);
 }
 
 .greentext {
-	color: lime;
+	color: var(--theme-greentext);
 }
 
 .bluetext {
@@ -248,7 +283,7 @@ input[type=button]:hover, input[type=submit]:hover {
 	padding: 0px;
 	border: none;
 	background: none;
-	color: deeppink;
+	color: var(--theme-link);
 	font-weight: bold;
 	font-style: italic;
 	text-decoration: overline;
@@ -256,7 +291,7 @@ input[type=button]:hover, input[type=submit]:hover {
 }
 
 .post_content a:hover {
-	color: lightpink;
+	color: var(--theme-link-hover);
 }
 
 code {
@@ -275,4 +310,1540 @@ code {
 
 .post_content:hover {
 	max-height: none;
+}
+
+/* ==========================================================================
+   Board tabs
+   Boards are the posts with no parent; this strip switches between them and
+   replaces the root post's old "Post" button.
+
+   Each tab behaves like a physical file divider rather than a browser tab:
+   it is a <details>, and closing it with its arrow closes the whole sheaf of
+   posts filed behind it. The tab itself stays put -- a divider doesn't vanish
+   when you close the section.
+
+   The tab is drawn as two clipped layers, because clip-path would cut a real
+   border off the slanted edges: the outer <details> paints the border colour,
+   the inner <summary> sits 2px inside it painting the face.
+   ========================================================================== */
+.board_tabs {
+	display: flex;
+	align-items: flex-end;
+	gap: 2px;
+	margin: 1em 1em 0 1em;
+	padding: 0;
+	overflow-x: auto;
+	border-bottom: 2px solid var(--theme-chrome);
+}
+
+.board_tab {
+	flex: 0 0 auto;
+	padding: 2px 2px 0 2px;
+	background-color: rgba(var(--theme-frame-rgb),.55);
+	/* Trapezoid with eased shoulders: the extra points round off what would
+	   otherwise be two sharp corners at the top of the slant. */
+	clip-path: polygon(
+		5px 24%, 7px 10%, 11px 2px, 17px 0,
+		calc(100% - 17px) 0, calc(100% - 11px) 2px, calc(100% - 7px) 10%, calc(100% - 5px) 24%,
+		100% 100%, 0 100%
+	);
+}
+
+/* The active tab carries the same accent as a selected post, so the tab and
+   the sheaf below it read as one piece. */
+.board_tab.selected_board {
+	background-color: var(--theme-accent);
+}
+
+.board_tab_label {
+	display: flex;
+	align-items: center;
+	white-space: nowrap;
+	list-style: none;
+	background-color: var(--theme-tab-face);
+	background-image: linear-gradient(to bottom, rgba(255,255,255,.2), rgba(var(--theme-frame-rgb),.3));
+	clip-path: polygon(
+		5px 24%, 7px 10%, 11px 2px, 17px 0,
+		calc(100% - 17px) 0, calc(100% - 11px) 2px, calc(100% - 7px) 10%, calc(100% - 5px) 24%,
+		100% 100%, 0 100%
+	);
+}
+
+.board_tab.active_board .board_tab_label {
+	background-color: var(--theme-chrome);
+	background-image: linear-gradient(to bottom, rgba(255,255,255,.42), rgba(var(--theme-chrome-rgb),0));
+}
+
+.board_tab_label::-webkit-details-marker,
+.board_tab_label::marker {
+	display: none;
+	content: "";
+}
+
+/* The divider's pull-tab, on the leading edge. It is the only part of the
+   label that toggles; the link beside it navigates. */
+.board_tab_label::before {
+	content: "\25BE";
+	flex: 0 0 auto;
+	padding: 4px 6px 4px 16px;
+	font-size: 1.15em;
+	line-height: 1;
+	opacity: .75;
+	cursor: pointer;
+}
+
+.board_tab_label:hover::before {
+	opacity: 1;
+}
+
+/* Closed: the arrow points side-on, the way a collapsed disclosure does. */
+.board_tab:not([open]) .board_tab_label::before {
+	content: "\25B8";
+}
+
+.board_tab_link {
+	flex: 1 1 auto;
+	display: block;
+	padding: 5px 18px 4px 2px;
+	color: var(--theme-text);
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.board_tab_link:hover {
+	text-decoration: none;
+}
+
+.board_tab:hover .board_tab_label {
+	background-image: linear-gradient(to bottom, rgba(255,255,255,.3), rgba(var(--theme-frame-rgb),.24));
+}
+
+.board_tab.active_board .board_tab_link {
+	color: var(--theme-text-strong);
+	padding-top: 7px;
+}
+
+.board_tab.active_board .board_tab_label::before {
+	padding-top: 6px;
+}
+
+/* Closing the active divider closes the sheaf filed behind it. The tab strip
+   precedes the root post in the markup, so :has() + ~ reaches it. */
+.board_tabs:has(.board_tab.active_board:not([open])) ~ .post.root_post {
+	display: none;
+}
+
+/* Keep a header-shaped end cap under a collapsed board's divider. */
+.collapsed_board_header {
+	display: none;
+	min-height: 1.4em;
+	padding: 8px 12px;
+	text-align: center;
+	margin: 0 1em;
+	border: 2px solid var(--theme-accent);
+	border-top: none;
+}
+
+.board_tabs:has(.board_tab.active_board:not([open])) ~ .collapsed_board_header {
+	display: block;
+}
+
+/* The board's own header carried the "Post" link the tabs now replace, so it
+   has nothing left to show. */
+.root_post > .post_header {
+	display: none;
+}
+
+/* Backlinks are emitted for every post but belong to the handheld layout,
+   which lays threads out flat; the desktop board shows the same
+   relationships through nesting, so they stay hidden here.
+
+   The title/board heading and the sign-off are the same arrangement: emitted
+   for every post, drawn only on handheld, where the header row has no room for
+   them. The desktop header shows both, so these copies stay hidden. */
+.backlinks,
+.backlink_parent,
+.post_content_heading,
+.post_signature {
+	display: none;
+}
+
+/* ==========================================================================
+   Handheld / PDA mode  --  Platinum chrome in the main.css palette
+   --------------------------------------------------------------------------
+   Mac OS 8/9 window construction (ridged bezel on all four edges, pinstriped
+   title bar, bevelled controls, sunken fields) drawn in this board's own
+   colours rather than system grey. The second query keeps the deck intact
+   when the phone is turned on its side. Scoped entirely to the queries, so
+   the desktop layout is untouched. No JS: the composer is the existing
+   <details>, skinned in both its closed and open states.
+
+   Ramp, all lifted from the desktop theme above:
+     #f6b3e5 text     #ffcaf2 field face   #c876ff ground   #be00ff accent
+     #8c53b3 chrome   #a96fd0 bevel light  #4a2563 bevel dark
+     #1e0042 frame (the post_header purple-black)
+   ========================================================================== */
+/* ==========================================================================
+   Scroll bars -- System 7
+   --------------------------------------------------------------------------
+   Construction borrowed from classicy (github.com/robbiebyrd/classicy), which
+   builds its arrowheads out of stacked hard-stop gradients rather than an SVG:
+   four layers, each narrower than the last and each revealing more ink, so the
+   arrow comes out stair-stepped like a bitmap rather than smoothly diagonal.
+   That stepping is what makes it read as System 7 rather than as a modern
+   triangle. Both steppers sit together at the start of the track, as classicy
+   arranges them.
+
+   Drawn entirely from --theme-* properties, so cyb.css gets the same furniture
+   in its own palette just by overriding the variables. WebKit/Blink get the
+   full treatment; Firefox gets scrollbar-color, which is all it supports.
+   ========================================================================== */
+:root {
+	--scrollbar-size: 15px;
+	--scrollbar-arrow: 4px;
+	--scrollbar-ink: var(--theme-text);
+}
+
+html {
+	scrollbar-width: auto;
+	scrollbar-color: var(--theme-bevel-light) var(--theme-field);
+}
+
+/* Standard scrollbar colors override the detailed pseudo-elements in Blink.
+   Keep the inherited color fallback only in browsers without these hooks. */
+@supports selector(::-webkit-scrollbar) {
+	html {
+		scrollbar-color: auto;
+	}
+}
+
+::-webkit-scrollbar {
+	width: var(--scrollbar-size);
+	height: var(--scrollbar-size);
+}
+
+/* Sunken track with the 1px frame the whole bar sits in. */
+::-webkit-scrollbar-track {
+	background-color: var(--theme-field);
+	border: 1px solid var(--theme-frame);
+}
+
+::-webkit-scrollbar-track:vertical {
+	border-top: none;
+	border-bottom: none;
+	box-shadow: inset 1px 1px 0 var(--theme-bevel-dark);
+}
+
+::-webkit-scrollbar-track:horizontal {
+	border-left: none;
+	border-right: none;
+	box-shadow: inset 1px 1px 0 var(--theme-bevel-dark);
+}
+
+/* The elevator: raised, with the ruled texture across its face. */
+::-webkit-scrollbar-thumb {
+	min-width: var(--scrollbar-size);
+	min-height: var(--scrollbar-size);
+	background-color: var(--theme-chrome);
+	border: 1px solid var(--theme-frame);
+	box-shadow:
+		inset 1px 1px 0 var(--theme-bevel-light),
+		inset -1px -1px 0 var(--theme-bevel-dark),
+		inset 2px 2px 0 var(--theme-tab-light),
+		inset -2px -2px 0 var(--theme-tab-face);
+}
+
+::-webkit-scrollbar-thumb:vertical {
+	background-image: repeating-linear-gradient(
+		to bottom,
+		rgba(var(--theme-text-rgb),.32) 0, rgba(var(--theme-text-rgb),.32) 1px,
+		transparent 1px, transparent 3px
+	);
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+	background-image: repeating-linear-gradient(
+		to right,
+		rgba(var(--theme-text-rgb),.32) 0, rgba(var(--theme-text-rgb),.32) 1px,
+		transparent 1px, transparent 3px
+	);
+}
+
+::-webkit-scrollbar-thumb:active {
+	box-shadow:
+		inset 1px 1px 0 var(--theme-bevel-dark),
+		inset -1px -1px 0 var(--theme-bevel-light);
+}
+
+/* Both steppers clustered at the start of the track, classicy-style. */
+::-webkit-scrollbar-button {
+	display: none;
+}
+
+::-webkit-scrollbar-button:start:vertical,
+::-webkit-scrollbar-button:start:horizontal {
+	display: block;
+	width: var(--scrollbar-size);
+	height: var(--scrollbar-size);
+	border: 1px solid var(--theme-frame);
+	box-shadow:
+		inset 1px 1px 0 var(--theme-bevel-light),
+		inset -1px -1px 0 var(--theme-bevel-dark);
+}
+
+/* Arrowheads. Four stacked hard-stop gradients: the widest shows only its
+   bottom quarter in ink, the narrowest is solid, so the overlap stair-steps
+   into a pixel triangle. Rotating the gradients turns the arrow. */
+::-webkit-scrollbar-button:start:vertical:decrement {
+	background:
+		linear-gradient(transparent 75%, var(--scrollbar-ink) 0) 50%/calc(var(--scrollbar-arrow) * 2) var(--scrollbar-arrow) no-repeat,
+		linear-gradient(transparent 50%, var(--scrollbar-ink) 0) 50%/calc(var(--scrollbar-arrow) * 1.5) var(--scrollbar-arrow) no-repeat,
+		linear-gradient(transparent 25%, var(--scrollbar-ink) 0) 50%/var(--scrollbar-arrow) var(--scrollbar-arrow) no-repeat,
+		linear-gradient(var(--scrollbar-ink) 50%, var(--scrollbar-ink) 0) 50%/calc(var(--scrollbar-arrow) / 2) var(--scrollbar-arrow) no-repeat,
+		var(--theme-chrome);
+}
+
+::-webkit-scrollbar-button:start:vertical:increment {
+	background:
+		linear-gradient(0deg, transparent 75%, var(--scrollbar-ink) 0) 50%/calc(var(--scrollbar-arrow) * 2) var(--scrollbar-arrow) no-repeat,
+		linear-gradient(0deg, transparent 50%, var(--scrollbar-ink) 0) 50%/calc(var(--scrollbar-arrow) * 1.5) var(--scrollbar-arrow) no-repeat,
+		linear-gradient(0deg, transparent 25%, var(--scrollbar-ink) 0) 50%/var(--scrollbar-arrow) var(--scrollbar-arrow) no-repeat,
+		linear-gradient(var(--scrollbar-ink) 50%, var(--scrollbar-ink) 0) 50%/calc(var(--scrollbar-arrow) / 2) var(--scrollbar-arrow) no-repeat,
+		var(--theme-chrome);
+}
+
+::-webkit-scrollbar-button:start:horizontal:decrement {
+	background:
+		linear-gradient(90deg, transparent 75%, var(--scrollbar-ink) 0) 50%/var(--scrollbar-arrow) calc(var(--scrollbar-arrow) * 2) no-repeat,
+		linear-gradient(90deg, transparent 50%, var(--scrollbar-ink) 0) 50%/var(--scrollbar-arrow) calc(var(--scrollbar-arrow) * 1.5) no-repeat,
+		linear-gradient(90deg, transparent 25%, var(--scrollbar-ink) 0) 50%/var(--scrollbar-arrow) var(--scrollbar-arrow) no-repeat,
+		linear-gradient(90deg, var(--scrollbar-ink) 50%, var(--scrollbar-ink) 0) 50%/var(--scrollbar-arrow) calc(var(--scrollbar-arrow) / 2) no-repeat,
+		var(--theme-chrome);
+}
+
+::-webkit-scrollbar-button:start:horizontal:increment {
+	background:
+		linear-gradient(270deg, transparent 75%, var(--scrollbar-ink) 0) 50%/var(--scrollbar-arrow) calc(var(--scrollbar-arrow) * 2) no-repeat,
+		linear-gradient(270deg, transparent 50%, var(--scrollbar-ink) 0) 50%/var(--scrollbar-arrow) calc(var(--scrollbar-arrow) * 1.5) no-repeat,
+		linear-gradient(270deg, transparent 25%, var(--scrollbar-ink) 0) 50%/var(--scrollbar-arrow) var(--scrollbar-arrow) no-repeat,
+		linear-gradient(270deg, var(--scrollbar-ink) 50%, var(--scrollbar-ink) 0) 50%/var(--scrollbar-arrow) calc(var(--scrollbar-arrow) / 2) no-repeat,
+		var(--theme-chrome);
+}
+
+/* Pressed: the bevel inverts, so the stepper physically sinks. */
+::-webkit-scrollbar-button:start:vertical:active,
+::-webkit-scrollbar-button:start:horizontal:active {
+	box-shadow:
+		inset 1px 1px 0 var(--theme-bevel-dark),
+		inset -1px -1px 0 var(--theme-bevel-light);
+}
+
+::-webkit-scrollbar-corner {
+	background-color: var(--theme-chrome);
+	border-top: 1px solid var(--theme-frame);
+	border-left: 1px solid var(--theme-frame);
+	box-shadow: inset 1px 1px 0 var(--theme-bevel-light);
+}
+
+/* ==========================================================================
+   Jump buttons
+   --------------------------------------------------------------------------
+   Two links to anchors at either end of the board. The anchors sit inside the
+   root post, which is the scroll container on handheld -- a fragment outside
+   it could not be scrolled to. Plain links; the browser scrolls, no JS.
+
+   Two homes for the same pair: the screen corners on desktop (.board_jump),
+   and the mobile bar on handheld (.mobile_board_jump). The look below is
+   shared; only the positioning differs, so neither copy inherits the other's.
+   Styled as ordinary buttons, matching input[type=submit]: 2px outset over a
+   translucent face, 4px radius, solid on hover.
+   ========================================================================== */
+.board_anchor {
+	display: block;
+	height: 0;
+	overflow: hidden;
+}
+
+/* Dressed as tab furniture, matching .board_tab_label: the frame colour for
+   the border and the tab face under the same top-light gradient, so the jump
+   controls read as part of the same set on both layouts. */
+.board_jump_button {
+	display: block;
+	width: 30px;
+	padding: 4px 0;
+	text-align: center;
+	color: var(--theme-text-strong);
+	font-weight: bold;
+	text-decoration: none;
+	border: 1px solid var(--theme-frame);
+	border-radius: 3px;
+	background-color: var(--theme-tab-face);
+	background-image: linear-gradient(to bottom, rgba(255,255,255,.2), rgba(var(--theme-frame-rgb),.3));
+	box-shadow:
+		inset 1px 1px 0 rgba(255,255,255,.16),
+		inset -1px -1px 0 rgba(var(--theme-frame-rgb),.4);
+}
+
+.jump_up::before {
+	content: "\25B4";
+	font-size: 15px;
+	line-height: 1;
+}
+
+.jump_down::before {
+	content: "\25BE";
+	font-size: 15px;
+	line-height: 1;
+}
+
+.board_jump_button:hover {
+	background-color: var(--theme-tab-face);
+	background-image: linear-gradient(to bottom, rgba(255,255,255,.3), rgba(var(--theme-frame-rgb),.24));
+	color: var(--theme-text-strong);
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.board_jump_button:active {
+	background-image: linear-gradient(to bottom, rgba(var(--theme-frame-rgb),.34), rgba(255,255,255,.18));
+	box-shadow:
+		inset 1px 1px 0 rgba(var(--theme-frame-rgb),.45),
+		inset -1px -1px 0 rgba(255,255,255,.2);
+}
+
+/* Desktop: opposite corners of the left edge. display:contents so the nav
+   imposes no box -- and no transform, which would become the containing block
+   for its fixed children and break the corner anchoring. */
+.board_jump {
+	display: contents;
+}
+
+.board_jump .board_jump_button {
+	position: fixed;
+	left: 8px;
+	z-index: 40;
+}
+
+.board_jump .jump_up {
+	top: 8px;
+}
+
+.board_jump .jump_down {
+	bottom: 8px;
+}
+
+/* The mobile bar is display:none on desktop, so this copy is handheld-only. */
+.mobile_board_jump {
+	display: flex;
+	align-items: flex-start;
+	gap: 6px;
+}
+
+/* On the mobile bar the jump pair keeps its own auto margins on both sides,
+   which centres it and pushes the tab group to the right end; a third auto
+   margin on the group would pull the jump off centre. */
+.mobile_navigation .mobile_board_jump { margin-left: auto; margin-right: auto; }
+.mobile_navigation .right_group_start { margin-left: 0; }
+
+@media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
+	/* Touch scrolling needs no vertical scrollbar stepper buttons. */
+	::-webkit-scrollbar-button:vertical,
+	::-webkit-scrollbar-button:start:vertical {
+		display: none;
+		height: 0;
+	}
+
+	/* The corner rail would sit on the docked composer here; the pair lives in
+	   the mobile bar instead, centred between the two tabs by the nav's own
+	   justify-content:space-between. */
+	.board_jump {
+		display: none;
+	}
+
+	/* Look is inherited from the shared rule; only the sizing differs here. */
+	.mobile_board_jump .board_jump_button {
+		width: 30px;
+		padding: 3px 0;
+		margin-top: 2px;
+	}
+
+	.mobile_board_jump .jump_up::before,
+	.mobile_board_jump .jump_down::before {
+		font-size: 13px;
+	}
+
+	html {
+		height: 100%;
+		-webkit-text-size-adjust: 100%;
+	}
+
+	/* The device shell. `ridge` derives its own light and dark edges from the
+	   border colour, so the bezel bevels itself from the chrome purple.
+	   top/left + 100% rather than `inset: 0`: universally supported, and the
+	   minifier can't collapse it into a shorthand old browsers would drop.
+	   background-image is deliberately not reset, so the bg.png tile from the
+	   base body rule shows through as the desktop pattern. */
+	body {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		box-sizing: border-box;
+		color: var(--theme-text);
+		/* Zoomed ~10%. Everything sized in em below keys off this, so the
+		   banner, post headers, captions, field height and body text all
+		   scale from here; the px values are stepped up to match. */
+		font-size: 110%;
+		font-family: var(--theme-mobile-font);
+		border: 7px ridge var(--theme-chrome);
+		border-radius: 0;
+		box-shadow:
+			inset 0 0 0 1px var(--theme-frame),
+			inset 0 0 0 2px var(--theme-bevel-light);
+	}
+
+	/* --- title bar ---------------------------------------------------------
+	   The banner is dropped wholesale on handhelds: the bitcoin/TOR line, the
+	   About disclosure and the theme switcher all go, leaving the ridged bezel
+	   as the top edge. Themes stay reachable by URL (/style/main, /style/cyb).
+	   Hiding it removes it as a flex item, so the ordering below is unaffected. */
+	.banner {
+		display: none;
+	}
+
+	/* --- the content well -------------------------------------------------
+	   Transparent so the body's bg.png tile reads as the desktop pattern,
+	   exactly as on the full-size layout. Matches .board_container on the
+	   index, .panel on /mod, bare content on the redirect pages.
+	   min-height:0 lets a flex child actually scroll instead of overflowing. */
+	body > *:not(.banner):not(.posting_deck):not(.mobile_navigation):not(.theme_switcher) {
+		order: 2;
+		flex: 1 1 auto;
+		min-height: 0;
+		overflow-y: auto;
+		overflow-x: hidden;
+		-webkit-overflow-scrolling: touch;
+		margin: 0;
+		padding: var(--mobile-content-padding, 8px);
+		box-sizing: border-box;
+		background-color: transparent;
+		border: none;
+		border-top: 1px solid var(--theme-frame);
+		box-shadow: inset 0 1px 0 rgba(var(--theme-frame-rgb),.45);
+	}
+
+	/* The posts scroll independently above the tabs and bottom composer. */
+	body > .board_container {
+		--mobile-content-padding: 3px;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+	}
+
+	.board_container > .post.root_post {
+		order: 0;
+		flex: 1 1 auto;
+		min-height: 0;
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding: 8px;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	/* Tabs stay directly above the composer, outside the post scroller. */
+	.board_tabs {
+		order: 1;
+		flex: 0 0 auto;
+		gap: 3px;
+		margin: auto 0 0;
+		padding: 5px 7px 0;
+		border: none;
+		border-bottom: 1px solid var(--theme-frame);
+		background-color: var(--theme-chrome);
+		background-image: repeating-linear-gradient(
+			to bottom,
+			rgba(var(--theme-text-rgb),.3) 0, rgba(var(--theme-text-rgb),.3) 1px,
+			rgba(var(--theme-frame-rgb),.2) 1px, rgba(var(--theme-frame-rgb),.2) 2px
+		);
+		box-shadow: inset 0 1px 0 rgba(var(--theme-text-rgb),.45);
+	}
+
+	.board_container > .collapsed_board_header {
+		order: 2;
+		flex: 0 0 auto;
+		margin: 0 7px;
+		border-color: var(--theme-accent);
+	}
+
+	.board_tab,
+	.board_tab_label {
+		clip-path: polygon(
+			4px 24%, 6px 10%, 9px 2px, 13px 0,
+			calc(100% - 13px) 0, calc(100% - 9px) 2px, calc(100% - 6px) 10%, calc(100% - 4px) 24%,
+			100% 100%, 0 100%
+		);
+	}
+
+	.board_tab_label::before {
+		padding: 3px 5px 3px 12px;
+		font-size: 1.05em;
+	}
+
+	.board_tab_link {
+		padding: 4px 13px 3px 2px;
+		font-size: .82em;
+	}
+
+	.board_tab.active_board .board_tab_link {
+		padding-top: 6px;
+	}
+
+	.board_tab.active_board .board_tab_label::before {
+		padding-top: 5px;
+	}
+
+	/* --- flat thread presentation -----------------------------------------
+	   Mobile deliberately diverges from the desktop board: no nesting, because
+	   it clutters a narrow screen fast. The DOM stays nested (desktop needs it
+	   for <details> subtree collapsing), but here .post is reduced to a bare
+	   wrapper and the card moves onto the header/content pair -- so depth adds
+	   neither indent nor an enclosing box, and every post reads at the same
+	   level. The thread structure is carried by the backlinks instead. */
+	.post {
+		margin: 0;
+		padding: 0;
+		color: var(--theme-text);
+		border: none;
+		border-radius: 0;
+		background: none;
+		box-shadow: none;
+	}
+
+	.post .post {
+		margin-left: 0;
+	}
+
+	/* The outermost wrapper post holds no message of its own. */
+	.root_post > .post_header,
+	.root_post > .post_content {
+		display: none;
+	}
+
+	.post_header {
+		padding: 3px 8px;
+		border: 2px ridge var(--theme-chrome);
+		border-bottom: none;
+		background-color: rgba(var(--theme-frame-rgb),.45);
+		background-image: repeating-linear-gradient(
+			to bottom,
+			rgba(var(--theme-text-rgb),.16) 0, rgba(var(--theme-text-rgb),.16) 1px,
+			transparent 1px, transparent 2px
+		);
+		font-size: .95em;
+	}
+
+	.post_content {
+		margin: 0 0 8px 0;
+		padding: 7px 9px;
+		border: 2px ridge var(--theme-chrome);
+		border-top: none;
+		background-color: rgba(0,0,0,.25);
+		box-shadow: 0 1px 0 rgba(var(--theme-frame-rgb),.4);
+	}
+
+	/* Desktop clamps long posts and reveals them on :hover, which touch
+	   devices don't have. Show the whole post instead. */
+	.post_content {
+		max-height: none;
+		overflow: visible;
+	}
+
+	/* .post carries no border here, so the selection accent moves to the card. */
+	.selected_post > .post_header,
+	.selected_post > .post_content {
+		border-color: var(--theme-accent);
+	}
+
+	/* --- backlinks --------------------------------------------------------
+	   Hidden on desktop (see the base rules above); this is how a flat thread
+	   keeps its structure. ">>N" in the header points at the post being
+	   replied to; the row under the message points at the replies. */
+	.backlinks {
+		display: block;
+		margin-top: 7px;
+		padding-top: 5px;
+		border-top: 1px solid rgba(var(--theme-text-rgb),.22);
+		font-size: .82em;
+	}
+
+	.backlink_parent {
+		display: inline;
+	}
+
+	/* --- the message box carries the identity ----------------------------
+	   On a phone the header row is the number, the date and the controls, and
+	   nothing else fits beside them. The title and the board tag move above
+	   the message, and who wrote it signs off under it. The header's own
+	   copies go, or everything would be drawn twice. */
+	.post_header > .post_author,
+	.post_header > .post_tripcode,
+	.post_header > .post_sage,
+	.post_header .thread_board,
+	.post_header .thread_title_link {
+		display: none;
+	}
+
+	/* "board: title", ONE RUNNING LINE OF TEXT.
+
+	   Normal flow and not flex, which this was: as flex items the board, the
+	   colon and the title are three boxes, and a title too long for the rest
+	   of the line wraps as a whole box onto the next one instead of carrying
+	   on after the colon. In normal flow it reads and breaks as a sentence. */
+	.post_content_heading {
+		/* Explicit: the base rule hides this for the desktop board, and leaving
+		   `display` unset here inherits that `none` and draws nothing at all. */
+		display: block;
+		margin-bottom: 7px;
+		padding-bottom: 5px;
+		border-bottom: 1px solid rgba(var(--theme-text-rgb),.22);
+	}
+
+	.thread_heading_separator {
+		/* The space belongs after the colon, never before it. */
+		margin-right: .35em;
+		font-weight: bold;
+	}
+
+	.post_content_heading .thread_title_link {
+		margin-left: 0;
+		/* The title is the heading here, not a note beside the number. */
+		font-size: 1.05em;
+	}
+
+	/* The board reads as the first word of that line, so it drops the chip it
+	   wears in the desktop header: the chip's own padding put a gap between
+	   the name and the colon ("general :"). It keeps the link colour and the
+	   weight, so it still looks like the control it is.
+
+	   It also has to beat the .post_content a rule, which styles message
+	   quotelinks — overlined, italic and shadowed — and made this read as a
+	   struck-through mistake. */
+	.post_content_heading .thread_board {
+		margin: 0;
+		padding: 0;
+		background: none;
+		color: var(--theme-text-strong);
+		font-style: normal;
+		font-weight: bold;
+		text-decoration: none;
+		text-shadow: none;
+	}
+
+	.post_content_heading .thread_board:hover,
+	.post_content_heading .thread_board:focus {
+		text-decoration: underline;
+	}
+
+	/* BOTTOM RIGHT of the message box: last in the flow, pushed to the end.
+	   In normal flow rather than absolutely positioned, so it can never land
+	   on top of the message however short or long that message is. */
+	.post_signature {
+		display: flex;
+		justify-content: flex-end;
+		align-items: baseline;
+		flex-wrap: wrap;
+		gap: .4em;
+		margin-top: 7px;
+		padding-top: 5px;
+		border-top: 1px solid rgba(var(--theme-text-rgb),.22);
+		font-size: .9em;
+	}
+
+	/* Beat the .post_content a rule, which is styled for message quotelinks.
+	   Undecorated at rest; the underline is reserved for hover/press, which
+	   also has to out-specify the base `a:hover` rule. */
+	.post_content a.backlink,
+	.post_header a.backlink {
+		margin-right: .55em;
+		color: var(--theme-text-strong);
+		font-weight: bold;
+		font-style: normal;
+		text-decoration: none;
+		text-shadow: none;
+	}
+
+	.post_content a.backlink:hover,
+	.post_header a.backlink:hover,
+	.post_content a.backlink:focus,
+	.post_header a.backlink:focus,
+	.post_content a.backlink:active,
+	.post_header a.backlink:active {
+		text-decoration: underline;
+	}
+
+	/* Following a backlink makes its destination the :target, so the post
+	   highlights itself -- 4chan's jump-to-post feedback, without JS.
+	   The highlight persists until another post is targeted. */
+	.post:target > .post_header,
+	.post:target > .post_content {
+		border-color: var(--theme-accent);
+	}
+
+	.post:target > .post_header {
+		background-color: rgba(var(--theme-accent-rgb),.42);
+	}
+
+	.post:target > .post_content {
+		background-color: rgba(var(--theme-accent-rgb),.2);
+	}
+
+	/* --- bottom bezel: sunken field in the chrome purple ------------------- */
+	.form {
+		order: 3;
+		flex: 0 0 auto;
+		position: static;
+		float: none;
+		width: 100%;
+		max-height: 62%;
+		overflow-y: auto;
+		margin: 0;
+		padding: 7px;
+		border: none;
+		border-top: 1px solid var(--theme-frame);
+		border-radius: 0;
+		box-sizing: border-box;
+		background-color: var(--theme-chrome);
+		box-shadow: inset 0 1px 0 rgba(var(--theme-text-rgb),.4);
+	}
+
+	/* Closed: the summary masquerades as an empty text field, with a bevelled
+	   toggle button pinned to its right so it's obvious the bar opens and
+	   closes. flex puts the label and that button on opposite ends. */
+	.form > .form_heading {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 9px;
+		padding: 8px 10px;
+		border: 2px inset var(--theme-bevel-light);
+		border-radius: 0;
+		background-color: var(--theme-field);
+		color: var(--theme-heading-text);
+		font-size: 18px;
+		cursor: pointer;
+		list-style: none;
+	}
+
+	/* get_post_form_title() ends in a <br/>, which would otherwise sit between
+	   the label and the toggle as a third flex item. */
+	.form > .form_heading br {
+		display: none;
+	}
+
+	/* The toggle itself: a Platinum push button whose arrow points the way the
+	   form will move -- up to open, down to close. Sized in px so it stays put
+	   when the caption shrinks in the open state. */
+	.form > .form_heading::after {
+		content: "\25B2";
+		flex: 0 0 auto;
+		min-width: 2.4em;
+		padding: 3px 0;
+		border: 1px solid var(--theme-frame);
+		border-radius: 4px;
+		background-color: var(--theme-chrome);
+		background-image: linear-gradient(to bottom, rgba(255,255,255,.3), rgba(var(--theme-frame-rgb),.3));
+		box-shadow: inset 1px 1px 0 rgba(var(--theme-text-rgb),.45), inset -1px -1px 0 rgba(var(--theme-frame-rgb),.4);
+		color: var(--theme-text);
+		font-size: 13px;
+		line-height: 1.35;
+		text-align: center;
+	}
+
+	.form[open] > .form_heading::after {
+		content: "\25BC";
+		background-image: linear-gradient(to bottom, rgba(var(--theme-frame-rgb),.34), rgba(255,255,255,.18));
+		box-shadow: inset 1px 1px 0 rgba(var(--theme-frame-rgb),.45), inset -1px -1px 0 rgba(var(--theme-text-rgb),.35);
+	}
+
+	.form > .form_heading::-webkit-details-marker,
+	.form > .form_heading::marker {
+		display: none;
+		content: "";
+	}
+
+	/* Open: the summary shrinks to a caption above the real field. */
+	.form[open] > .form_heading {
+		padding: 0 2px 4px;
+		border: none;
+		background: none;
+		color: var(--theme-text);
+		font-size: .8em;
+		font-weight: bold;
+	}
+
+	.form_contents form {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 7px;
+	}
+
+	/* The layout <br/>s and the label become stray flex items; drop them. */
+	.form_contents br,
+	.form_contents label[for="msg"] {
+		display: none;
+	}
+
+	.form textarea {
+		order: 1;
+		flex: 1 1 8em;
+		width: auto;
+		height: 2.6em;
+		min-height: 2.6em;
+		max-height: 31vh;
+		padding: 7px 9px;
+		border: 2px inset var(--theme-bevel-light);
+		border-radius: 0;
+		box-sizing: border-box;
+		resize: vertical;
+		background-color: var(--theme-field);
+		color: var(--theme-input-text);
+		font-family: var(--theme-field-font);
+		font-size: 18px; /* <16px makes iOS zoom the page on focus */
+	}
+
+	.form textarea:focus,
+	.form input[type=text]:focus {
+		border: 2px inset var(--theme-bevel-light);
+		box-shadow: 0 0 0 2px var(--theme-accent);
+	}
+
+	/* Platinum push button in the board's colours. appearance:none is kept so
+	   iOS doesn't repaint it as a native pill and discard the bevel. */
+	.form_contents input[type=submit] {
+		order: 2;
+		flex: 0 0 auto;
+		padding: 7px 18px;
+		-webkit-appearance: none;
+		appearance: none;
+		border: 1px solid var(--theme-frame);
+		border-radius: 4px;
+		background-color: var(--theme-chrome);
+		background-image: linear-gradient(to bottom, rgba(255,255,255,.3), rgba(var(--theme-frame-rgb),.3));
+		box-shadow: inset 1px 1px 0 rgba(var(--theme-text-rgb),.45), inset -1px -1px 0 rgba(var(--theme-frame-rgb),.4);
+		color: var(--theme-text);
+		font-weight: bold;
+		font-size: 17px;
+		cursor: pointer;
+	}
+
+	.form_contents input[type=submit]:active {
+		background-image: linear-gradient(to bottom, rgba(var(--theme-frame-rgb),.34), rgba(255,255,255,.18));
+		box-shadow: inset 1px 1px 0 rgba(var(--theme-frame-rgb),.45), inset -1px -1px 0 rgba(var(--theme-text-rgb),.35);
+	}
+
+	/* Captcha sits on its own row beneath the message field, stacked: image
+	   on top, answer field full-width underneath it. Its <br/>s are hidden
+	   with the others, so flex does the arranging. */
+	.captcha_form {
+		order: 3;
+		flex: 1 1 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 7px;
+	}
+
+	.captcha_form img {
+		flex: 0 0 auto;
+		height: 2.9em;
+		width: auto;
+		border: 2px inset var(--theme-bevel-light);
+		background-color: var(--theme-field);
+	}
+
+	.captcha_form input[type=text] {
+		flex: 0 0 auto;
+		align-self: stretch;
+		width: auto;
+		min-width: 0;
+		padding: 7px 9px;
+		border: 2px inset var(--theme-bevel-light);
+		border-radius: 0;
+		box-sizing: border-box;
+		background-color: var(--theme-field);
+		color: var(--theme-input-text);
+		font-size: 18px;
+	}
+
+}
+
+/* Landscape handhelds: slim the chrome so the well keeps most of the short
+   viewport, while the four-sided ridge stays intact. */
+@media (orientation: landscape) and (max-height: 600px) {
+	body {
+		border-width: 4px;
+	}
+
+	.form textarea {
+		height: 2.2em;
+		min-height: 2.2em;
+		max-height: 37vh;
+	}
+
+	.post {
+		margin-bottom: 5px;
+	}
+}
+
+/* A divider and its sheet share an outline. Paint the joining edge behind
+   the tabs so the active tab's opaque face leaves an opening in that edge. */
+body {
+	--divider-outline: var(--theme-chrome);
+}
+
+body:has(.board_tab.selected_board) {
+	--divider-outline: var(--theme-accent);
+}
+
+.board_tabs {
+	border-bottom: none;
+	background-image: linear-gradient(var(--divider-outline), var(--divider-outline));
+	background-size: 100% 2px;
+	background-position: bottom;
+	background-repeat: no-repeat;
+}
+
+.board_tab.active_board .board_tab_label {
+	background-image: linear-gradient(to bottom, var(--theme-tab-light), var(--theme-chrome));
+}
+
+/* Cover the joining line only inside the active tab, keeping its side edges. */
+.board_tab.active_board {
+	position: relative;
+	border-bottom: none;
+}
+
+.board_tab.active_board::after {
+	content: "";
+	position: absolute;
+	left: 2px;
+	right: 2px;
+	bottom: 0;
+	height: 2px;
+	background-color: var(--theme-chrome);
+	pointer-events: none;
+}
+
+
+.board_container > .root_post {
+	margin: 0 1em .5em;
+	border: 2px solid var(--divider-outline);
+	border-top: none;
+	border-radius: 0;
+}
+
+.board_container > .collapsed_board_header {
+	border-color: var(--divider-outline);
+}
+
+@media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
+	.board_container > .post.root_post {
+		margin: 0;
+		border: none;
+	}
+
+	.board_tabs {
+		margin: auto 7px 0;
+		padding: 5px 0 0;
+		box-shadow: none;
+		background-color: transparent;
+	}
+
+	/* The composer is the sheet below the tabs; no seam crosses its face. */
+	.posting_deck > .form {
+		width: calc(100% - 14px);
+		margin: 0 7px 7px;
+		border: 2px solid var(--divider-outline);
+		border-top: none;
+		box-shadow: none;
+	}
+
+	.board_container > .collapsed_board_header {
+		border: 2px solid var(--divider-outline);
+		border-top: none;
+		border-bottom: none;
+		background-color: var(--theme-chrome);
+	}
+}
+
+/* Mobile board navigation belongs to the composer, not the post scroller. */
+.posting_deck {
+	display: contents;
+}
+
+.mobile_board_tabs {
+	display: none;
+}
+
+@media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
+	.posting_deck {
+		display: block;
+		order: 3;
+		flex: 0 0 auto;
+		max-height: 62%;
+		overflow-y: auto;
+	}
+
+	.desktop_board_tabs,
+	.board_container > .collapsed_board_header {
+		display: none;
+	}
+
+	.board_container > .board_tabs:has(.board_tab.active_board:not([open])) ~ .collapsed_board_header {
+		display: none;
+	}
+
+	/* A desktop disclosure cannot hide posts after resizing to mobile. */
+	.board_container > .board_tabs:has(.board_tab.active_board:not([open])) ~ .post.root_post,
+	.board_container > .post.root_post {
+		display: block;
+	}
+
+	.posting_deck > .mobile_board_tabs {
+		display: flex;
+		margin: 0 7px;
+		padding-top: 0;
+	}
+
+	.mobile_board_tabs .board_tab_label::before {
+		display: none;
+	}
+
+	.mobile_board_tabs .board_tab_link {
+		padding: 6px 18px 4px;
+	}
+
+	.posting_deck > .form {
+		max-height: none;
+		overflow: visible;
+		padding-top: 5px;
+	}
+}
+
+.thread_board {
+	margin-left: .5em;
+	padding: 2px 6px;
+	background-color: rgba(var(--theme-chrome-rgb),.5);
+}
+.overboard_empty { margin: 0; padding: 12px; }
+.overboard_prompt { text-align: center; }
+
+/* Leave breathing room between the divider tabs and the first thread. */
+.board_container > .post.root_post.overboard {
+	padding-top: 12px;
+}
+
+/* Archives, Spam and Pinned form one group at the right-hand end. Only the
+   first of them takes the auto margin -- giving it to each would spread them
+   apart. The class is set server-side because :first-of-type matches by
+   element type, not by class, so it never matched these. */
+.pinned_board_tab,
+.system_board_tab { margin-left: 0; }
+
+.right_group_start { margin-left: auto; }
+
+.mobile_navigation { display: none; }
+/* ==========================================================================
+   Theme switcher
+   --------------------------------------------------------------------------
+   A grip hanging from the top edge, offset left of the scroll bar, opening a
+   drawer beneath it. Shared by both layouts -- handheld overrides it back to
+   a vertical grip in the left gutter further down. A <details>, so no JS.
+   ========================================================================== */
+/* right is measured past the scroll bar so the grip never sits over it. It
+   may overlap the banner; that is intended. */
+.theme_switcher {
+	display: block;
+	position: fixed;
+	top: 0;
+	right: 40px;
+	width: 44px;
+	z-index: 300;
+	color: var(--theme-text);
+}
+
+/* Anchored by its right edge, so opening grows the drawer leftwards while the
+   grip stays put. */
+.theme_switcher[open] {
+	width: 228px;
+	max-width: calc(100vw - 54px);
+}
+
+.theme_handle {
+	/* margin-left:auto keeps the grip against the right edge of the box, so it
+	   does not shift when the drawer widens it. */
+	float: none;
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	width: 44px;
+	height: 16px;
+	padding: 0;
+	list-style: none;
+	cursor: pointer;
+	border: 2px outset var(--theme-bevel-light);
+	border-top: none;
+	border-radius: 0 0 7px 7px;
+	background-color: var(--theme-chrome);
+	background-image: linear-gradient(to bottom, var(--theme-tab-light), var(--theme-chrome), var(--theme-tab-face));
+	box-shadow: 2px 2px 0 rgba(0,0,0,.45);
+}
+
+.theme_handle::-webkit-details-marker,
+.theme_handle::marker { display: none; content: ""; }
+
+.theme_handle::before {
+	content: "";
+	width: 16px;
+	height: 3px;
+	border-top: 1px solid var(--theme-bevel-dark);
+	border-bottom: 1px solid var(--theme-bevel-light);
+}
+
+.theme_switcher[open] > .theme_handle {
+	border-style: inset;
+	border-radius: 0;
+	color: var(--theme-text-strong);
+}
+
+.theme_drawer {
+	margin: 0;
+	padding: 7px;
+	border: 3px ridge var(--theme-bevel-light);
+	background-color: var(--theme-chrome);
+	box-shadow: 3px 4px 0 rgba(0,0,0,.55), inset 0 0 0 1px var(--theme-frame);
+	animation: theme-drawer-open 140ms ease-out;
+}
+
+.theme_drawer_title {
+	margin: -3px -3px 7px;
+	padding: 5px 7px;
+	border: 1px inset var(--theme-bevel-light);
+	background-color: var(--theme-tab-face);
+	font-family: monospace;
+	font-size: 13px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+.theme_choice {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-height: 44px;
+	box-sizing: border-box;
+	padding: 7px;
+	border: 2px outset var(--theme-bevel-light);
+	background-color: var(--theme-tab-face);
+	font-size: 15px;
+	text-decoration: none;
+}
+
+.theme_choice + .theme_choice { margin-top: 6px; }
+.theme_choice::before {
+	content: "";
+	width: 12px;
+	height: 12px;
+	border: 1px inset var(--theme-bevel-light);
+	background-color: #8c53b3;
+}
+.theme_choice_cyb::before { background-color: #000; box-shadow: inset 0 0 0 2px #68ff00; }
+.theme_choice.current_theme { border-style: inset; border-color: var(--theme-accent); }
+.theme_choice.current_theme::after { content: "active"; margin-left: auto; font-size: 11px; }
+.theme_choice:active { border-style: inset; }
+.theme_choice:hover { background-color: var(--theme-chrome); }
+.theme_choice:focus-visible,
+.theme_handle:focus-visible { outline: 2px solid var(--theme-accent); outline-offset: 2px; }
+
+/* Handheld keeps the left-gutter grip: top-right would sit on the Pinned tab
+   in the mobile bar. Declared after the block above so it wins the cascade --
+   same specificity, so source order decides. */
+@media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
+	.theme_switcher {
+		top: calc(45% - 22px);
+		right: auto;
+		left: 7px;
+		width: 16px;
+	}
+
+	.theme_switcher[open] {
+		max-width: calc(100vw - 21px);
+	}
+
+	/* Back to a vertical grip: the shared rules above are now horizontal, so
+	   the dimensions, the grip lines and the open edge all have to be undone. */
+	.theme_handle {
+		float: left;
+		margin-left: 0;
+		width: 16px;
+		height: 44px;
+		border: 2px outset var(--theme-bevel-light);
+		border-left: none;
+		border-radius: 0 7px 7px 0;
+		background-image: linear-gradient(to right, var(--theme-tab-light), var(--theme-chrome), var(--theme-tab-face));
+		box-shadow: 2px 2px 0 rgba(0,0,0,.45);
+	}
+
+	.theme_handle::before {
+		width: 3px;
+		height: 16px;
+		border-top: none;
+		border-bottom: none;
+		border-left: 1px solid var(--theme-bevel-dark);
+		border-right: 1px solid var(--theme-bevel-light);
+	}
+
+	.theme_drawer {
+		margin-left: 16px;
+		margin-right: 0;
+		box-shadow: 4px 4px 0 rgba(0,0,0,.55), inset 0 0 0 1px var(--theme-frame);
+	}
+}
+
+@media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
+	/* A separate flex row keeps global navigation at the top without
+	   covering posts or moving with the bottom composer. */
+	.mobile_navigation {
+		display: flex;
+		order: 1;
+		flex: 0 0 auto;
+		justify-content: space-between;
+		align-items: flex-start;
+		gap: 8px;
+		padding: 0;
+		margin: 0;
+		/* Classic Mac titlebar grooves, tinted to match the board chrome. */
+		background-color: var(--theme-chrome);
+		background-image: repeating-linear-gradient(
+			to bottom,
+			var(--theme-chrome) 0, var(--theme-chrome) 2px,
+			var(--theme-bevel-dark) 2px, var(--theme-bevel-dark) 3px,
+			var(--theme-bevel-light) 3px, var(--theme-bevel-light) 4px
+		);
+		box-shadow: inset 0 1px 0 var(--theme-bevel-light), inset 0 -1px 0 var(--theme-bevel-dark);
+	}
+
+	.mobile_navigation .board_tab {
+		padding: 0 2px 2px;
+	}
+
+	/* Inverted shoulders make these tabs hang from the upper bezel. */
+	.mobile_navigation .board_tab,
+	.mobile_navigation .board_tab_label {
+		clip-path: polygon(
+			0 0, 100% 0,
+			calc(100% - 4px) 76%, calc(100% - 6px) 90%, calc(100% - 9px) calc(100% - 2px), calc(100% - 13px) 100%,
+			13px 100%, 9px calc(100% - 2px), 6px 90%, 4px 76%
+		);
+	}
+
+	.mobile_navigation .board_tab_label::before,
+	.mobile_navigation .board_tab.active_board::after {
+		display: none;
+	}
+
+	.mobile_navigation .board_tab_link {
+		padding: 5px 18px 7px;
+		font-size: .82em;
+	}
+
+	.mobile_navigation .active_board .board_tab_label {
+		background-image: linear-gradient(to bottom, var(--theme-chrome), var(--theme-tab-light));
+	}
+	.mobile_board_tabs { scrollbar-width: none; }
+	.mobile_board_tabs::-webkit-scrollbar { display: none; }
+}
+
+/* These collection tabs use square, raised chrome instead of file shoulders. */
+.board_tab.utility_board_tab,
+.board_tab.utility_board_tab > .board_tab_label {
+	clip-path: none;
+	border-radius: 0;
+}
+
+.board_tab.utility_board_tab {
+	margin-right: 3px;
+	box-shadow: 3px 0 0 var(--theme-frame);
+}
+
+.board_tab.utility_board_tab > .board_tab_label {
+	background-image: none;
+	box-shadow: inset 1px 1px 0 var(--theme-bevel-light), inset -1px 0 0 var(--theme-bevel-dark);
+}
+
+.utility_board_tab > .board_tab_label::before {
+	display: none;
+}
+
+.utility_board_tab .board_tab_link {
+	padding-left: 18px;
+	padding-right: 18px;
+}
+
+@media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
+	.mobile_navigation .utility_board_tab {
+		/* Expose the outline above the face as well as on its other edges. */
+		padding-top: 2px;
+		margin-bottom: 3px;
+		box-shadow: 3px 3px 0 var(--theme-frame);
+	}
+
+	.mobile_navigation .utility_board_tab > .board_tab_label {
+		box-shadow: inset 1px 1px 0 var(--theme-bevel-light), inset -1px -1px 0 var(--theme-bevel-dark);
+	}
+
+	.mobile_navigation .utility_board_tab .board_tab_link {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+}
+
+/* THE HEADER IS ONE ROW, and these orders are what put it in the board's
+   order rather than the DOM's: the disclosure control, then Reply, then who
+   said it, then the numbers and the title. Every item in this row needs an
+   `order`, including the pseudo-element — see below. */
+.post_header > a[id^="reply-"] { order: -2; flex: 0 0 auto; }
+.post_author, .post_tripcode, .post_sage { order: -1; flex: 0 0 auto; }
+
+/* THE TITLE TAKES THE SQUEEZE, and nothing else does.
+   Flexbox shrinks every item that will allow it, so a long title first
+   compressed its neighbours: measured at 1280px, a 120-character title broke
+   `testr` into "test/r" and `Anon` into "An/on" down the left of the row. The
+   short, fixed things refuse to shrink (above) and this one absorbs all of it. */
+.post_meta {
+	order: 0;
+	flex: 1 1 auto;
+	/* Lets the item shrink below its content so a long title WRAPS inside it
+	   instead of pushing the row wider. A flex item's min-width is `auto` by
+	   default, which refuses to go under the longest unbreakable run. */
+	min-width: 0;
+}
+
+/* A name is 209 characters at most and is usually a word or two; past this it
+   wraps inside its own item rather than widening the row for everyone. The cap
+   is what keeps `flex-shrink: 0` above safe against an absurd one. */
+.post_author { max-width: 24ch; }
+.post_tripcode { max-width: 14ch; }
+
+/* The thread title, on the SAME LINE as the rest of the header.
+
+   It sits inside .post_meta, after the number and the timestamp, and is
+   therefore inline: it was `display: block` here, which inside an inline span
+   builds a block box and puts the title on a line of its own. Nothing clamps
+   it either — it was `nowrap` with an ellipsis at 30em, so a long title was cut
+   off rather than shown. A title is the one thing in the header a reader
+   chose, and it wraps like any other text. */
+.thread_title_link {
+	margin-left: .45em;
+	color: var(--theme-text-strong);
+	font-weight: bold;
+	/* `anywhere` and not `break-word`: a title can be one unbroken 200-character
+	   run, and that is exactly the case that otherwise overflows the post. */
+	overflow-wrap: anywhere;
+}
+
+/* The post's disclosure control, drawn for the native <details> whose marker
+   this skin hides.
+
+   ORDER -3 PUTS IT FIRST, and it is not optional: a pseudo-element's order is
+   0 like any other flex item, so without this it lands beside .post_meta in
+   the middle of the row — left of the numbers but right of Reply and the
+   author, which is not where a collapse control belongs. It is the leftmost
+   thing in the header, as it was. */
+.post_header::before {
+	content: "\25BE";
+	order: -3;
+	flex: 0 0 auto;
+	padding: 1px 4px;
+	border: 1px outset var(--theme-bevel-light);
+	background: var(--theme-chrome);
+	color: var(--theme-text);
+	font-size: .8em;
+	line-height: 1.1;
+}
+.post:not([open]) > .post_header::before { content: "\25B8"; }
+.post_author { font-weight: bold; overflow-wrap: anywhere; }
+.post_tripcode { color: var(--theme-accent); font-family: monospace; overflow-wrap: anywhere; }
+.post_sage { font-size: .85em; color: var(--theme-text); }
+.sage_option { display: inline-flex; align-items: center; gap: 5px; padding: 4px 0; }
+.sage_option input { accent-color: var(--theme-accent); }
+.form .post_name_input,
+.form .thread_title_input {
+	box-sizing: border-box;
+	width: 100%;
+	min-width: 0;
+	padding: 4px;
+	border: 2px inset var(--theme-bevel-light);
+	font-family: var(--theme-field-font);
+}
+
+@media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
+	.form .post_name_input, .form .thread_title_input { font-size: 16px; }
+	.sage_option { flex-basis: 100%; }
+	/* Extra fields scroll inside the composer, keeping tabs and its toggle visible. */
+	.posting_deck > .form > .form_contents {
+		max-height: calc(62vh - 110px);
+		overflow-y: auto;
+	}
+}
+
+.banner_board_tabs {
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-top: 10px;
+	padding-bottom: 3px;
+}
+
+.banner_board_tabs .right_group_start { margin-left: 0; }
+.banner_board_tabs .utility_board_tab {
+	padding: 2px;
+	box-shadow: 3px 3px 0 var(--theme-frame);
+}
+.banner_board_tabs .utility_board_tab > .board_tab_label {
+	box-shadow: inset 1px 1px 0 var(--theme-bevel-light), inset -1px -1px 0 var(--theme-bevel-dark);
+}
+.banner_board_tabs .active_board::after { display: none; }
+
+@media (min-width: 769px) and (min-height: 601px), (min-width: 769px) and (orientation: portrait) {
+	body:has(.desktop_collection_tabs .active_board:not([open])) .board_container > .root_post {
+		display: none;
+	}
+	body:has(.desktop_collection_tabs .active_board:not([open])) .collapsed_board_header {
+		display: block;
+	}
+}
+
+@keyframes theme-drawer-open {
+	from { transform: translateX(-6px); }
+	to { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.theme_drawer { animation: none; }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+	.theme_switcher { left: 4px; }
 }

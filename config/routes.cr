@@ -6,7 +6,8 @@ Amber::Server.configure do
     # plug Amber::Pipe::ClientIp.new(["X-Forwarded-For"])
     #plug Citrine::I18n::Handler.new
     #plug Amber::Pipe::Error.new
-    plug Amber::Pipe::Logger.new
+    # Name may contain a tripcode secret; redact it from request parameter logs.
+    plug Amber::Pipe::Logger.new(filter: Amber.settings.logging.filter + ["name"])
     plug Amber::Pipe::Session.new
     plug Amber::Pipe::Flash.new
     plug Amber::Pipe::CSRF.new
@@ -46,6 +47,13 @@ Amber::Server.configure do
     get "/mod/filter", ModController, :filter
     get "/mod/user", ModController, :user
     get "/mod/ban", ModController, :ban
+    get "/mod/board", ModController, :board
+    get "/mod/pin", PinController, :manage
+    get "/mod/move", MoveController, :manage
+    post "/move/create", MoveController, :create
+    post "/mod/logout", ModController, :logout
+    post "/pin/create", PinController, :create
+    delete "/pin/delete", PinController, :delete
 
     post "/post/create/:id", PostController, :create
     post "/filter/create", FilterController, :create
@@ -54,9 +62,16 @@ Amber::Server.configure do
     post "/user/create", UserController, :create
     delete "/user/delete", UserController, :delete
 
+    post "/board/create", BoardController, :create
+    delete "/board/delete", BoardController, :delete
+
     post "/ban/create", BanController, :create
     delete "/ban/delete", BanController, :delete
 
+    get "/b/:board", IndexController, :index
+    get "/b/:board/:id", IndexController, :index
+
+    get "/pinned", IndexController, :index
     get "/:id", IndexController, :index
     get "/", IndexController, :index
   end

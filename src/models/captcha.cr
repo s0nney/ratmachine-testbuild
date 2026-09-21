@@ -18,7 +18,16 @@ class Captcha < Granite::Base
     destroy_old
     new_captcha = Captcha.create(value: generate_captcha_string(6))
 
-    Process.run("sh",["-c","convert -font DejaVu-Sans -fill black -background transparent -size 192x64 -wave #{Random.rand(4)}x#{Random.rand(64)} -gravity Center -pointsize #{32+Random.rand(16)} -implode 0.#{Random.rand(3)} label:#{new_captcha.value} png:- 2>&1 > public/dist/images/captcha/#{new_captcha.id}.png"])
+    # -swirl rather than -implode: on a transparent canvas implode fills
+    # everything outside its circle from the background, which inverts the
+    # alpha and leaves the glyphs as holes punched in an opaque blob. -swirl
+    # distorts just as well without touching transparency.
+    pointsize = 32 + Random.rand(16)
+    amplitude = 2 + Random.rand(4)          # -wave 0x0 is a no-op; 0 wavelength is worse
+    wavelength = 30 + Random.rand(40)
+    swirl = (Random.rand(2) == 0 ? -1 : 1) * (15 + Random.rand(25))
+
+    Process.run("sh",["-c","convert -background transparent -fill black -font DejaVu-Sans -pointsize #{pointsize} -size 192x64 -gravity Center label:#{new_captcha.value} -wave #{amplitude}x#{wavelength} -swirl #{swirl} png:- 2>&1 > public/dist/images/captcha/#{new_captcha.id}.png"])
     new_captcha
   end
 

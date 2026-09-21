@@ -1,4 +1,4 @@
-# ratmachine
+# ratmachine (a testbuild for experimenting)
 
 ![Logo](res/logo.png)  
 [![Amber Framework](https://img.shields.io/badge/using-amber_framework-orange.svg)](https://amberframework.org)

@@ -10,7 +10,7 @@ class ModController < ApplicationController
   def authenticate
     user = User.authenticate(username: params[:username], password: params[:password])
 
-    if user.nil? || !Injector.check_captcha.call(captcha_id: params[:captcha_id], captcha_value: params[:captcha_value])[:valid]
+    if user.nil? || !captcha_valid?
       redirect_to("/mod/login?failed=true")
     else
       response.cookies["session"] = JWT.encode({username: user.username, privilege: :admin}, Authentication.secret, JWT::Algorithm::HS256)
@@ -19,6 +19,12 @@ class ModController < ApplicationController
       end
       redirect_to("/mod")
     end
+  end
+
+  def captcha_valid?
+    return true unless CaptchaHelper.enabled?
+
+    Injector.check_captcha.call(captcha_id: params[:captcha_id], captcha_value: params[:captcha_value])[:valid]
   end
 
   def mod
@@ -42,6 +48,21 @@ class ModController < ApplicationController
     guard do
       render("filter.ecr")
     end
+  end
+
+  def board
+    guard do
+      render("board.ecr")
+    end
+  end
+
+  # Clearing the cookie server-side is not enough -- the browser keeps sending
+  # it until it expires, so overwrite it with an already-expired one.
+  def logout
+    response.cookies["session"] = ""
+    response.cookies["session"].path = "/"
+    response.cookies["session"].expires = Time.utc - 1.day
+    redirect_to("/mod/login")
   end
 
   def user
@@ -155,6 +176,17 @@ class ModController < ApplicationController
       "<br/>"+
       content(element_name: :a, options: { href: "/mod/user?id=#{ params[:id]? }&ip=#{ params[:ip]? }" }.to_h) do
         "Manage admin users"
+      end +
+      "<br/>"+
+      content(element_name: :a, options: { href: "/mod/board?id=#{ params[:id]? }&ip=#{ params[:ip]? }" }.to_h) do
+        "Manage boards"
+      end + "<br/>" +
+      content(element_name: :a, content: "Manage pins", options: {href: "/mod/pin?post_id=#{params[:id]?}"}.to_h) +
+      "<br/>" +
+      content(element_name: :a, content: "Archive / spam a post", options: {href: "/mod/move?post_id=#{params[:id]?}"}.to_h) +
+      "<br/>" +
+      form(action: "/mod/logout", method: "post") do
+        csrf_tag() + submit("log out")
       end
     end
   end
@@ -165,6 +197,47 @@ class ModController < ApplicationController
         csrf_tag() +
         text_field(:post_id, type: :number, value: params[:id]?) +
         submit("delete")
+      end
+    end
+  end
+
+  def render_board_form()
+    content(element_name: :div, options: {class: "panel"}.to_h) do
+      content(element_name: :table, options: {class: "filter_table"}.to_h) do
+        content(element_name: :tr, options: {class: "filter_table_row"}.to_h) do
+          content(element_name: :th, options: {class: "filter_table_header"}.to_h) do
+            "ID"
+          end +
+          content(element_name: :th, options: {class: "filter_table_header"}.to_h) do
+            "Name"
+          end +
+          content(element_name: :th, options: {class: "filter_table_header"}.to_h) do
+            "Path"
+          end
+        end +
+        boards_list.map do |board|
+          content(element_name: :tr, options: {class: "filter_table_row"}.to_h) do
+            content(element_name: :td, options: {class: "filter_table_data"}.to_h) do
+              board.id.to_s
+            end +
+            content(element_name: :td, options: {class: "filter_table_data"}.to_h) do
+              board.message.to_s
+            end +
+            content(element_name: :td, options: {class: "filter_table_data"}.to_h) do
+              "/b/#{board_slug(board)}"
+            end
+          end.as(String)
+        end.join
+      end +
+      form(action: "/board/create", method: "post") do
+        csrf_tag() +
+        text_field(:board_name, placeholder: "board name", autocomplete: "off") + "<br/>" +
+        submit("add board")
+      end+
+      form(action: "/board/delete", method: "delete") do
+        csrf_tag() +
+        text_field(:board_id, type: :number, placeholder: "id", autocomplete: "off") + "<br/>" +
+        submit("delete board")
       end
     end
   end

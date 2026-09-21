@@ -7,7 +7,7 @@ module Usecase
       else
         return { valid: false, username: nil }
       end
-    rescue JWT::VerificationError
+    rescue JWT::DecodeError
       { valid: false, username: nil }
     end
   end
