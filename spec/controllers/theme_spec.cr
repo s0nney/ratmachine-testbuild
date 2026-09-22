@@ -3,7 +3,7 @@ require "../spec_helper"
 describe ThemeController do
   it "preserves board and reply destinations with query strings" do
     ThemeController.return_path("/b/tech/57?msg=hello%20world").should eq("/b/tech/57?msg=hello%20world")
-    ThemeController.return_path("/pinned").should eq("/pinned")
+    ThemeController.return_path("/b/general").should eq("/b/general")
     ThemeController.return_path("/mod/login").should eq("/mod/login")
   end
 

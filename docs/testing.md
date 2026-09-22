@@ -100,9 +100,9 @@ three files costs nothing — there is no coverage to lose.
 | `spec/core/usecase/check_digits_spec.cr` | 5 | Dubs/trips detection |
 | `spec/helpers/captcha_spec.cr` | 8 | `CaptchaHelper.enabled?` and the disabled form |
 | `spec/models/overboard_spec.cr` | 3 | Combined threads, 30-thread limit, and nested-reply activity |
-| `spec/models/pinned_post_spec.cr` | 3 | Pin membership, deletion cleanup, and pruning protection |
 | `spec/controllers/guard_spec.cr` | 3 | Anonymous, malformed, and authenticated moderator sessions |
 | `spec/controllers/theme_spec.cr` | 4 | Same-page theme redirects and invalid destination handling |
+| `spec/helpers/poster_id_spec.cr` | 8 | Poster ID shape, per-address/board/day scope, midnight rotation, keying |
 
 Other areas remain untested: most posting behavior, the formatter, filters, bans, boards,
 backlinks, the per-board post cap, and most controller behavior.

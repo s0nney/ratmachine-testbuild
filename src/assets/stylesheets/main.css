@@ -168,9 +168,6 @@ input[type=button]:hover, input[type=submit]:hover {
 }
 
 .post_header {
-	display: flex;
-	align-items: center;
-	gap: .35em;
 	padding: 4px;
 	background-color: rgba(var(--theme-frame-rgb),.4);
 }
@@ -382,13 +379,18 @@ code {
 
 /* The divider's pull-tab, on the leading edge. It is the only part of the
    label that toggles; the link beside it navigates. */
+/* Sized and weighted to match the disclosure arrow on a post, which is the
+   browser's own <summary> marker: full strength, not a faded hint. The tab's
+   is drawn as a ::before rather than left to the marker because the label is a
+   flex box (which drops the native one) and because the tab's clip-path would
+   cut a marker sitting hard against the leading edge. */
 .board_tab_label::before {
 	content: "\25BE";
 	flex: 0 0 auto;
 	padding: 4px 6px 4px 16px;
-	font-size: 1.15em;
+	font-size: 1.35em;
 	line-height: 1;
-	opacity: .75;
+	opacity: 1;
 	cursor: pointer;
 }
 
@@ -739,11 +741,11 @@ html {
 	gap: 6px;
 }
 
-/* On the mobile bar the jump pair keeps its own auto margins on both sides,
-   which centres it and pushes the tab group to the right end; a third auto
-   margin on the group would pull the jump off centre. */
-.mobile_navigation .mobile_board_jump { margin-left: auto; margin-right: auto; }
-.mobile_navigation .right_group_start { margin-left: 0; }
+/* The jump pair sits at the RIGHT end of the mobile bar. It was centred by an
+   auto margin either side, which was right while Archives and Pinned sat to
+   its right; with those gone it is the last thing on the bar, so only the
+   left margin stays auto and it goes to the end. */
+.mobile_navigation .mobile_board_jump { margin-left: auto; margin-right: 0; }
 
 @media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
 	/* Touch scrolling needs no vertical scrollbar stepper buttons. */
@@ -891,7 +893,7 @@ html {
 
 	.board_tab_label::before {
 		padding: 3px 5px 3px 12px;
-		font-size: 1.05em;
+		font-size: 1.2em;
 	}
 
 	.board_tab_link {
@@ -990,9 +992,43 @@ html {
 	   nothing else fits beside them. The title and the board tag move above
 	   the message, and who wrote it signs off under it. The header's own
 	   copies go, or everything would be drawn twice. */
+	/* SAGE SITS IN THE MESSAGE BOX'S BOTTOM LINE, at the LEFT, under the ID.
+
+	   No gap is cut in the line for it any more. The tag is an opaque raised
+	   chip now, so it masks the box's own 2px ridge bottom border where it sits
+	   and the line runs into it either side on its own. That replaced a
+	   linear-gradient drawn with a transparent stretch in it, which was only
+	   needed while the tag had no background of its own to hide the line. */
+	.post_content .post_sage_mark {
+		display: block;
+		position: absolute;
+		bottom: 0;
+		left: 12px;
+		/* Centred on the line, so it sits IN it rather than above it. On an
+		   absolutely positioned box the margin lifts it clear of `bottom: 0`,
+		   so this rides 4px higher than dead centre. */
+		transform: translateY(50%);
+		margin-bottom: 4px;
+		line-height: 1;
+		/* THE RAISED CHIP IS HANDHELD ONLY. The old Unix toolkit look, where
+		   anything standing proud of the surface did it on a light/dark bevel
+		   pair; `outset` draws exactly that from one colour. It belongs here
+		   and not on .post_sage, because the desktop copy sits in a row of
+		   plain text where a raised object would be the only one. */
+		background-color: var(--theme-chrome);
+		border: 2px outset var(--theme-bevel-light);
+		padding: 0 5px;
+		/* Not the body font: the board's proportional face makes it read as a
+		   word in the sentence rather than as a stamp on the post. */
+		font-family: var(--theme-field-font);
+	}
+
+	.post_content_saged { position: relative; }
+
 	.post_header > .post_author,
 	.post_header > .post_tripcode,
 	.post_header > .post_sage,
+	.post_header > .post_poster_id,
 	.post_header .thread_board,
 	.post_header .thread_title_link {
 		display: none;
@@ -1721,7 +1757,9 @@ body:has(.board_tab.selected_board) {
    order rather than the DOM's: the disclosure control, then Reply, then who
    said it, then the numbers and the title. Every item in this row needs an
    `order`, including the pseudo-element — see below. */
-.post_header > a[id^="reply-"] { order: -2; flex: 0 0 auto; }
+.post_header > a[id^="reply-"] { order: -3; flex: 0 0 auto; }
+/* Between Reply and the number, which is the first thing in .post_meta. */
+.post_poster_id { order: -2; flex: 0 0 auto; }
 .post_author, .post_tripcode, .post_sage { order: -1; flex: 0 0 auto; }
 
 /* THE TITLE TAKES THE SQUEEZE, and nothing else does.
@@ -1771,19 +1809,59 @@ body:has(.board_tab.selected_board) {
    thing in the header, as it was. */
 .post_header::before {
 	content: "\25BE";
-	order: -3;
+	order: -4;
 	flex: 0 0 auto;
-	padding: 1px 4px;
-	border: 1px outset var(--theme-bevel-light);
-	background: var(--theme-chrome);
+	padding: 0 2px;
+	border: none;
+	background: none;
 	color: var(--theme-text);
-	font-size: .8em;
-	line-height: 1.1;
+	font-size: 1em;
+	line-height: 1;
+	opacity: .8;
 }
 .post:not([open]) > .post_header::before { content: "\25B8"; }
+.post_header::before { display: none; }
 .post_author { font-weight: bold; overflow-wrap: anywhere; }
 .post_tripcode { color: var(--theme-accent); font-family: monospace; overflow-wrap: anywhere; }
-.post_sage { font-size: .85em; color: var(--theme-text); }
+
+/* The poster ID. Monospace and dimmer than a name: it is a code that tells two
+   posters apart, not something anybody chose to be called. */
+.post_poster_id {
+	font-family: monospace;
+	/* Larger than the text around it, deliberately: on a board where nobody
+	   gives a name this is the only thing telling two posters apart. */
+	font-size: 1.2em;
+	color: var(--theme-text);
+	opacity: .85;
+	white-space: nowrap;
+	/* A monospace code butted against the proportional post number reads as
+	   one run of characters; the row's own gap is not enough between them. */
+	margin-right: .25em;
+}
+
+/* Under the message on handheld it is the only thing on its line, so it needs
+   no room held beside it — and a touch smaller there, where it is not
+   competing with a header row for attention and the screen is narrow. */
+.post_signature .post_poster_id {
+	margin-right: 0;
+	font-size: 1.05em;
+}
+/* The message box's copy is for handheld only; the desktop header has room. */
+.post_sage_mark { display: none; }
+
+/* sage is a word in red, and on the desktop board that is all it is: it sits
+   in the header among the other things said about the post, and a bevelled
+   chip in that row would be the only raised object in a line of plain text.
+   The handheld copy is a raised chip, because there it sits in the message
+   box's bottom line rather than in a row of text -- see the handheld rules.
+
+   It cycled through the rainbow (the formatter's .rainbowtext animation) until
+   2026-09-21; a flag on a post reads better as a fixed mark than as motion,
+   and this is the only red on the board. */
+.post_sage {
+	color: #ff2b2b;
+	font-weight: bold;
+}
 .sage_option { display: inline-flex; align-items: center; gap: 5px; padding: 4px 0; }
 .sage_option input { accent-color: var(--theme-accent); }
 .form .post_name_input,
@@ -1842,8 +1920,28 @@ body:has(.board_tab.selected_board) {
 
 @media (prefers-reduced-motion: reduce) {
 	.theme_drawer { animation: none; }
+	/* A colour cycling once a second is exactly what this asks to be spared. */
+	.rainbowtext { animation: none; }
 }
 
 @media (orientation: landscape) and (max-height: 600px) {
 	.theme_switcher { left: 4px; }
+}
+
+/* Mobile sage sits beneath the poster ID, IN the message box's bottom line.
+   The positioning and the broken line itself are in the handheld block further
+   up, beside the rest of the message box's rules; this only stacks the sign-off
+   so the ID sits above where the mark is drawn.
+
+   There were two implementations of this at once for a while: this block also
+   carried `background-image: none` on .post_content_saged and
+   `position: static; transform: none` on the mark, which between them undid
+   the broken line and dropped the word back inside the box. One of them had to
+   go and the geometry is better kept with the box it belongs to. */
+@media (max-width:768px),(orientation:landscape) and (max-height:600px) {
+  .post_signature {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
 }

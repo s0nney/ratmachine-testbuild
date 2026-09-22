@@ -181,9 +181,7 @@ class ModController < ApplicationController
       content(element_name: :a, options: { href: "/mod/board?id=#{ params[:id]? }&ip=#{ params[:ip]? }" }.to_h) do
         "Manage boards"
       end + "<br/>" +
-      content(element_name: :a, content: "Manage pins", options: {href: "/mod/pin?post_id=#{params[:id]?}"}.to_h) +
-      "<br/>" +
-      content(element_name: :a, content: "Archive / spam a post", options: {href: "/mod/move?post_id=#{params[:id]?}"}.to_h) +
+      content(element_name: :a, content: "Move a post to spam", options: {href: "/mod/move?post_id=#{params[:id]?}"}.to_h) +
       "<br/>" +
       form(action: "/mod/logout", method: "post") do
         csrf_tag() + submit("log out")

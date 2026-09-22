@@ -9,8 +9,8 @@ themes stay in sync.
 
 Both retain desktop nested threads and collapsing board dividers, the flat
 mobile thread view and backlinks, target highlights, the bottom composer and
-connected board tabs, the overboard and pinned collection, and the inverted
-Overboard/Pinned tabs in the striped mobile titlebar. There is no client-side
+connected board tabs and the overboard. (The Pinned and Archives tabs it also
+styled were removed on 2026-09-21.) There is no client-side
 JavaScript.
 
 Horizontal and vertical scrollbars share theme-colored sunken tracks, raised

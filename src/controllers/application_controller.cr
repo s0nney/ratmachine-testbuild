@@ -14,26 +14,16 @@ class ApplicationController < Amber::Controller::Base
     name.strip.downcase.gsub(/[^a-z0-9]+/, "-").strip('-')
   end
 
-  # The normal board strip: everything except the system boards, which get
-  # their own tabs beside Pinned.
+  # The board strip: every board there is. There are no longer any the strip
+  # holds back -- Archives was the only one, and it went with pinning.
   def boards_list
     boards = [] of Post
-    Post.boards.each { |board| boards << board unless Post.system_board?(board) }
+    Post.boards.each { |board| boards << board }
     boards
   end
 
-  def system_boards_list
-    boards = [] of Post
-    Post.boards.each { |board| boards << board if Post.system_board?(board) }
-    boards
-  end
-
-  def system_board(slug : String)
-    system_boards_list.find { |board| board_slug(board) == slug }
-  end
-
-  # Boards a mod may file a post into. Not the same as the system boards --
-  # Spam is an ordinary board that still accepts moved posts.
+  # Boards a mod may file a post into; ordinary boards that sit in the strip
+  # with the rest.
   def move_targets_list
     boards = [] of Post
     Post.boards.each { |board| boards << board if Post.move_target?(board) }
@@ -99,7 +89,7 @@ class ApplicationController < Amber::Controller::Base
             content(element_name: :a, content: "Crystal", options: {href: "https://crystal-lang.org"}.to_h) +
             " with the " +
             content(element_name: :a, content: "Amber Framework", options: {href: "https://github.com/amberframework/amber"}.to_h) +
-            ". Boards automatically purge their oldest unpinned posts at the 254-post limit."
+            ". Boards automatically purge their oldest posts at the 254-post limit."
         end
       end + banner_board_tabs
     end

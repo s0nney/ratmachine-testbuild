@@ -5,7 +5,7 @@ class PostController < ApplicationController
   @status_msg : String | Nil
 
   def create()
-    return render("create.ecr") unless check_system_board && check_captcha && check_message_size && check_filters
+    return render("create.ecr") unless check_captcha && check_message_size && check_filters
 
     # In case we're in a reverse proxy
     if request.headers["X-Forwarded-For"]?
@@ -21,7 +21,7 @@ class PostController < ApplicationController
         redirect_to("https://files.catbox.moe/glburl.mp4")
       else
         post = Injector.create_post.call(message: params[:msg], parent: params[:parent].to_i32?, ip_address: ip_address,
-          title: params[:title]?, name: params[:name]?, sage: params[:sage]? == "true")
+          sage: params[:sage]? == "true")
         @status_msg = post[:status]
 
         if post[:post_id].nil?
@@ -49,25 +49,6 @@ class PostController < ApplicationController
     filter_check[:valid]
   end
 
-  # Archives and Spam are read-only to the public: anyone may browse them, only
-  # an authenticated mod may post. Checked here rather than only in the view,
-  # since the form can be submitted directly.
-  def check_system_board
-    parent_id = params[:parent]?.to_s.to_i32?
-    return true if parent_id.nil?
-
-    board_id = Post.board_for(parent_id)
-    return true if board_id.nil?
-
-    board = Post.find(board_id)
-    return true if board.nil?
-    return true unless Post.system_board?(board.as(Post))
-    return true if authenticate_token[:valid]
-
-    @status_msg = "Only moderators can post to #{board.as(Post).message}"
-    false
-  end
-
   # Posts carry their board id, so the redirect can land back on the board the
   # poster was actually looking at.
   def board_path_for(post_id)
@@ -90,9 +71,7 @@ class PostController < ApplicationController
     else
       "#{board_path_for(parent.id)}/#{parent.id}"
     end
-    # A failed submission must never send the tripcode secret back in a URL.
-    query = HTTP::Params.encode({"msg" => params[:msg]?.to_s, "title" => params[:title]?.to_s,
-      "name" => params[:name]?.to_s.split('#', 2)[0], "sage" => params[:sage]?.to_s})
+    query = HTTP::Params.encode({"msg" => params[:msg]?.to_s, "sage" => params[:sage]?.to_s})
     "<meta http-equiv=\"REFRESH\" content=\"1;url=#{HTML.escape(path + "?" + query)}\">"
   end
 
@@ -104,12 +83,6 @@ class PostController < ApplicationController
 
   def check_filters()
     filter_check = Injector.check_filters.call(message: params[:msg])
-    if filter_check[:valid] && !params[:title]?.to_s.empty?
-      filter_check = Injector.check_filters.call(message: params[:title].to_s)
-    end
-    if filter_check[:valid]
-      filter_check = Injector.check_filters.call(message: params[:name]?.to_s.split('#', 2)[0])
-    end
     @status_msg = filter_check[:status]
     filter_check[:valid]
   end

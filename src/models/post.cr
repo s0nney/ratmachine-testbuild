@@ -1,6 +1,6 @@
 require "set"
 require "../helpers/formatter_helper.cr"
-require "../helpers/tripcode_helper"
+require "../helpers/poster_id_helper.cr"
 class Post < Granite::Base
   connection pg
   table posts
@@ -9,11 +9,11 @@ class Post < Granite::Base
   column parent : Int32?
   column board : Int32?
   column message : String
-  column title : String?
-  column author_name : String?
-  column tripcode : String?
   column sage : Bool = false
   column ip_address : String?
+  # Eight characters telling one poster from another; see PosterIdHelper.
+  # Nil on a board row, which is a container rather than a message.
+  column poster_id : String?
   column last_reply : Int32?
   timestamps
 
@@ -30,18 +30,13 @@ class Post < Granite::Base
       [OVERBOARD_THREAD_LIMIT])
   end
 
-  # Two separate ideas, deliberately not the same list:
-  #   SYSTEM_BOARD_SLUGS -- gets its own tab at the right-hand end and is
-  #                         read-only to everyone but mods.
-  #   MOVE_TARGET_SLUGS  -- offered as a destination when a mod relocates a
-  #                         post. Spam is an ordinary board that sits with the
-  #                         rest, but mods can still file posts into it.
-  SYSTEM_BOARD_SLUGS = ["archives"]
-  MOVE_TARGET_SLUGS = ["archives", "spam"]
-
-  def self.system_board?(board : Post)
-    SYSTEM_BOARD_SLUGS.includes?(board.message.to_s.strip.downcase)
-  end
+  # Boards a mod may file a post into. An ordinary board that sits in the strip
+  # with the rest; being a move target adds nothing but the destination.
+  #
+  # Archives was one of these, and a "system board" besides -- its own tab, and
+  # read-only to everyone but mods. Both notions were taken out on 2026-09-21
+  # along with pinning; there is no archive in this application.
+  MOVE_TARGET_SLUGS = ["spam"]
 
   def self.move_target?(board : Post)
     MOVE_TARGET_SLUGS.includes?(board.message.to_s.strip.downcase)
@@ -98,11 +93,8 @@ class Post < Granite::Base
     parent.board
   end
 
-  def self.reply(message, ip_address : String | Nil, parent_id : Int32 | Nil = nil, title : String? = nil, name : String? = nil, sage : Bool = false)
+  def self.reply(message, ip_address : String | Nil, parent_id : Int32 | Nil = nil, sage : Bool = false)
     board_id = board_for(parent_id)
-    identity = TripcodeHelper.parse(name)
-    thread_title = parent_id == board_id ? title.to_s.strip : ""
-    raise ArgumentError.new("Title must be 120 characters or fewer") if thread_title.size > 120
 
     post_to_delete : Post | Nil
     post_to_delete = nil
@@ -111,13 +103,17 @@ class Post < Granite::Base
     # themselves carry no board pointer, so they are never purge candidates.
     unless board_id.nil?
       if Post.all("WHERE board = ?", [board_id]).size >= 254
-        post_to_delete = Post.first("WHERE board = ? AND NOT EXISTS (SELECT 1 FROM pinned_posts WHERE pinned_posts.post_id = posts.id) ORDER BY created_at ASC, id ASC", [board_id])
+        # Oldest first, and nothing is exempt: pinning used to hold a post out
+        # of this and no longer exists.
+        post_to_delete = Post.first("WHERE board = ? ORDER BY created_at ASC, id ASC", [board_id])
       end
     end
 
-    post = Post.create!(message: message, title: thread_title.empty? ? nil : thread_title,
-      author_name: identity[:name], tripcode: identity[:tripcode], sage: sage,
-      parent: parent_id, board: board_id, ip_address: ip_address)
+    # The ID is settled HERE, at the moment of posting, and never derived
+    # again: it is made from the day, and a post keeps the identity it was made
+    # with however long it sits there. A board row gets none.
+    post = Post.create!(message: message, sage: sage, parent: parent_id, board: board_id, ip_address: ip_address,
+      poster_id: board_id.nil? ? nil : PosterIdHelper.for(ip_address, board_id))
     post_id = post.id
 
     # Store the new reply ID on every ancestor. Reassigning an ancestor's own

@@ -11,7 +11,7 @@ class ThemeController < ApplicationController
     return "/" if target.nil? || target.includes?('\\') || target.includes?('\r') || target.includes?('\n')
     uri = URI.parse(target)
     return "/" unless uri.scheme.nil? && uri.host.nil?
-    return "/" unless uri.path.matches?(/\A\/(?:b\/[a-z0-9-]+(?:\/[0-9]+)?|pinned|[0-9]+|mod(?:\/[a-z]+)?)?\z/)
+    return "/" unless uri.path.matches?(/\A\/(?:b\/[a-z0-9-]+(?:\/[0-9]+)?|[0-9]+|mod(?:\/[a-z]+)?)?\z/)
     target
   rescue URI::Error
     "/"

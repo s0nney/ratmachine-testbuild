@@ -8,7 +8,7 @@ class MoveController < ApplicationController
     end
   end
 
-  # Send a post -- and everything filed under it -- to Archives or Spam.
+  # Send a post -- and everything filed under it -- to Spam.
   def create
     guard do
       post = find_post
@@ -19,7 +19,7 @@ class MoveController < ApplicationController
       elsif post.parent.nil?
         @status_msg = "That is a board, not a post"
       elsif destination.nil?
-        @status_msg = "Choose Archives or Spam"
+        @status_msg = "Choose a destination"
       elsif post.id == destination.id
         @status_msg = "A board can't be moved into itself"
       else

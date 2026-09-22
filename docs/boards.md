@@ -267,5 +267,6 @@ distinct nonblank stored IP addresses, not verified people or online visitors.
 Only aggregate counts are rendered. Counts refresh when the page is loaded;
 deleted or pruned posts no longer contribute.
 
-The far-right [Pinned tab](pinned.md) collects moderator-selected posts from
+The Pinned tab and the Archives board were removed on 2026-09-21; see
+[pinned.md](pinned.md). What follows described how Pinned collected posts from
 existing boards. It is a special view rather than an additional board record.

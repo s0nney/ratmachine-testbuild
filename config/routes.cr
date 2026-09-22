@@ -48,12 +48,9 @@ Amber::Server.configure do
     get "/mod/user", ModController, :user
     get "/mod/ban", ModController, :ban
     get "/mod/board", ModController, :board
-    get "/mod/pin", PinController, :manage
     get "/mod/move", MoveController, :manage
     post "/move/create", MoveController, :create
     post "/mod/logout", ModController, :logout
-    post "/pin/create", PinController, :create
-    delete "/pin/delete", PinController, :delete
 
     post "/post/create/:id", PostController, :create
     post "/filter/create", FilterController, :create
@@ -71,7 +68,6 @@ Amber::Server.configure do
     get "/b/:board", IndexController, :index
     get "/b/:board/:id", IndexController, :index
 
-    get "/pinned", IndexController, :index
     get "/:id", IndexController, :index
     get "/", IndexController, :index
   end

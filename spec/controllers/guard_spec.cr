@@ -3,7 +3,7 @@ require "../spec_helper"
 private def guard_context(cookie : String? = nil)
   headers = HTTP::Headers.new
   headers["Cookie"] = cookie unless cookie.nil?
-  HTTP::Server::Context.new(HTTP::Request.new("POST", "/pin/create", headers), HTTP::Server::Response.new(IO::Memory.new))
+  HTTP::Server::Context.new(HTTP::Request.new("POST", "/move/create", headers), HTTP::Server::Response.new(IO::Memory.new))
 end
 
 describe "Moderator guard" do

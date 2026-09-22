@@ -1,32 +1,24 @@
-# Pinned posts
+# Pinned posts — removed
 
-The far-right **Pinned** tab opens `/pinned`, a public collection of existing
-posts selected by moderators. It is not a normal posting board. On mobile,
-Pinned sits at the top right and Overboard at the top left, with inverted tab
-shapes hanging from the upper bezel. Both are navigation-only. Ordinary board
-tabs stay above the bottom composer.
+Pinning was removed on 2026-09-21, along with the Archives board. Neither was
+finished, and both carried weight through the purge, the tab strip, the mod
+panel and the routes.
 
-Moderators can use **Pin / Unpin** beside a post, or **Manage pins** in `/mod`.
-The form accepts a post ID. Both mutations require an authenticated moderator
-and the standard CSRF token. Boards cannot be pinned, and duplicate pins are
-rejected. Visitors see no posting form or pin-management controls.
+What went:
 
-The collection shows only pinned posts, newest pins first, without automatically
-including unpinned replies. Reply links lead to the original board. Parent
-backlinks on this view also link to the original board, so no missing local
-anchors are emitted when a parent has not been pinned.
+- `pinned_posts` table, `PinnedPost` model, `PinController`, `views/pin/`
+- routes `/mod/pin`, `/pin/create`, `/pin/delete`, and the `/pinned` collection
+- the **Pinned** and **Archives** tabs, and the "system board" concept that
+  existed only to give Archives its own tab and make it read-only
+- the purge's exemption for pinned posts — **nothing is exempt now**
+- the mod panel's "Pin / Unpin" and "Archive" links
 
-`pinned_posts` stores the source post ID, moderator username, and timestamps.
-The migration adds a unique foreign key with deletion cascading: explicit post
-or board deletion removes its pins. Unpinning leaves the source post intact.
-Automatic board pruning skips pinned posts. If all existing posts are pinned,
-a board can temporarily exceed its ordinary cap rather than removing a pin.
+What stayed: moving a post to **Spam**, which is an ordinary board that happens
+to be a move target (`Post::MOVE_TARGET_SLUGS`).
 
-No JavaScript is used. The app applies the migration at startup.
+The drop migration re-homes anything that was filed under Archives onto no
+board rather than deleting it; posts are not thrown away here.
 
-Testing covers collection membership, unpinning, deletion cleanup, and pruning.
-End-to-end checks cover moderator pin/unpin, duplicate rejection, public display,
-and anonymous attempts to mutate pins. The shared moderator guard was corrected
-to return after redirecting an unauthenticated request; redirect alone did not
-stop the protected block from executing. Guard specs cover anonymous, malformed,
-and authenticated sessions.
+If either idea comes back it should be designed fresh. The retention problem
+they were both circling — a board is a ~255-post ring buffer, so anything worth
+keeping has to escape it somehow — is still open. See `data-model.md`.
