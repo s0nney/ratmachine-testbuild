@@ -3,8 +3,10 @@ require "../helpers/captcha/captcha"
 
 class ModController < ApplicationController
   @post_to_action : Int32 | Nil
+  # The login screen gets its own layout: no banner, no theme switcher, just
+  # the form. See src/views/layouts/login.ecr.
   def login_page
-    render("login_page.ecr")
+    render("login_page.ecr", layout: "login.ecr")
   end
 
   def authenticate
@@ -149,7 +151,7 @@ class ModController < ApplicationController
   end
 
   def render_login_form
-    content(element_name: :div, options: { class: "panel" }.to_h) do
+    content(element_name: :div, options: { class: "panel login_panel" }.to_h) do
       form(action: "/mod/authenticate", method: "post") do
         csrf_tag() +
         text_field(:username, placeholder: "username") + "<br>"+
@@ -185,7 +187,8 @@ class ModController < ApplicationController
       "<br/>" +
       form(action: "/mod/logout", method: "post") do
         csrf_tag() + submit("log out")
-      end
+      end +
+      render_home_link
     end
   end
 

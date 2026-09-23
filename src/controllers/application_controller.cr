@@ -61,6 +61,14 @@ class ApplicationController < Amber::Controller::Base
     end
   end
 
+  # Home again. The mod pages and the login screen are both outside the board
+  # chrome -- no banner, no tabs -- so without this the only way back is the
+  # browser's own back button or editing the URL.
+  def render_home_link
+    content(element_name: :a, content: "\u{2190} Back to the board",
+      options: {href: "/", class: "back_link"}.to_h)
+  end
+
   def redirector()
     "<meta http-equiv=\"REFRESH\" content=\"1;url=#{@redirect_url}\">" unless @redirect_url.nil?
   end

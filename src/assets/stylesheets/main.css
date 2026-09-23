@@ -1945,3 +1945,46 @@ body:has(.board_tab.selected_board) {
     gap: 2px;
   }
 }
+
+/* --- the login screen ------------------------------------------------------
+   /mod/login renders through layouts/login.ecr, which drops the banner and the
+   theme switcher and wraps the form in this element. Centring is done here
+   rather than on the panel so the "Login failed" line and the Back link centre
+   with it as one stack.
+
+   min-height rather than height: on handheld the generic content-well rule
+   inside the breakpoint sets `min-height: 0` on every body child and wins on
+   specificity (body > * beats a single class), but there the body is already a
+   full-height flex column and this element is its only child, so it fills the
+   screen anyway and the centring still lands. */
+.login_screen {
+	min-height: 100vh;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: 16px;
+	text-align: center;
+}
+
+.login_panel {
+	display: inline-block;
+	text-align: left;
+}
+
+/* --theme-accent is purple on main's purple ground, so the failure notice is
+   left in the body text colour and carried by weight instead. */
+.login_failed {
+	margin: 0;
+	font-weight: bold;
+	color: var(--theme-text);
+}
+
+/* Shared by the login screen and the mod panel, both of which sit outside the
+   board chrome and would otherwise have no way home. */
+.back_link {
+	display: inline-block;
+	margin-top: 4px;
+}
