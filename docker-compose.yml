@@ -9,8 +9,9 @@ services:
       DATABASE_URL: postgres://admin:password@db:5432/ratmachine_development
       RATMACHINE_MOD_USERNAME: wojak
       RATMACHINE_MOD_PASSWORD: tfwnogf
-      # Off by default outside production; set to "true" to exercise the captcha locally.
-      RATMACHINE_CAPTCHA_ENABLED: "false"
+      # On by default in production; forced on here so development exercises it
+      # too. Set to "false" to skip the ImageMagick call on every form render.
+      RATMACHINE_CAPTCHA_ENABLED: "true"
     ports:
       - 3000:3000
     links:
