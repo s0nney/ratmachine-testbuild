@@ -16,7 +16,8 @@ Audited 2026-09-22 against `1b432a6`.
 2. `check_message_size` — the 1,024-character limit.
 3. `check_filters` — the moderator word filters.
 4. `Ban.exists?(ip_address:)` — a manual, moderator-applied block. A banned IP
-   is redirected away rather than shown an error.
+   is redirected away rather than shown an error. See
+   [`banning.md`](banning.md).
 
 None of these is temporal. There is no `last_post_at` column, no per-IP
 counter, no cooldown in `Usecase::CreatePost`, and no throttling plug in the

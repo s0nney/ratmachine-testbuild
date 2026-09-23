@@ -1,4 +1,7 @@
 class MoveController < ApplicationController
+  # Mod-only screens: same chrome-free layout as the rest of /mod.
+  LAYOUT = "mod.ecr"
+
   @status_msg : String | Nil
 
   def manage

@@ -1,4 +1,7 @@
 class BanController < ApplicationController
+  # Mod-only screens: same chrome-free layout as the rest of /mod.
+  LAYOUT = "mod.ecr"
+
   def create
     guard do
       Ban.create(ip_address: params[:ip_address])

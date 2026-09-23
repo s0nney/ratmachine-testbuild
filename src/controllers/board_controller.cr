@@ -1,4 +1,7 @@
 class BoardController < ApplicationController
+  # Mod-only screens: same chrome-free layout as the rest of /mod.
+  LAYOUT = "mod.ecr"
+
   def create()
     guard do
       name = params[:board_name].to_s.strip

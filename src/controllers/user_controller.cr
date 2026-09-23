@@ -1,4 +1,7 @@
 class UserController < ApplicationController
+  # Mod-only screens: same chrome-free layout as the rest of /mod.
+  LAYOUT = "mod.ecr"
+
   def create
     guard do
       User.create(username: params[:username], salted_hashed_password: Crypto::Bcrypt::Password.create(params[:password]).to_s)

@@ -1,4 +1,7 @@
 class FilterController < ApplicationController
+  # Mod-only screens: same chrome-free layout as the rest of /mod.
+  LAYOUT = "mod.ecr"
+
   def create()
     guard do
       Filter.create(regex: params[:filter_regex], severity: params[:filter_severity].to_i)

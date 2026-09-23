@@ -1946,31 +1946,39 @@ body:has(.board_tab.selected_board) {
   }
 }
 
-/* --- the login screen ------------------------------------------------------
-   /mod/login renders through layouts/login.ecr, which drops the banner and the
-   theme switcher and wraps the form in this element. Centring is done here
-   rather than on the panel so the "Login failed" line and the Back link centre
-   with it as one stack.
+/* --- the mod area ----------------------------------------------------------
+   Every /mod screen renders through layouts/mod.ecr, which drops the banner
+   and the theme switcher and wraps the content in this element. Centring is
+   done here rather than on the panel so a status line and the Back link
+   centre with the panel as one stack.
 
    min-height rather than height: on handheld the generic content-well rule
    inside the breakpoint sets `min-height: 0` on every body child and wins on
    specificity (body > * beats a single class), but there the body is already a
    full-height flex column and this element is its only child, so it fills the
-   screen anyway and the centring still lands. */
-.login_screen {
+   screen anyway and the centring still lands.
+
+   `safe center` matters for the taller panels -- the ban and user tables. On
+   handheld this element is the scroll container with a bounded height, and
+   plain `center` on an overflowing column pushes the first row off the top
+   edge where it cannot be scrolled back to. `safe` falls back to flex-start
+   the moment the content stops fitting. The unprefixed `center` above it is
+   the fallback for browsers that don't parse the keyword. */
+.mod_screen {
 	min-height: 100vh;
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	justify-content: safe center;
 	gap: 10px;
 	padding: 16px;
 	text-align: center;
 }
 
-.login_panel {
-	display: inline-block;
+/* The panels hold forms and tables; only the stack around them is centred. */
+.mod_screen > .panel {
 	text-align: left;
 }
 
@@ -1982,8 +1990,8 @@ body:has(.board_tab.selected_board) {
 	color: var(--theme-text);
 }
 
-/* Shared by the login screen and the mod panel, both of which sit outside the
-   board chrome and would otherwise have no way home. */
+/* The mod area sits outside the board chrome and would otherwise have no way
+   home. */
 .back_link {
 	display: inline-block;
 	margin-top: 4px;

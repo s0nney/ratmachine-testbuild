@@ -9,11 +9,11 @@
     <%= redirector() %>
   </head>
   <body>
-    <!-- No banner and no theme switcher: the login screen is chrome-free so
-         the form sits alone in the middle of the page. Themes still apply,
-         since get_theme() reads the same cookie; they just cannot be changed
-         from here. -->
-    <div class="login_screen">
+    <!-- No banner and no theme switcher: the whole mod area is chrome-free,
+         so each panel sits alone in the middle of the page. Themes still
+         apply, since get_theme() reads the same cookie; they just cannot be
+         changed from here. -->
+    <div class="mod_screen">
       <%= content %>
     </div>
   </body>
