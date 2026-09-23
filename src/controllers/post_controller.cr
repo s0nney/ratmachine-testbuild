@@ -1,11 +1,12 @@
 require "uri"
 require "../helpers/captcha/captcha"
+require "../core/post_error"
 
 class PostController < ApplicationController
   @status_msg : String | Nil
 
   def create()
-    return render("create.ecr") unless check_captcha && check_message_size && check_filters
+    return redirect_to(refusal_path) unless check_captcha && check_message_size && check_filters
 
     # In case we're in a reverse proxy
     if request.headers["X-Forwarded-For"]?
@@ -25,7 +26,7 @@ class PostController < ApplicationController
         @status_msg = post[:status]
 
         if post[:post_id].nil?
-          render("create.ecr")
+          redirect_to(refusal_path)
         else
           redirect_to("#{board_path_for(post[:post_id])}/#{post[:post_id]}#reply-#{post[:post_id]}")
         end
@@ -62,17 +63,26 @@ class PostController < ApplicationController
     "/b/#{board_slug(board)}"
   end
 
-  def render_redirect()
+  # Post/Redirect/Get. A refused post goes straight back to the form it came
+  # from, carrying what was typed and a code for why it was turned away. The
+  # board reopens the composer whenever ?msg= is present and renders the
+  # reason inside it, so there is no interstitial page and no meta refresh --
+  # and reloading the board afterwards no longer resubmits the post.
+  def refusal_path
+    query = HTTP::Params.encode({
+      "msg"   => params[:msg]?.to_s,
+      "sage"  => params[:sage]?.to_s,
+      "error" => PostError.code_for(@status_msg).to_s,
+    })
+    form_path + "?" + query
+  end
+
+  # Where the composer that produced this submission lives.
+  def form_path
     parent = Post.find(params[:parent]?.to_s.to_i32?)
-    path = if parent.nil?
-      "/"
-    elsif parent.parent.nil?
-      "/b/#{board_slug(parent)}"
-    else
-      "#{board_path_for(parent.id)}/#{parent.id}"
-    end
-    query = HTTP::Params.encode({"msg" => params[:msg]?.to_s, "sage" => params[:sage]?.to_s})
-    "<meta http-equiv=\"REFRESH\" content=\"1;url=#{HTML.escape(path + "?" + query)}\">"
+    return "/" if parent.nil?
+    return "/b/#{board_slug(parent)}" if parent.parent.nil?
+    "#{board_path_for(parent.id)}/#{parent.id}"
   end
 
   def check_message_size()

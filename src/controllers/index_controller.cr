@@ -1,4 +1,5 @@
 require "../helpers/captcha/captcha"
+require "../core/post_error"
 
 class IndexController < ApplicationController
   @status_msg : String | Nil
@@ -356,6 +357,20 @@ class IndexController < ApplicationController
     "Replying to post #{@reply_to} <br/>"
   end
 
+  # Why the last submission was refused, sitting between the message box and
+  # the captcha -- which is where the eye already is, and directly above the
+  # image most refusals require solving again.
+  #
+  # The reason arrives as a code rather than as text; see PostError. An
+  # unrecognised code renders nothing, so a hand-edited URL cannot put an
+  # arbitrary sentence on the page.
+  def render_post_error()
+    message = PostError.message_for(params[:error]?)
+    return "" if message.nil?
+    content(element_name: :p, content: HTML.escape(message),
+      options: {class: "post_error", role: "alert"}.to_h) + "<br/>"
+  end
+
   def render_post_form()
     content(element_name: :summary, options: {class: "form_heading"}.to_h) do
       get_post_form_title()
@@ -369,6 +384,7 @@ class IndexController < ApplicationController
         end + "<br/>" +
         label(:msg, "Message:") + "<br/>" +
   			text_area(:msg, params[:msg]?, autofocus: "true") + "<br/>" +
+        render_post_error() +
         CaptchaHelper.captcha_form() +
   			submit("post")
   		end

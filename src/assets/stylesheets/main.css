@@ -1287,7 +1287,7 @@ html {
 	   on top, answer field full-width underneath it. Its <br/>s are hidden
 	   with the others, so flex does the arranging. */
 	.captcha_form {
-		order: 3;
+		order: 4;
 		flex: 1 1 100%;
 		display: flex;
 		flex-direction: column;
@@ -2000,4 +2000,33 @@ body:has(.board_tab.selected_board) {
 .back_link {
 	display: inline-block;
 	margin-top: 4px;
+}
+
+/* --- why a post was refused -----------------------------------------------
+   Sits inside the composer, under the message box and directly above the
+   captcha, because most refusals require solving a fresh captcha and that is
+   where the eye has to go next.
+
+   #ff2b2b is the sage red, reused rather than reinvented: it is the one
+   colour in this palette that already means "pay attention" and it clears
+   both themes' grounds. The field colour backs it so the text is never red on
+   purple, and the inset bevel matches the inputs it sits between rather than
+   the raised buttons. */
+.post_error {
+	margin: 0;
+	padding: 5px 8px;
+	border: 2px inset var(--theme-bevel-light);
+	background-color: var(--theme-field);
+	color: #ff2b2b;
+	font-weight: bold;
+}
+
+@media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
+	/* The composer is a flex row on handheld -- textarea and post button on
+	   one line, captcha stacked beneath. The notice takes a full row of its
+	   own between them, which is why .captcha_form's order moves to 4. */
+	.post_error {
+		order: 3;
+		flex: 1 1 100%;
+	}
 }
