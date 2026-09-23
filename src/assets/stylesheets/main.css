@@ -1977,9 +1977,14 @@ body:has(.board_tab.selected_board) {
 	text-align: center;
 }
 
-/* The panels hold forms and tables; only the stack around them is centred. */
+/* The panels hold forms and tables; only the stack around them is centred.
+   Width is set here rather than left to shrink-to-fit: a panel sized by its
+   widest field is a narrow strip in the middle of an empty screen. `min()`
+   keeps it inside the viewport on a phone, where 32em would overflow. */
 .mod_screen > .panel {
 	text-align: left;
+	box-sizing: border-box;
+	width: min(32em, 100%);
 }
 
 /* --theme-accent is purple on main's purple ground, so the failure notice is
