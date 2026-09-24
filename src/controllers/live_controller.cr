@@ -98,15 +98,35 @@ class LiveController < IndexController
     board.nil? ? @boards : [board]
   end
 
-  private def current_thread_ids(board : Post | Nil) : Array(Int64)
-    ids = [] of Int64
+  private def current_threads(board : Post | Nil) : Array(Post)
+    threads = [] of Post
     if board.nil?
-      Post.overboard_threads.each { |post| ids << post.id.not_nil! }
+      Post.overboard_threads.each { |post| threads << post }
     else
       board_id = board.id.not_nil!.to_i32
-      Post.get_replies(board).each { |post| ids << post.id.not_nil! if post.board == board_id }
+      Post.get_replies(board).each { |post| threads << post if post.board == board_id }
     end
-    ids
+    threads
+  end
+
+  private def current_thread_ids(board : Post | Nil) : Array(Int64)
+    current_threads(board).map { |post| post.id.not_nil! }
+  end
+
+  # The date headings the page should end up with, in order, each naming the
+  # threads it holds. The client rebuilds from this rather than guessing where
+  # an arrival belongs: a bump can move a thread between days, and the day it
+  # moves to may not exist on the page yet.
+  private def group_layout(threads : Array(Post))
+    layout = [] of NamedTuple(key: String, label: String, ids: Array(Int64))
+    threads.each do |post|
+      key, label = date_group(post)
+      if layout.empty? || layout.last[:key] != key
+        layout << {key: key, label: label, ids: [] of Int64}
+      end
+      layout.last[:ids] << post.id.not_nil!
+    end
+    layout
   end
 
   # One tick. Returns nil when nothing happened, which is the common case and
@@ -133,8 +153,8 @@ class LiveController < IndexController
     inserted = [] of NamedTuple(id: Int64, html: String)
     replaced = [] of NamedTuple(id: Int64, html: String)
 
-    visible = current_thread_ids(board)
-    visible_set = visible.to_set
+    visible = current_threads(board)
+    visible_set = visible.map { |post| post.id.not_nil! }.to_set
 
     # Anything the page is showing that no longer belongs -- purged, or pushed
     # off the overboard's cutoff by somebody else's post.
@@ -160,7 +180,7 @@ class LiveController < IndexController
       remove:  removed,
       replace: replaced,
       insert:  inserted,
-      order:   visible,
+      groups:  group_layout(visible),
       stats:   fresh_stats,
     }
     {json: payload.to_json, stats: fresh_stats}

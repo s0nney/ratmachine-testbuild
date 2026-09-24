@@ -2141,3 +2141,95 @@ body:has(.board_tab.selected_board) {
 		border-radius: 4px;
 	}
 }
+
+/* --- date groups -----------------------------------------------------------
+   Top-level threads are filed under a collapsible date heading, the way a
+   browser's history sidebar files visits. A board that is one long column is
+   the point of the thing; this makes it navigable without shortening it.
+
+   A <details> like everything else here, so collapsing a whole day needs no
+   JavaScript and works with live mode off. */
+.post_group {
+	margin: 0 0 10px;
+	border: 2px solid var(--theme-post-border);
+	border-radius: 4px;
+	background-color: rgba(var(--theme-frame-rgb),.14);
+}
+
+.post_group_header {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 5px 8px;
+	background-color: rgba(var(--theme-frame-rgb),.55);
+	background-image: linear-gradient(to bottom, rgba(255,255,255,.14), rgba(var(--theme-frame-rgb),.3));
+	box-shadow: inset 0 1px 0 var(--theme-bevel-light), inset 0 -1px 0 var(--theme-bevel-dark);
+	color: var(--theme-text-strong, var(--theme-text));
+	cursor: pointer;
+	/* The heading stays put while its day scrolls past, so you always know
+	   which day you are reading. The board scrolls the document on desktop,
+	   so this sticks to the viewport. */
+	position: sticky;
+	top: 0;
+	z-index: 2;
+}
+
+.post_group_header::-webkit-details-marker,
+.post_group_header::marker { display: none; content: ""; }
+
+/* Same arrow as a board tab and a post: the browser's own marker is dropped
+   by the flex box above, so it is drawn back in. */
+.post_group_header::before {
+	content: "\25BE";
+	flex: 0 0 auto;
+	font-size: 1.2em;
+	line-height: 1;
+}
+
+.post_group:not([open]) > .post_group_header::before { content: "\25B8"; }
+
+.post_group_label {
+	flex: 1 1 auto;
+	font-weight: bold;
+	overflow-wrap: anywhere;
+}
+
+/* How many threads the day holds -- the only thing a collapsed group still
+   tells you. */
+.post_group_count {
+	flex: 0 0 auto;
+	padding: 1px 7px;
+	border: 1px inset var(--theme-bevel-light);
+	border-radius: 9px;
+	background-color: rgba(var(--theme-frame-rgb),.5);
+	font-family: monospace;
+	font-size: .95em;
+}
+
+.post_group > .post {
+	margin-top: 0.5em;
+	margin-right: 0.5em;
+}
+
+/* A collapsed day should not leave a stripe of its own background showing
+   under the heading. */
+.post_group:not([open]) { background-color: transparent; }
+
+@media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
+	.post_group {
+		margin-bottom: 7px;
+		border-width: 1px;
+	}
+
+	.post_group_header {
+		padding: 6px 7px;
+		font-size: .95em;
+	}
+
+	/* The root post is the scroll container on handheld, not the document, so
+	   the heading sticks to that instead -- and the container's own padding
+	   would otherwise leave a gap it peeks through. */
+	.post_group > .post {
+		margin-right: 0;
+	}
+}
