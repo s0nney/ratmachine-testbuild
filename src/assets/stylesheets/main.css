@@ -2148,27 +2148,33 @@ body:has(.board_tab.selected_board) {
    the point of the thing; this makes it navigable without shortening it.
 
    A <details> like everything else here, so collapsing a whole day needs no
-   JavaScript and works with live mode off. */
+   JavaScript and works with live mode off.
+
+   Built to read as a post box: the same border, radius and background as
+   .post, and a header band matching .post_header, so a collapsed day looks
+   like a collapsed post rather than a different kind of object. It sits in
+   more room than a post does -- a day is a bigger division than a thread and
+   the gap is what makes the grouping legible while scrolling. */
 .post_group {
-	margin: 0 0 10px;
-	border: 2px solid var(--theme-post-border);
+	margin: 0 0.5em 1.4em;
+	border-width: 2px;
+	border-style: solid;
+	border-color: var(--theme-post-border);
 	border-radius: 4px;
-	background-color: rgba(var(--theme-frame-rgb),.14);
+	background-color: var(--theme-post-background);
+	color: var(--theme-text);
 }
 
 .post_group_header {
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	padding: 5px 8px;
-	background-color: rgba(var(--theme-frame-rgb),.55);
-	background-image: linear-gradient(to bottom, rgba(255,255,255,.14), rgba(var(--theme-frame-rgb),.3));
-	box-shadow: inset 0 1px 0 var(--theme-bevel-light), inset 0 -1px 0 var(--theme-bevel-dark);
+	padding: 7px 8px;
+	background-color: rgba(var(--theme-frame-rgb),.4);
 	color: var(--theme-text-strong, var(--theme-text));
 	cursor: pointer;
 	/* The heading stays put while its day scrolls past, so you always know
-	   which day you are reading. The board scrolls the document on desktop,
-	   so this sticks to the viewport. */
+	   which day you are reading. */
 	position: sticky;
 	top: 0;
 	z-index: 2;
@@ -2182,8 +2188,10 @@ body:has(.board_tab.selected_board) {
 .post_group_header::before {
 	content: "\25BE";
 	flex: 0 0 auto;
+	padding: 0 2px;
 	font-size: 1.2em;
 	line-height: 1;
+	opacity: .8;
 }
 
 .post_group:not([open]) > .post_group_header::before { content: "\25B8"; }
@@ -2198,7 +2206,7 @@ body:has(.board_tab.selected_board) {
    tells you. */
 .post_group_count {
 	flex: 0 0 auto;
-	padding: 1px 7px;
+	padding: 1px 8px;
 	border: 1px inset var(--theme-bevel-light);
 	border-radius: 9px;
 	background-color: rgba(var(--theme-frame-rgb),.5);
@@ -2206,30 +2214,28 @@ body:has(.board_tab.selected_board) {
 	font-size: .95em;
 }
 
+/* Threads sit inside the box with room on every side, rather than butting
+   against the border the way a reply butts against its parent. */
 .post_group > .post {
-	margin-top: 0.5em;
-	margin-right: 0.5em;
+	margin: 0.5em;
 }
 
-/* A collapsed day should not leave a stripe of its own background showing
-   under the heading. */
-.post_group:not([open]) { background-color: transparent; }
+.post_group > .post:first-of-type {
+	margin-top: 0.6em;
+}
 
 @media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
 	.post_group {
-		margin-bottom: 7px;
+		margin: 0 0 10px;
 		border-width: 1px;
 	}
 
 	.post_group_header {
-		padding: 6px 7px;
+		padding: 7px;
 		font-size: .95em;
 	}
 
-	/* The root post is the scroll container on handheld, not the document, so
-	   the heading sticks to that instead -- and the container's own padding
-	   would otherwise leave a gap it peeks through. */
 	.post_group > .post {
-		margin-right: 0;
+		margin: 6px 4px;
 	}
 }

@@ -35,11 +35,13 @@
     return holder.firstElementChild;
   }
 
-  function makeGroup(key) {
+  function makeGroup(key, latest) {
     var box = document.createElement("details");
     box.className = "post_group";
     box.id = "group-" + key;
-    box.open = true;
+    /* Matches the server: the newest day arrives open, older ones closed. A
+       group that already exists keeps whatever the reader left it at. */
+    box.open = latest;
     box.innerHTML = "<summary class=\"post_group_header\">" +
       "<span class=\"post_group_label\"></span>" +
       "<span class=\"post_group_count\"></span></summary>";
@@ -60,10 +62,10 @@
     var previous = anchor;
     var wanted = Object.create(null);
 
-    groups.forEach(function (group) {
+    groups.forEach(function (group, index) {
       var id = "group-" + group.key;
       wanted[id] = true;
-      var box = document.getElementById(id) || makeGroup(group.key);
+      var box = document.getElementById(id) || makeGroup(group.key, index === 0);
       /* Relabelled rather than rebuilt: "Today" becomes "Yesterday" at
          midnight without the page being reloaded. */
       box.querySelector(".post_group_label").textContent = group.label;

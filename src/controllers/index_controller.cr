@@ -207,12 +207,20 @@ class IndexController < ApplicationController
       grouped << {key, label, [] of Post} if grouped.empty? || grouped.last[0] != key
       grouped.last[2] << post
     end
-    grouped.map { |group| render_date_group(group[0], group[1], group[2]).as(String) }.join
+    grouped.map_with_index do |group, index|
+      render_date_group(group[0], group[1], group[2], index.zero?).as(String)
+    end.join
   end
 
-  def render_date_group(key : String, label : String, threads : Array(Post)) : String
-    content(element_name: :details, options: {
-      class: "post_group", id: "group-#{key}", open: true}.to_h) do
+  # Only the newest day is open. Everything older is a closed box you choose
+  # to open, which is the point of grouping a board this long.
+  def render_date_group(key : String, label : String, threads : Array(Post), latest = false) : String
+    # `open` has to be absent rather than false: open="false" is still open.
+    options = Hash(Symbol, String | Bool).new
+    options[:class] = "post_group"
+    options[:id] = "group-#{key}"
+    options[:open] = true if latest
+    content(element_name: :details, options: options) do
       content(element_name: :summary, options: {class: "post_group_header"}.to_h) do
         content(element_name: :span, content: HTML.escape(label),
           options: {class: "post_group_label"}.to_h) +

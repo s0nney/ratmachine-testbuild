@@ -11,6 +11,12 @@ private def dated(at : Time)
   post
 end
 
+# Granite's timestamps overwrite updated_at on save, so an older day has to be
+# set behind its back.
+private def backdate(post_id, at : Time)
+  Post.exec("UPDATE posts SET updated_at = '#{at.to_s("%Y-%m-%d %H:%M:%S")}' WHERE id = #{post_id}")
+end
+
 private def page(path : String)
   request = HTTP::Request.new("GET", path, HTTP::Headers{"X-Forwarded-For" => "203.0.113.11"})
   IndexController.new(HTTP::Server::Context.new(request, HTTP::Server::Response.new(IO::Memory.new))).index.to_s
@@ -68,6 +74,31 @@ describe "Date grouping" do
       board = Post.create!(message: "grouped")
       2.times { |n| Post.reply("thread #{n}", nil, board.id.not_nil!.to_i32) }
       page("/?board=grouped").should contain("class=\"post_group_count\">2<")
+    end
+
+    # A board this long is why the grouping exists; leaving every day expanded
+    # would put it right back.
+    it "opens only the newest day" do
+      board = Post.create!(message: "grouped")
+      old_thread = Post.reply("old", nil, board.id.not_nil!.to_i32).not_nil!
+      backdate(old_thread, Time.utc - 3.days)
+      Post.reply("new", nil, board.id.not_nil!.to_i32)
+
+      html = page("/?board=grouped")
+      html.scan(/<details class="post_group"[^>]*>/).size.should eq(2)
+      html.scan(/<details class="post_group"[^>]*\sopen/).size.should eq(1)
+      # ...and it is the first one, which is the newest: threads are sorted
+      # by last activity, so the newest day leads.
+      html.should contain("id=\"group-#{Time.utc.to_s("%Y-%m-%d")}\" open")
+    end
+
+    # `open="false"` is still open; the attribute has to be absent.
+    it "writes no open attribute at all on an older day" do
+      board = Post.create!(message: "grouped")
+      old_thread = Post.reply("old", nil, board.id.not_nil!.to_i32).not_nil!
+      backdate(old_thread, Time.utc - 3.days)
+      Post.reply("new", nil, board.id.not_nil!.to_i32)
+      page("/?board=grouped").should_not contain("open=\"false\"")
     end
 
     # Nesting a date group inside every thread would bury the conversation it
