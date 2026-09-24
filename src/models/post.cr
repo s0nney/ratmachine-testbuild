@@ -1,6 +1,7 @@
 require "set"
 require "../helpers/formatter_helper.cr"
 require "../helpers/poster_id_helper.cr"
+require "../core/live/event_log"
 class Post < Granite::Base
   connection pg
   table posts
@@ -45,11 +46,14 @@ class Post < Granite::Base
   # Re-home this post under another board, rewriting the denormalised board
   # pointer for the whole subtree -- every descendant carries one.
   def move_to_board(board : Post)
+    old_board = self.board
     board_id = board.id.not_nil!.to_i32
     self.parent = board_id
     self.board = board_id
     save
     rewrite_board(board_id)
+    Live::LOG.append(old_board, :reload, id.not_nil!) unless old_board.nil?
+    Live::LOG.append(board_id, :reload, id.not_nil!)
   end
 
   def rewrite_board(board_id : Int32)
@@ -93,8 +97,29 @@ class Post < Granite::Base
     parent.board
   end
 
+  # The top-level post a given post belongs to -- the unit the client
+  # re-renders. A post whose parent is the board is its own thread; anything
+  # else climbs its ancestor chain (read-only) until it reaches one. Used for
+  # a saged reply, whose ancestors the mutating walk in reply() never visits,
+  # and for a post about to be purged, whose own thread may not be itself.
+  def self.thread_id_for(post_id : Int32 | Int64 | Nil, board_id : Int32) : Int64?
+    return nil if post_id.nil?
+    current_id = post_id.to_i64
+    loop do
+      current = Post.find(current_id)
+      return nil if current.nil?
+      return current.id if current.parent == board_id
+      parent_id = current.parent
+      return nil if parent_id.nil?
+      current_id = parent_id.to_i64
+    end
+  end
+
   def self.reply(message, ip_address : String | Nil, parent_id : Int32 | Nil = nil, sage : Bool = false)
     board_id = board_for(parent_id)
+    # parent_id gets consumed by the ancestor walk below; keep the post's
+    # actual, immediate parent around for the thread_id fallbacks.
+    original_parent_id = parent_id
 
     post_to_delete : Post | Nil
     post_to_delete = nil
@@ -118,10 +143,36 @@ class Post < Granite::Base
 
     # Store the new reply ID on every ancestor. Reassigning an ancestor's own
     # ID can be a no-op, leaving updated_at stale after its first reply.
+    #
+    # This walk also climbs to the top-level thread post -- the unit the
+    # client re-renders -- so capture it as we go: every ancestor whose own
+    # parent isn't nil is a real post (not the board), so the last one
+    # captured before the walk reaches the board is the thread.
+    thread_id : Int64? = nil
     until parent_id.nil? || sage
       parent = Post.find!(parent_id)
       parent.update(last_reply: post_id.not_nil!.to_i32)
+      thread_id = parent.id unless parent.parent.nil?
       parent_id = parent.parent
+    end
+
+    unless board_id.nil?
+      if thread_id.nil?
+        if original_parent_id == board_id
+          # The new post's parent IS the board: this post is itself
+          # top-level, so it IS the thread. Covers both a fresh top-level
+          # post and a saged one -- sage never applies here since there is
+          # no ancestor to skip notifying.
+          thread_id = post_id
+        else
+          # sage skips the mutating walk above entirely (it must not bump
+          # last_reply on ancestors), but a saged reply still belongs to a
+          # thread.
+          thread_id = thread_id_for(original_parent_id, board_id)
+        end
+      end
+
+      Live::LOG.append(board_id, :created, post_id.not_nil!, thread_id || post_id)
     end
 
     post_to_delete.delete() unless post_to_delete.nil?
@@ -129,8 +180,16 @@ class Post < Granite::Base
   end
 
   def delete()
+    owner = board
+    thread = owner.nil? ? nil : Post.thread_id_for(id, owner)
+    promoted = [] of Int64
+    Post.where(parent: id).each { |child| promoted << child.id.not_nil! } if parent == owner
     orphan_children()
     destroy()
+    unless owner.nil?
+      Live::LOG.append(owner, :deleted, id.not_nil!, thread || id)
+      promoted.each { |child_id| Live::LOG.append(owner, :promoted, child_id, child_id) }
+    end
   end
 
   # Re-home children onto the deleted post's own parent rather than detaching

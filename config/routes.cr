@@ -39,6 +39,9 @@ Amber::Server.configure do
     delete "/filter/delete", FilterController, :delete
 
     get "/style/:name", ThemeController, :set
+    get "/live/:state", LiveController, :toggle
+    get "/feed/:board", LiveController, :feed
+    get "/feed", LiveController, :feed
     
     get "/mod", ModController, :mod
     get "/mod/login", ModController, :login_page

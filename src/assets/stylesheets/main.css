@@ -2030,3 +2030,114 @@ body:has(.board_tab.selected_board) {
 		flex: 1 1 100%;
 	}
 }
+
+/* --- live mode -------------------------------------------------------------
+   A post that arrived without a reload fades in, so the board moving under
+   the reader reads as an arrival rather than a glitch.
+
+   These rules are inert without live.js: nothing applies .post_arriving on
+   its own, and live.js is only served when the live_mode cookie is on. They
+   are the one part of live mode that is present in the stylesheet either way,
+   because a second stylesheet for two keyframes is not worth the request. */
+@keyframes post-arriving {
+	from { opacity: 0; transform: translateY(-5px); }
+	to   { opacity: 1; transform: none; }
+}
+
+.post_arriving {
+	animation: post-arriving 420ms ease-out;
+}
+
+/* Reduced-motion readers still get the post -- they just get it immediately,
+   with no movement. */
+@media (prefers-reduced-motion: reduce) {
+	.post_arriving { animation: none; }
+}
+
+/* The toggle. Same fixed corner furniture as the theme switcher, sitting to
+   its left: the switcher is 44px wide at right:40px, so this clears it. */
+.live_toggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	right: 92px;
+	z-index: 300;
+	box-sizing: border-box;
+	width: 54px;
+	height: 16px;
+	border: 2px outset var(--theme-bevel-light);
+	border-top: none;
+	border-radius: 0 0 7px 7px;
+	background-color: var(--theme-chrome);
+	background-image: linear-gradient(to bottom, var(--theme-tab-light), var(--theme-chrome), var(--theme-tab-face));
+	box-shadow: 2px 2px 0 rgba(0,0,0,.45);
+	color: var(--theme-text);
+	font-family: var(--theme-mono-font, monospace);
+	font-size: 9px;
+	font-weight: bold;
+	letter-spacing: .08em;
+	text-decoration: none;
+}
+
+.live_toggle:hover { text-decoration: none; }
+
+/* On, and pressed in to say so -- the same inset treatment the theme drawer
+   handle takes when open. The dot is the only colour either state carries. */
+.live_toggle_on {
+	border-style: inset;
+	border-radius: 0;
+	color: var(--theme-text-strong, var(--theme-text));
+}
+
+.live_toggle::before {
+	content: "";
+	flex: 0 0 auto;
+	width: 5px;
+	height: 5px;
+	margin-right: 4px;
+	border-radius: 50%;
+	background-color: rgba(var(--theme-text-rgb),.35);
+}
+
+.live_toggle_on::before {
+	background-color: #3cff6e;
+	box-shadow: 0 0 4px #3cff6e;
+}
+
+/* The desktop copy is fixed to a corner the handheld layout does not have --
+   there the button lives in the nav bar instead, so this one is dropped and
+   the nav copy takes over. */
+@media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
+	.live_toggle { display: none; }
+
+	/* Centred in the bar, not merely between its neighbours: the bar is
+	   justify-content: space-between and the Overboard tab is much wider than
+	   the jump arrows, so as a flex item this lands about 50px left of
+	   centre. Taking it out of flow is the only way to centre it against the
+	   bar itself rather than against its siblings. */
+	.mobile_navigation {
+		position: relative;
+	}
+
+	.mobile_live_toggle {
+		display: flex;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: auto;
+		height: auto;
+		padding: 4px 10px;
+		border: 2px outset var(--theme-bevel-light);
+		border-radius: 4px;
+		box-shadow: 1px 1px 0 rgba(0,0,0,.4);
+		font-size: 11px;
+	}
+
+	.mobile_live_toggle.live_toggle_on {
+		border-style: inset;
+		border-radius: 4px;
+	}
+}
