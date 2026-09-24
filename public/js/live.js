@@ -13,6 +13,10 @@
   if (!root || scope === null) return;
 
   var url = scope === "" ? "/feed" : "/feed/" + encodeURIComponent(scope);
+  /* On a reply page, tell the stream which post is selected so re-rendered
+     threads keep the highlight. */
+  var reply = document.body.getAttribute("data-live-reply");
+  if (reply) url += "?reply=" + encodeURIComponent(reply);
   var source = new EventSource(url);
 
   /* Every post id currently on the page. Used to tell an arrival from a

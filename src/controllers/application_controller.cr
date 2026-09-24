@@ -106,12 +106,22 @@ class ApplicationController < Amber::Controller::Base
   def live_body_attribute
     scope = live_scope
     return "" if scope.nil?
-    " data-live-scope=\"#{HTML.escape(scope)}\""
+    attributes = " data-live-scope=\"#{HTML.escape(scope)}\""
+    reply = live_reply
+    attributes += " data-live-reply=\"#{reply}\"" unless reply.nil?
+    attributes
   end
 
   # nil means "not a live page". Overridden by IndexController; every other
   # controller -- the mod area, the redirects -- inherits nil.
   def live_scope : String?
+    nil
+  end
+
+  # The post a reply page is pointed at. The stream needs it so a re-rendered
+  # thread keeps `selected_post` on the right post rather than losing the
+  # highlight the reader is looking at.
+  def live_reply : Int32?
     nil
   end
 

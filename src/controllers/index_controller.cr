@@ -359,14 +359,17 @@ class IndexController < ApplicationController
   end
 
   # The overboard streams every board (""); a board page streams its own. A
-  # reply page shows a subtree rather than a thread list, so it is not live in
-  # this prototype -- the fragments the stream sends would not fit it.
+  # reply page renders the same board with one post marked selected, so it
+  # streams the same fragments -- it just has to say which post that is.
   def live_scope : String?
     return nil unless live_enabled?
-    return nil unless @reply_to.nil?
     return "" if @overboard
     board = @board
     board.nil? ? nil : board_slug(board)
+  end
+
+  def live_reply : Int32?
+    @reply_to
   end
 
   # Why the last submission was refused, sitting between the message box and

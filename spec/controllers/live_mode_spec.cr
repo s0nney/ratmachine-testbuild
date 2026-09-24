@@ -49,12 +49,20 @@ describe "Live mode" do
       page("/", "on").should contain("data-live-scope=\"\"")
     end
 
-    # A reply page shows a subtree; the stream sends whole top-level threads,
-    # which would not fit it. Left out deliberately rather than by oversight.
-    it "leaves a reply page alone" do
+    # A reply page renders the same board with one post selected, so it gets
+    # the same stream -- plus the id of the selected post, without which a
+    # re-rendered thread would lose the highlight the reader is looking at.
+    it "streams a reply page and names the selected post" do
       board = Post.create!(message: "loud")
       root = Post.reply("root", nil, board.id.not_nil!.to_i32).not_nil!
-      page("/?board=loud&id=#{root}", "on").should_not contain("data-live-scope")
+      html = page("/?board=loud&id=#{root}", "on")
+      html.should contain("data-live-scope=\"loud\"")
+      html.should contain("data-live-reply=\"#{root}\"")
+    end
+
+    it "gives a board page no reply attribute, so the root stays selected" do
+      Post.create!(message: "loud")
+      page("/?board=loud", "on").should_not contain("data-live-reply")
     end
 
     it "does not treat an unrecognised cookie value as on" do

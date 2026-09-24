@@ -37,6 +37,10 @@ class LiveController < IndexController
       return "No such board"
     end
     @board = board
+    # A reply page is the same board with one post marked selected. Carrying
+    # it here keeps the highlight through a re-render; anything unparseable is
+    # simply no selection.
+    @reply_to = params[:reply]?.to_s.to_i32?
 
     response.content_type = "text/event-stream"
     response.headers["Cache-Control"] = "no-store"
