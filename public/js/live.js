@@ -35,57 +35,18 @@
     return holder.firstElementChild;
   }
 
-  function makeGroup(key, latest) {
-    var box = document.createElement("details");
-    box.className = "post_group";
-    box.id = "group-" + key;
-    /* Matches the server: the newest day arrives open, older ones closed. A
-       group that already exists keeps whatever the reader left it at. */
-    box.open = latest;
-    box.innerHTML = "<summary class=\"post_group_header\">" +
-      "<span class=\"post_group_label\"></span>" +
-      "<span class=\"post_group_count\"></span></summary>";
-    return box;
-  }
-
-  /* Threads are filed under a date heading, so placing an arrival means
-     knowing which day it belongs to -- and a bump can move a thread from one
-     day to another, into a day the page may not have yet. Rather than work
-     that out here, the server sends the layout it should end up with and this
-     walks it: groups into place, then threads into their group.
-
-     Everything is a move rather than a rebuild, so a <details> the reader
-     collapsed stays collapsed. */
-  function applyGroups(groups) {
-    var anchor = document.getElementById("board_top");
-    if (!anchor) return;
-    var previous = anchor;
-    var wanted = Object.create(null);
-
-    groups.forEach(function (group, index) {
-      var id = "group-" + group.key;
-      wanted[id] = true;
-      var box = document.getElementById(id) || makeGroup(group.key, index === 0);
-      /* Relabelled rather than rebuilt: "Today" becomes "Yesterday" at
-         midnight without the page being reloaded. */
-      box.querySelector(".post_group_label").textContent = group.label;
-      box.querySelector(".post_group_count").textContent = group.ids.length;
-      if (previous.nextElementSibling !== box) previous.after(box);
-      previous = box;
-
-      var mark = box.querySelector(".post_group_header");
-      group.ids.forEach(function (postId) {
-        var node = document.getElementById("post-" + postId);
-        if (!node) return;
-        if (mark.nextElementSibling !== node) mark.after(node);
-        mark = node;
-      });
-    });
-
-    /* A day whose last thread was purged, or bumped into another day. */
-    Array.prototype.forEach.call(root.querySelectorAll(".post_group"), function (box) {
-      if (!wanted[box.id]) box.remove();
-    });
+  /* The board renders newest first. Rather than compute where each arrival
+     belongs, the server sends the order it should be in and we walk it --
+     which also re-sorts threads that were bumped by a reply. */
+  function applyOrder(ids) {
+    var previous = document.getElementById("board_top");
+    if (!previous) return;
+    for (var i = 0; i < ids.length; i++) {
+      var node = document.getElementById("post-" + ids[i]);
+      if (!node) continue;
+      if (previous.nextElementSibling !== node) previous.after(node);
+      previous = node;
+    }
   }
 
   function markArrivals(before) {
@@ -125,7 +86,7 @@
       if (fresh && !document.getElementById(fresh.id)) root.appendChild(fresh);
     });
 
-    if (data.groups) applyGroups(data.groups);
+    if (data.order) applyOrder(data.order);
     markArrivals(before);
 
     if (data.stats) {

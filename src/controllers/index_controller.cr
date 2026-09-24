@@ -156,7 +156,7 @@ class IndexController < ApplicationController
     Post.overboard_threads.each { |post| threads << post }
     content(element_name: :div, options: {class: "post root_post selected_post overboard", id: "post-root"}.to_h) do
       jump_anchor("top") +
-        (threads.empty? ? "<p class=\"overboard_empty\">No threads yet.</p>" : render_date_groups(threads)) +
+        (threads.empty? ? "<p class=\"overboard_empty\">No threads yet.</p>" : threads.map { |post| render_thread(post).as(String) }.join) +
         jump_anchor("bottom")
     end
   end
@@ -173,63 +173,6 @@ class IndexController < ApplicationController
 
   # is_root marks the board itself, which frames the thread list rather than
   # appearing as a post of its own.
-  # --- date grouping ---------------------------------------------------------
-  # A long board reads as one unbroken column, which is the point of the thing
-  # but hard to navigate. Firefox's history sidebar solves the same problem by
-  # filing visits under a collapsible date heading; this does the same with
-  # threads.
-  #
-  # Grouped by LAST ACTIVITY, not creation. Threads are already sorted
-  # updated_at DESC, so grouping on that key produces contiguous runs -- one
-  # pass, no sorting -- and a bumped thread moves to today's group, which is
-  # what bumping means. Grouping on created_at would scatter the order.
-
-  # The group a thread belongs to, and the heading that names it. Returned
-  # together because they are derived from the same timestamp and must not
-  # disagree.
-  def date_group(post : Post) : {String, String}
-    stamp = (post.updated_at || post.created_at || Time.utc).to_utc
-    key = stamp.to_s("%Y-%m-%d")
-    written = stamp.to_s("%A, %B %-d, %Y")
-    days = (Time.utc.at_beginning_of_day - stamp.at_beginning_of_day).days
-    label = case days
-            when 0 then "Today - #{written}"
-            when 1 then "Yesterday - #{written}"
-            else written
-            end
-    {key, label}
-  end
-
-  def render_date_groups(threads : Array(Post)) : String
-    grouped = [] of {String, String, Array(Post)}
-    threads.each do |post|
-      key, label = date_group(post)
-      grouped << {key, label, [] of Post} if grouped.empty? || grouped.last[0] != key
-      grouped.last[2] << post
-    end
-    grouped.map_with_index do |group, index|
-      render_date_group(group[0], group[1], group[2], index.zero?).as(String)
-    end.join
-  end
-
-  # Only the newest day is open. Everything older is a closed box you choose
-  # to open, which is the point of grouping a board this long.
-  def render_date_group(key : String, label : String, threads : Array(Post), latest = false) : String
-    # `open` has to be absent rather than false: open="false" is still open.
-    options = Hash(Symbol, String | Bool).new
-    options[:class] = "post_group"
-    options[:id] = "group-#{key}"
-    options[:open] = true if latest
-    content(element_name: :details, options: options) do
-      content(element_name: :summary, options: {class: "post_group_header"}.to_h) do
-        content(element_name: :span, content: HTML.escape(label),
-          options: {class: "post_group_label"}.to_h) +
-        content(element_name: :span, content: threads.size.to_s,
-          options: {class: "post_group_count"}.to_h)
-      end + threads.map { |post| render_thread(post).as(String) }.join
-    end.as(String)
-  end
-
   def render_thread(parent : Post | Nil = nil, is_root = false, include_replies = true)
     root_class = is_root ? " root_post" : ""
     # Anchor on the <details> itself, so a backlink's :target highlights the
@@ -276,15 +219,9 @@ class IndexController < ApplicationController
   			end + reply_backlinks(replies) + post_signature(parent, is_root)
   		end
 
-  		# Top-level threads are filed under a date heading, the way a browser's
-  		# history sidebar files visits. Replies are not: nesting a date group
-  		# inside every thread would bury the conversation it is meant to
-  		# organise.
-  		child_posts = if is_root
-  			render_date_groups(replies)
-  		else
-  			replies.map { |post| render_thread(post).as(String) }.join()
-  		end
+  		child_posts = replies.map do |post|
+  			render_thread(post).as(String)
+  		end.join()
 
       # The jump anchors belong inside the root post: on handheld that element
       # is the scroll container, and a fragment outside it cannot be scrolled
