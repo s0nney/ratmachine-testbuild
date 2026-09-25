@@ -6,6 +6,7 @@ let mainStyle = new ExtractTextPlugin('main.bundle.css');
 let cybStyle = new ExtractTextPlugin('cyb.bundle.css');
 let angelicStyle = new ExtractTextPlugin('angelic.bundle.css');
 let macosStyle = new ExtractTextPlugin('macos.bundle.css');
+let bmStyle = new ExtractTextPlugin('bm.bundle.css');
 
 let config = {
   entry: {
@@ -13,6 +14,7 @@ let config = {
     'cyb.bundle.css': './src/assets/stylesheets/cyb.css',
     'angelic.bundle.css': './src/assets/stylesheets/angelic.css',
     'macos.bundle.css': './src/assets/stylesheets/macos.css',
+    'bm.bundle.css': './src/assets/stylesheets/bm.css',
   },
   output: {
     filename: '[name]',
@@ -76,6 +78,18 @@ let config = {
             }
           }
         })
+      },      {
+        test: /bm.css$/,
+        exclude: /node_modules/,
+        use: bmStyle.extract({
+          fallback: 'style-loader',
+          use: {
+            loader: 'css-loader',
+            options: {
+              minimize: true
+            }
+          }
+        })
       },
       {
         test: /\.(png|svg|jpg|apng|gif)$/,
@@ -106,6 +120,7 @@ let config = {
     cybStyle,
     angelicStyle,
     macosStyle,
+    bmStyle,
   ],
   // For more info about webpack logs see: https://webpack.js.org/configuration/stats/
   stats: 'errors-only'

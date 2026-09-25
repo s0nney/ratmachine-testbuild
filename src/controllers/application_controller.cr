@@ -47,6 +47,7 @@ class ApplicationController < Amber::Controller::Base
     {name: "cyb", label: "Cyb"},
     {name: "angelic", label: "Angelic"},
     {name: "macos", label: "MacOS"},
+    {name: "bm", label: "BM"},
   ]
 
   # The cookie's value if it names a real theme, "main" otherwise.

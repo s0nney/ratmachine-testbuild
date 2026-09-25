@@ -1,0 +1,47 @@
+/* bm -- "blue main". Main's palette rotated from purple to blue, and nothing
+   else: the relationships between ground, chrome, bevels and text are kept as
+   they are there, so anything tuned against main still reads correctly here.
+
+   Typography is deliberately NOT overridden. Inheriting it is what makes this
+   a variant rather than a fourth look. */
+@import "./main.css";
+
+:root {
+	/* Ice blue where main is pink -- the same job, a neighbouring hue to the
+	   chrome rather than the chrome's own. */
+	--theme-text-strong: #d6f2ff;
+	--theme-text: #b3e2f6;
+	--theme-text-rgb: 179,226,246;
+	--theme-field: #cae9ff;
+
+	/* The tile averages #3171bf and runs #2165b8 to #528acf. The ground sits
+	   a little lighter than the tile, exactly as main's does over bg.png, so
+	   the seam never shows before the image loads. */
+	--theme-ground: #5f9fe8;
+	--theme-background-image: url(../../../public/dist/images/p13.png);
+
+	/* Vivid azure standing in for main's vivid violet. */
+	--theme-accent: #00a2ff;
+	--theme-accent-rgb: 0,162,255;
+
+	--theme-chrome: #2f5d96;
+	--theme-chrome-rgb: 47,93,150;
+	--theme-bevel-light: #6d9ed6;
+	--theme-bevel-dark: #16304f;
+	--theme-tab-face: #24486f;
+	--theme-tab-light: #8fb6de;
+
+	/* Near-black navy, as main's frame is near-black violet. Every hairline
+	   and translucent tint is mixed from it. */
+	--theme-frame: #041226;
+	--theme-frame-rgb: 4,18,38;
+
+	--theme-heading-text: #2f5d96;
+
+	/* Cyan where main is deeppink: saturated, and a hue the chrome does not
+	   already occupy. */
+	--theme-link: #19f0ff;
+	--theme-link-hover: #b3f7ff;
+
+	color-scheme: dark;
+}
