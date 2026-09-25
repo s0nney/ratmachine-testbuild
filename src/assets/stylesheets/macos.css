@@ -50,10 +50,12 @@
 	--theme-field: #ffffff;
 	--theme-input-text: #000000;
 
-	/* The desktop: a flat, slightly dusty lavender. No pattern -- this is the
-	   solid-colour desktop, not one of the tiled ones. */
-	--theme-ground: #8e86b0;
-	--theme-background-image: none;
+	/* The desktop: a tiled wallpaper, as Mac OS 9's Appearance control panel
+	   offered. purple1.png is a 128x128 tile of violet lightning. The ground
+	   is the tile's own average, so nothing flashes a different colour before
+	   the image loads. */
+	--theme-ground: #7e359a;
+	--theme-background-image: url(../../../public/dist/images/purple1.png);
 
 	/* Selection blue, the one saturated colour, kept periwinkle so it belongs
 	   to the lavender rather than fighting it. */
@@ -181,6 +183,14 @@ input, textarea, button {
 
 	.board_container > .root_post {
 		background-color: var(--os9-board-frame-bg);
+	}
+
+	/* The board's frame is kept thin so the wallpaper shows between posts,
+	   but its own titlebar would then sit straight on the dark end of the
+	   tile: measured at the 5th-percentile pixel, black on it fell to 3.8:1.
+	   Backing just that strip brings it level with a post's titlebar. */
+	.board_container > .root_post > .post_header {
+		background-color: rgba(204,204,204,.6);
 	}
 
 	/* The selected post keeps a highlight, in the selection colour rather
@@ -563,5 +573,33 @@ input, textarea, button {
 	   against it. */
 	.theme_drawer {
 		margin-top: 4px;
+	}
+}
+
+/* --- handheld over the wallpaper -------------------------------------------
+   The handheld layout keeps main's device shell rather than the OS 9
+   windows above, and main paints its message box rgba(0,0,0,.25) and its
+   header in a thin frame tint -- right for light text on a flat ground,
+   wrong for this theme's black text over a dark, busy tile. Measured at the
+   5th-percentile pixel of the tile, text there fell to 1.2:1. These give
+   both a light backing of their own; the header keeps main's scanlines,
+   drawn over it. */
+@media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
+	.post_header {
+		background-color: rgba(216,213,224,.85);
+	}
+
+	.post_content {
+		background-color: rgba(255,255,255,.8);
+	}
+
+	/* main tints a jumped-to post in the accent; keep the tint, lighter,
+	   so it still reads as the target without losing the text. */
+	.post:target > .post_header {
+		background-color: rgba(204,204,255,.9);
+	}
+
+	.post:target > .post_content {
+		background-color: rgba(232,232,255,.85);
 	}
 }
