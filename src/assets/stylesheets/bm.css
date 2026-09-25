@@ -14,11 +14,25 @@
 	--theme-text-rgb: 179,226,246;
 	--theme-field: #cae9ff;
 
-	/* The tile averages #3171bf and runs #2165b8 to #528acf. The ground sits
-	   a little lighter than the tile, exactly as main's does over bg.png, so
-	   the seam never shows before the image loads. */
-	--theme-ground: #5f9fe8;
-	--theme-background-image: url(../../../public/dist/images/p13.png);
+	/* The ground sits a little lighter than the tile, exactly as main's does
+	   over bg.png, so the seam never shows before the image loads. */
+	--theme-ground: #6aa6ee;
+
+	/* p17 is a busier tile than main's. The flat wash in front of it is
+	   p17's own average colour, so it pulls every pixel toward that average
+	   without shifting the hue, and the alpha scales the variation by the
+	   same factor.
+	   
+	   0.44 rather than the 0.28 the source images suggest: what matters is
+	   the rendered result, and measuring a bare 384x384 patch of each body
+	   gives main 1.13% greyscale standard deviation against p17's 2.02%
+	   unwashed. 1 - 1.13/2.02 is the number below.
+	   
+	   Done here rather than by editing the PNG so the file stays untouched
+	   and the amount stays visible and adjustable. */
+	--theme-background-image:
+		linear-gradient(rgba(49,130,226,.44), rgba(49,130,226,.44)),
+		url(../../../public/dist/images/p17.png);
 
 	/* Vivid azure standing in for main's vivid violet. */
 	--theme-accent: #00a2ff;
