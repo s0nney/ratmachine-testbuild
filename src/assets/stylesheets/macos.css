@@ -50,12 +50,12 @@
 	--theme-field: #ffffff;
 	--theme-input-text: #000000;
 
-	/* The desktop: a tiled wallpaper, as Mac OS 9's Appearance control panel
-	   offered. purple1.png is a 128x128 tile of violet lightning. The ground
-	   is the tile's own average, so nothing flashes a different colour before
-	   the image loads. */
-	--theme-ground: #7e359a;
-	--theme-background-image: url(../../../public/dist/images/purple1.png);
+	/* The desktop picture: bg3.png, lavender scattered with 混沌 -- "chaos".
+	   The ground is the image's own average, so nothing flashes a different
+	   colour before it loads. It is shown once, filling the screen -- see the
+	   body rule below -- rather than tiled. */
+	--theme-ground: #a09ed0;
+	--theme-background-image: url(../../../public/dist/images/bg3.png);
 
 	/* Selection blue, the one saturated colour, kept periwinkle so it belongs
 	   to the lavender rather than fighting it. */
@@ -695,4 +695,26 @@ input, textarea, button {
 		color: #fff;
 		box-shadow: inset 1px 1px 1px #333, inset -1px -1px 1px #999;
 	}
+}
+
+/* --- the desktop picture fills the screen -------------------------------------
+   bg3.png is not a tile. Its characters sit about 213px apart across and
+   130px down, neither of which divides its 1536x1024 evenly, and the spacing
+   wanders by a few pixels besides -- so wherever two copies meet, the pattern
+   breaks: across the join the pair collides into 混沌沌, and down it the
+   rows close up by 16px. No crop repeats cleanly either.
+
+   So it is not repeated. One copy covers the viewport and stays put while the
+   board scrolls over it -- which is also what Mac OS 9's Appearance panel
+   called "Fill Screen" for a desktop picture. `cover` scales it to whichever
+   screen dimension needs more: 88% at 1280x900, 125% at 1920x1080.
+
+   iOS ignores background-attachment:fixed and scrolls it instead; there the
+   handheld body is itself the fixed full-screen shell, so it covers that and
+   still never repeats. */
+body {
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	background-attachment: fixed;
 }
