@@ -23,6 +23,16 @@
 	--theme-post-background: rgba(0,0,0,.2);
 	--theme-post-border: rgba(0,0,0,.2);
 	--theme-greentext: lime;
+	/* Promoted from a hardcoded `aqua` when the angelic theme arrived: aqua on
+	   a near-white ground is unreadable. */
+	--theme-bluetext: aqua;
+	/* The live toggle's dot when live mode is on. Promoted for the same
+	   reason -- a saturated green reads as a highlight on a dark chrome and
+	   as nothing much on a pale one. */
+	--theme-live-on: #3cff6e;
+	/* The dubs/trips shine. A translucent cyan under a white sweep: both need
+	   a dark ground to read, so a pale theme overrides it. */
+	--theme-digit-check: rgba(0, 255, 255, 0.5);
 	--theme-link: deeppink;
 	--theme-link-hover: lightpink;
 	--theme-mobile-font: Charcoal, Geneva, Chicago, "Lucida Grande", Tahoma, Verdana, sans-serif;
@@ -56,7 +66,7 @@ a:hover {
 	background: #222 -webkit-gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #fff)) 0 0 no-repeat;
 	background-image: -webkit-linear-gradient(-40deg, transparent 0%, transparent 40%, #fff 50%, transparent 60%, transparent 100%);
 	-webkit-background-size: 200px;
-	color: rgba(0, 255, 255, 0.5);
+	color: var(--theme-digit-check);
 	-webkit-background-clip: text;
 	-webkit-animation-name: shine;
 	-webkit-animation-duration: 3s;
@@ -192,7 +202,7 @@ input[type=button]:hover, input[type=submit]:hover {
 }
 
 .bluetext {
-	color: aqua;
+	color: var(--theme-bluetext);
 }
 
 .redtext {
@@ -2102,8 +2112,8 @@ body:has(.board_tab.selected_board) {
 }
 
 .live_toggle_on::before {
-	background-color: #3cff6e;
-	box-shadow: 0 0 4px #3cff6e;
+	background-color: var(--theme-live-on);
+	box-shadow: 0 0 4px var(--theme-live-on);
 }
 
 /* The desktop copy is fixed to a corner the handheld layout does not have --

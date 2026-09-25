@@ -1,7 +1,9 @@
 class ThemeController < ApplicationController
   def set
-    name = params[:name] == "cyb" ? "cyb" : "main"
-    response.cookies["theme_name"] = name
+    # Validated against ApplicationController::THEMES rather than a list of
+    # its own: the value ends up in a stylesheet path, and two allow-lists
+    # that can drift is how a path-traversal hole gets reintroduced.
+    response.cookies["theme_name"] = ApplicationController.theme_name(params[:name]?)
     redirect_to(self.class.return_path(params[:return_to]?))
   end
 

@@ -4,11 +4,13 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 let mainStyle = new ExtractTextPlugin('main.bundle.css');
 let cybStyle = new ExtractTextPlugin('cyb.bundle.css');
+let angelicStyle = new ExtractTextPlugin('angelic.bundle.css');
 
 let config = {
   entry: {
     'main.bundle.css': './src/assets/stylesheets/main.css',
     'cyb.bundle.css': './src/assets/stylesheets/cyb.css',
+    'angelic.bundle.css': './src/assets/stylesheets/angelic.css',
   },
   output: {
     filename: '[name]',
@@ -49,6 +51,19 @@ let config = {
         })
       },
       {
+        test: /angelic.css$/,
+        exclude: /node_modules/,
+        use: angelicStyle.extract({
+          fallback: 'style-loader',
+          use: {
+            loader: 'css-loader',
+            options: {
+              minimize: true
+            }
+          }
+        })
+      },
+      {
         test: /\.(png|svg|jpg|apng|gif)$/,
         exclude: /node_modules/,
         use: [
@@ -75,6 +90,7 @@ let config = {
   plugins: [
     mainStyle,
     cybStyle,
+    angelicStyle,
   ],
   // For more info about webpack logs see: https://webpack.js.org/configuration/stats/
   stats: 'errors-only'

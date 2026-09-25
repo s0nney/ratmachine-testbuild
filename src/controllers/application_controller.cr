@@ -34,26 +34,47 @@ class ApplicationController < Amber::Controller::Base
     move_targets_list.find { |board| board_slug(board) == slug }
   end
 
+  # Every theme, in the order the drawer lists them. ONE list: the cookie
+  # allow-list, the stylesheet path and the switcher labels all read it, so
+  # adding a theme is a line here rather than three edits in two files that
+  # can silently disagree.
+  #
+  # It is an allow-list, not a convenience. The cookie value goes into a
+  # stylesheet path, so anything not named here must fall back rather than be
+  # interpolated -- see theme_name.
+  THEMES = [
+    {name: "main", label: "Main"},
+    {name: "cyb", label: "Cyb"},
+    {name: "angelic", label: "Angelic"},
+  ]
+
+  # The cookie's value if it names a real theme, "main" otherwise.
+  def self.theme_name(value : String?)
+    THEMES.find { |theme| theme[:name] == value }.try(&.[](:name)) || "main"
+  end
+
+  def current_theme
+    self.class.theme_name(cookies["theme_name"])
+  end
+
   def get_theme()
-    theme_name = "main"
-    theme_name = "cyb" if cookies["theme_name"] == "cyb"
-    content(element_name: :link, options: {rel: "stylesheet", type: "text/css", href: "/dist/#{theme_name}.bundle.css"}.to_h) do
+    content(element_name: :link, options: {rel: "stylesheet", type: "text/css", href: "/dist/#{current_theme}.bundle.css"}.to_h) do
     end
   end
   
   @redirect_url : String | Nil
 
   def render_theme_switcher
-    current = cookies["theme_name"] == "cyb" ? "cyb" : "main"
+    current = current_theme
     destination = HTTP::Params.encode({"return_to" => request.resource})
     content(element_name: :details, options: {class: "theme_switcher"}.to_h) do
       content(element_name: :summary, content: "", options: {:class => "theme_handle", :"aria-label" => "Themes", :title => "Themes"}) +
       content(element_name: :div, options: {class: "theme_drawer"}.to_h) do
         content(element_name: :div, content: "Appearance", options: {class: "theme_drawer_title"}.to_h) +
-        ["main", "cyb"].map do |name|
+        THEMES.map do |theme|
+          name = theme[:name]
           active = current == name ? " current_theme" : ""
-          label = name == "main" ? "Main" : "Cyb"
-          content(element_name: :a, content: label, options: {
+          content(element_name: :a, content: theme[:label], options: {
             href: "/style/#{name}?#{destination}",
             class: "theme_choice theme_choice_#{name}#{active}"}.to_h).as(String)
         end.join

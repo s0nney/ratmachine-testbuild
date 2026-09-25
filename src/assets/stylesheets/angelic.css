@@ -1,0 +1,76 @@
+/* Angelic: pearl, ivory and halo gold on white satin.
+   One layout for every theme -- keep this to palette and typography. */
+@import "./main.css";
+
+:root {
+	/* Warm dark brown rather than black: on an ivory ground pure black reads
+	   as a hole punched in the page. */
+	--theme-text-strong: #2a2114;
+	--theme-text: #40331f;
+	--theme-text-rgb: 64,51,31;
+
+	/* Crisp white for anything you type into, so fields lift off the satin
+	   instead of dissolving into it. */
+	--theme-field: #fffdf7;
+	--theme-input-text: #40331f;
+
+	/* The tile averages #cfccc2 and runs #b3b0a5 to #dfded6. The ground sits
+	   inside that range so the seam never shows before the image loads. */
+	--theme-ground: #efebe1;
+	--theme-background-image: url(../../../public/dist/images/whitesatin3.jpg);
+
+	/* Halo gold. The only saturated colour in the theme, which is what makes
+	   a selected post or the current theme obvious at a glance. */
+	--theme-accent: #e0a915;
+	--theme-accent-rgb: 224,169,21;
+
+	/* Pearl chrome, lit from white and shaded into warm grey -- the bevel
+	   pair carries the whole Platinum relief, so they are pushed well clear
+	   of the chrome in both directions. */
+	--theme-chrome: #f9f6ee;
+	--theme-chrome-rgb: 249,246,238;
+	--theme-bevel-light: #ffffff;
+	--theme-bevel-dark: #c2b596;
+	--theme-tab-face: #efe9da;
+	--theme-tab-light: #fffefa;
+
+	/* Every hairline and translucent tint is mixed from this, so it sets how
+	   heavy the page feels. Kept pale and warm: a darker taupe here turns the
+	   post header bands to mud against the satin, which is the one thing that
+	   stops this reading as light. */
+	--theme-frame: #bcac87;
+	--theme-frame-rgb: 188,172,135;
+
+	--theme-banner-background-color: rgba(255,255,255,.45);
+	--theme-banner-border-color: rgba(188,172,135,.5);
+
+	/* Translucent, so the satin's folds read through the posts rather than
+	   being boxed out by them. */
+	--theme-post-background: rgba(255,255,255,.34);
+	--theme-post-border: rgba(188,172,135,.45);
+
+	--theme-heading-text: #6b5a2e;
+	--theme-link: #8a6a12;
+	--theme-link-hover: #c9932a;
+
+	/* lime and aqua both vanish on ivory; these are the same two marks at a
+	   weight that survives a light ground. */
+	--theme-greentext: #2f7d32;
+	--theme-bluetext: #1f6fa8;
+	--theme-live-on: #2f9e4f;
+	/* The dubs shine sweeps white across this; on ivory the stock translucent
+	   cyan disappears entirely, so it becomes solid gold and keeps the
+	   sweep. */
+	--theme-digit-check: #b8860b;
+
+	/* A serif, because the theme is asking for one. */
+	--theme-font: Georgia, "Palatino Linotype", "Book Antiqua", serif;
+	--theme-mobile-font: Georgia, "Palatino Linotype", "Book Antiqua", serif;
+	--theme-field-font: Georgia, "Palatino Linotype", "Book Antiqua", serif;
+
+	color-scheme: light;
+}
+
+input, textarea, button {
+	font-family: var(--theme-font);
+}
