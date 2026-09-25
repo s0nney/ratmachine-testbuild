@@ -2183,3 +2183,78 @@ body:has(.board_tab.selected_board) {
 		line-height: 1;
 	}
 }
+
+/* --- the corner controls (desktop) -------------------------------------------
+   Live and themes share the top-right corner, Live on the left. They sit in
+   one fixed flex container rather than each being fixed at its own offset:
+   the themes button carries a label, so its width differs per theme, and a
+   fixed right offset for Live would land it on top of themes in some of
+   them. As flex items, Live always sits beside themes, whatever width
+   themes has.
+
+   On handheld the container is display:contents, so both fall back to their
+   own rules -- the theme grip to the left gutter, Live to its copy in the
+   nav bar (the corner copy is hidden there). */
+.corner_controls {
+	display: contents;
+}
+
+@media (min-width: 769px) and (min-height: 601px), (min-width: 769px) and (orientation: portrait) {
+	.corner_controls {
+		display: flex;
+		align-items: flex-start;
+		gap: 8px;
+		position: fixed;
+		top: 0;
+		right: 40px;
+		z-index: 300;
+	}
+
+	/* The switcher joins the row instead of being fixed on its own. */
+	.corner_controls > .theme_switcher {
+		position: relative;
+		top: auto;
+		right: auto;
+	}
+
+	/* Opening used to widen the switcher to the drawer's 228px. In a row that
+	   would shove Live 140px to the left every time the menu opened, so the
+	   switcher keeps its button's width and the drawer hangs below it,
+	   right-aligned to it, instead. */
+	.corner_controls > .theme_switcher[open] {
+		width: auto;
+		max-width: none;
+	}
+
+	.corner_controls .theme_drawer {
+		position: absolute;
+		top: 100%;
+		right: 0;
+		box-sizing: border-box;
+		width: 228px;
+		max-width: calc(100vw - 54px);
+	}
+
+	/* Live wears the same hanging tab as themes: a flat top against the
+	   window edge, rounded bottom corners, outset bevel, pressed in when on. */
+	.corner_controls > .live_toggle {
+		position: static;
+		box-sizing: border-box;
+		width: max-content;
+		height: 18px;
+		margin: 0;
+		padding: 0 10px;
+		border: 2px outset var(--theme-bevel-light);
+		border-top: none;
+		border-radius: 0 0 7px 7px;
+		box-shadow: 2px 2px 0 rgba(0,0,0,.45);
+		font-family: inherit;
+		font-size: 11px;
+		letter-spacing: normal;
+	}
+
+	.corner_controls > .live_toggle.live_toggle_on {
+		border-style: inset;
+		border-top: none;
+	}
+}

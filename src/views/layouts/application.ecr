@@ -13,7 +13,9 @@
   <body<%= live_body_attribute() %>>
     <%= render_banner() %>
     <%= content %>
-    <%= render_live_toggle() %>
-    <%= render_theme_switcher() %>
+    <div class="corner_controls">
+      <%= render_live_toggle() %>
+      <%= render_theme_switcher() %>
+    </div>
   </body>
 </html>
