@@ -105,3 +105,36 @@ input, textarea, button {
 		border-bottom-style: solid;
 	}
 }
+
+/* --- message headers: white, with black text ---------------------------------
+   A white caption bar over each near-black message, like the white panel
+   boxes in the manga. Message headers only -- the board's own header row
+   (the root post) stays dark. The handheld layout's scanline texture is
+   dropped from these: grey lines on white read as dirt, not texture. */
+.post:not(.root_post) > .post_header {
+	background-color: #ffffff;
+	background-image: none;
+	color: #000000;
+}
+
+/* Everything inside inherits the ash text colour from the palette, which is
+   built for a dark ground and all but vanishes on white. */
+.post:not(.root_post) > .post_header a,
+.post:not(.root_post) > .post_header .post_poster_id,
+.post:not(.root_post) > .post_header .post_meta {
+	color: #000000;
+}
+
+/* The dubs mark is a shine: a sweep clipped to the letters, seen through a
+   translucent text colour. The palette's near-white made it a pale ghost on
+   white; translucent black keeps the letters dark and still lets the sweep
+   pass across them. */
+.post:not(.root_post) > .post_header .digit_check {
+	color: rgba(0,0,0,.72);
+}
+
+/* The board tag is tinted from the text colour, which on white comes out a
+   heavy mid-grey slab. A light grey keeps it a tag rather than a block. */
+.post:not(.root_post) > .post_header .thread_board {
+	background-color: #e6e6e6;
+}
