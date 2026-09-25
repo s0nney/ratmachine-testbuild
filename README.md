@@ -4,7 +4,7 @@
 [![Amber Framework](https://img.shields.io/badge/using-amber_framework-orange.svg)](https://amberframework.org)
 
 ![Screenie](res/screenie.png)
-Ratmachine is an javascriptless anonymous textboard engine with various text effects.  
+Ratmachine is a javascriptless-by-default anonymous textboard engine with various text effects.  
 
 | markup |   effect    |
 |--------|-------------|
