@@ -469,7 +469,9 @@ input, textarea, button {
 		background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNzQiIGhlaWdodD0iMjMiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDc0IDIzIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxnIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0ibTAgMjFzNS41NC0xNS43IDYuNS0xNy41IDEuNjMtMy40NiA0LTMuNWMyLjM3LTAuMDM1NiA1MS4yLTAuMDI1NiA1MyAwczMuMDcgMS4wOCA0IDMuNWMwLjkyNyAyLjQyIDYuNSAxNy41IDYuNSAxNy41djJoLTc0eiIvPjxwYXRoIGQ9Im0xIDIyczUuNTQtMTUuNyA2LjUtMTcuNSAxLjgxLTMuNSA0LTMuNSA0OS4yLTAuMDI1NiA1MSAwYzEuNzggMC4wMjU2IDMuMDcgMS4wOCA0IDMuNSAwLjkyNyAyLjQyIDYuNSAxNy41IDYuNSAxNy41aDF2MWgtNzR2LTF6IiBmaWxsPSIjNDQ0Ii8+PHBhdGggZD0ibTYyIDFzLTEuMjgtMC4wMjU2IDAuNSAwYzEuNzggMC4wMjU2IDMuMDcgMS4wOCA0IDMuNSAwLjkyNyAyLjQyIDYuNSAxNy41IDYuNSAxNy41aC0zbC00LTEwLjV6IiBmaWxsPSIjODg4Ii8+PHBhdGggZD0ibTIgMjJzNS41NC0xNC43IDYuNS0xNi41IDEuODEtMy41IDQtMy41IDQ3LjItMC4wMjU2IDQ5IDAgMy4wNyAxLjA4IDQgMy41YzAuOTI3IDIuNDIgNi41IDE2LjUgNi41IDE2LjV2MWgtNzB6IiBmaWxsPSIjNTU1Ii8+PHBhdGggZD0ibTMgMjJzNS41NC0xMy43IDYuNS0xNS41YzAuOTU2LTEuODIgMS44MS0zLjUgNC0zLjVzNDYuMi0wLjAyNTYgNDggMCAzLjA3IDAuMDgxMyA0IDIuNWMwLjkyNyAyLjQyIDYuNSAxNi41IDYuNSAxNi41djFoLTcweiIgZmlsbD0iIzY2NiIvPjwvZz48L3N2Zz4K);
 	}
 
-	/* --- the theme drawer: a menu ----------------------------------------- */
+	/* --- the theme drawer: a menu -----------------------------------------
+	   No titlebar: main.css drops the drawer's heading on desktop, and a
+	   pinstriped one here would only have brought it back. */
 	.theme_drawer {
 		border: 1px solid #000;
 		background: var(--os9-frame-bg);
@@ -479,28 +481,6 @@ input, textarea, button {
 			inset -1px 0 0 #999, inset 0 -1px 0 #999;
 	}
 
-	.theme_drawer_title {
-		display: flex;
-		align-items: center;
-		gap: 6px;
-		margin: 0 0 6px;
-		padding: 1px 0 3px;
-		border: 0;
-		background: transparent;
-		color: #000;
-		font-weight: bold;
-	}
-
-	.theme_drawer_title::before,
-	.theme_drawer_title::after {
-		content: "";
-		flex: 1 1 0;
-		height: 12px;
-		background-image: var(--os9-pinstripes);
-		background-repeat: repeat-y;
-		background-position: -1px -1px, 1px -1px;
-		background-size: 100% 2px, 100% 2px;
-	}
 }
 
 /* --- the theme selector: a push button (desktop) ---------------------------
@@ -517,7 +497,7 @@ input, textarea, button {
 
 	.theme_handle {
 		height: auto;
-		padding: 2px 10px;
+		padding: 4px 14px;
 		border: 1px solid #000;
 		border-radius: 3px;
 		background: #dddddd;
@@ -532,7 +512,7 @@ input, textarea, button {
 	}
 
 	.theme_handle::after {
-		font-size: 12px;
+		font-size: 14px;
 	}
 
 	.theme_handle:active,
@@ -676,13 +656,13 @@ input, textarea, button {
 @media (min-width: 769px) and (min-height: 601px), (min-width: 769px) and (orientation: portrait) {
 	.corner_controls > .live_toggle {
 		height: auto;
-		padding: 2px 10px;
+		padding: 4px 14px;
 		border: 1px solid #000;
 		border-radius: 3px;
 		background: #dddddd;
 		box-shadow: inset 1px 1px 0 #dddddd, inset 2px 2px 0 #fff, inset -1px -1px 1px #555;
 		color: #000;
-		font-size: 12px;
+		font-size: 14px;
 		line-height: 1;
 		cursor: default;
 	}
