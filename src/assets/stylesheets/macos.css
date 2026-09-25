@@ -134,6 +134,21 @@ input, textarea, button {
 	--os9-body-bg: #ffffff;
 	--os9-selection: #ccccff;
 
+	/* Posts only: the same frame, body and highlight, translucent so the
+	   lavender desktop reads through them as it does through every other
+	   theme's posts. Nested replies compound it, so each level lands a shade
+	   more opaque than the window holding it. The composer and the theme
+	   drawer keep the opaque values -- they float over text, and a
+	   see-through window there would make both unreadable. */
+	--os9-post-frame-bg: rgba(204,204,204,.35);
+	--os9-post-body-bg: rgba(255,255,255,.5);
+	--os9-post-selection: rgba(204,204,255,.5);
+
+	/* The board's own window sits behind every post, so its frame is one
+	   more layer everything else is stacked on. Kept thinnest of all, or
+	   the lavender is gone before it reaches the first post. */
+	--os9-board-frame-bg: rgba(204,204,204,.18);
+
 	/* The etched pinstripes of an active titlebar: a white line over a grey
 	   one, every two pixels. Straight from the original's .title-bar-text. */
 	--os9-pinstripes:
@@ -157,17 +172,21 @@ input, textarea, button {
 		padding: 2px 4px 4px;
 		border: 1px solid #000;
 		border-radius: 0;
-		background-color: var(--os9-frame-bg);
+		background-color: var(--os9-post-frame-bg);
 		box-shadow:
 			1px 1px 0 #000,
 			inset 1px 0 0 #fff, inset 0 1px 0 #fff,
 			inset -1px 0 0 #999, inset 0 -1px 0 #999;
 	}
 
+	.board_container > .root_post {
+		background-color: var(--os9-board-frame-bg);
+	}
+
 	/* The selected post keeps a highlight, in the selection colour rather
 	   than a heavier border, which is how the system marked a chosen item. */
 	.post.selected_post:not(.root_post) {
-		background-color: var(--os9-selection);
+		background-color: var(--os9-post-selection);
 	}
 
 	/* --- titlebars -------------------------------------------------------
@@ -221,7 +240,7 @@ input, textarea, button {
 		margin: 0;
 		padding: 6px 8px;
 		border: 1px solid #000;
-		background-color: var(--os9-body-bg);
+		background-color: var(--os9-post-body-bg);
 		box-shadow:
 			1px 1px 0 #fff, 1px 0 0 #fff, 0 1px 0 #fff,
 			-1px -1px 0 #999, -1px 0 0 #999, 0 -1px 0 #999;
