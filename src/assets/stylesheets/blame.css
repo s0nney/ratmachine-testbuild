@@ -1,0 +1,107 @@
+/* blame -- after Tsutomu Nihei's BLAME!.
+   One layout for every theme -- keep this to palette and typography.
+
+   The manga is nearly monochrome: black ink, crumbling concrete, cold steel,
+   and a megastructure too large to see the end of. This takes that and stops
+   well short of illustrating it -- no scanlines, no glow, no animation, no
+   decoration. Near-black and ash, bone-white text, and a single muted accent.
+   If a change here makes the theme louder, it is probably wrong. */
+@import "./main.css";
+
+:root {
+	/* Bone and ash rather than white and grey: pure white on near-black is
+	   harsher than anything on the page needs to be. */
+	--theme-text-strong: #e2dfd8;
+	--theme-text: #bcb9b1;
+	--theme-text-rgb: 188,185,177;
+
+	--theme-field: #0d0e0f;
+	--theme-input-text: #d4d1ca;
+
+	/* A generated 256x256 tile: film-grain speckle over slow concrete
+	   mottling, squeezed into a sliver of near-black, with a few faint panel
+	   joins -- the megastructure, barely there. Its grain was blurred with
+	   wrap-around edges and the joins span the full tile, so it repeats
+	   without a seam. 4.9% lightness, 0.76% variation: surface, not
+	   pattern. The ground is its average. */
+	--theme-ground: #0d0d0d;
+	--theme-background-image: url(../../../public/dist/images/blame.png);
+
+	/* The one colour: a cold steel blue-grey, like a terminal glowing in the
+	   dark. Used only where the layout already asks for an accent. */
+	--theme-accent: #7d959c;
+	--theme-accent-rgb: 125,149,156;
+
+	/* Chrome in graphite. The bevel pair stays close -- enough to keep the
+	   Platinum relief legible, not enough to make the furniture shine. */
+	--theme-chrome: #1a1b1d;
+	--theme-chrome-rgb: 26,27,29;
+	--theme-bevel-light: #393b3e;
+	--theme-bevel-dark: #060607;
+	--theme-tab-face: #131416;
+	--theme-tab-light: #292b2e;
+
+	--theme-frame: #000000;
+	--theme-frame-rgb: 0,0,0;
+
+	--theme-banner-background-color: rgba(9,9,10,.72);
+	--theme-banner-border-color: #26282b;
+
+	/* Posts are a dark glass over the concrete, so the texture reads through
+	   them without competing with the words. */
+	--theme-post-background: rgba(17,18,19,.62);
+	--theme-post-border: rgba(160,158,150,.14);
+
+	--theme-heading-text: #bcb9b1;
+	--theme-link: #a7b1b3;
+	--theme-link-hover: #e2dfd8;
+
+	/* Quote colours muted to belong here: moss for >, the accent for <. */
+	--theme-greentext: #8d9c7c;
+	--theme-bluetext: #7d959c;
+	--theme-live-on: #8fa9a0;
+	--theme-digit-check: rgba(214,210,200,.55);
+
+	/* Narrow and technical for the board; monospace for anything typed. */
+	--theme-font: "Bahnschrift", "DIN Alternate", "Roboto Condensed", "Arial Narrow", sans-serif;
+	--theme-mobile-font: "Bahnschrift", "DIN Alternate", "Roboto Condensed", "Arial Narrow", sans-serif;
+	--theme-field-font: "IBM Plex Mono", "DejaVu Sans Mono", Menlo, Consolas, monospace;
+
+	color-scheme: dark;
+}
+
+input, textarea, button {
+	font-family: var(--theme-font);
+}
+
+/* CAPTCHA images are black glyphs on transparency and need a light backing
+   on a dark theme -- ash, not white, to stay in the palette. */
+.captcha_form img {
+	background-color: #cfccc4;
+}
+
+/* Handheld post cards are drawn with `ridge` in the chrome colour, and a
+   browser cannot darken near-black to shade a ridge -- it paints the lit half
+   a far lighter grey instead, so every card came out outlined in bright
+   grey. Here they are a plain dark edge. Set side by side rather than with
+   the border-style shorthand, because main leaves the header's bottom and the
+   message box's top deliberately open where the two meet. The selected post
+   keeps its accent: main sets that at higher specificity. */
+@media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
+	.post_header,
+	.post_content {
+		border-color: #2a2c2f;
+	}
+
+	.post_header {
+		border-top-style: solid;
+		border-left-style: solid;
+		border-right-style: solid;
+	}
+
+	.post_content {
+		border-left-style: solid;
+		border-right-style: solid;
+		border-bottom-style: solid;
+	}
+}

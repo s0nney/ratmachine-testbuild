@@ -7,6 +7,7 @@ let cybStyle = new ExtractTextPlugin('cyb.bundle.css');
 let angelicStyle = new ExtractTextPlugin('angelic.bundle.css');
 let macosStyle = new ExtractTextPlugin('macos.bundle.css');
 let bmStyle = new ExtractTextPlugin('bm.bundle.css');
+let blameStyle = new ExtractTextPlugin('blame.bundle.css');
 
 let config = {
   entry: {
@@ -15,6 +16,7 @@ let config = {
     'angelic.bundle.css': './src/assets/stylesheets/angelic.css',
     'macos.bundle.css': './src/assets/stylesheets/macos.css',
     'bm.bundle.css': './src/assets/stylesheets/bm.css',
+    'blame.bundle.css': './src/assets/stylesheets/blame.css',
   },
   output: {
     filename: '[name]',
@@ -92,6 +94,19 @@ let config = {
         })
       },
       {
+        test: /blame.css$/,
+        exclude: /node_modules/,
+        use: blameStyle.extract({
+          fallback: 'style-loader',
+          use: {
+            loader: 'css-loader',
+            options: {
+              minimize: true
+            }
+          }
+        })
+      },
+      {
         test: /\.(png|svg|jpg|apng|gif)$/,
         exclude: /node_modules/,
         // emitFile=false: the images already live in public/dist/images, the
@@ -128,6 +143,7 @@ let config = {
     angelicStyle,
     macosStyle,
     bmStyle,
+    blameStyle,
   ],
   // For more info about webpack logs see: https://webpack.js.org/configuration/stats/
   stats: 'errors-only'
