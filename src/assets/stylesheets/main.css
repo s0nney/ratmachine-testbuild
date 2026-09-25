@@ -2151,3 +2151,35 @@ body:has(.board_tab.selected_board) {
 		border-radius: 4px;
 	}
 }
+
+/* --- the theme selector's label (desktop) ---------------------------------
+   On a regular screen the grip also reads "themes", so what it opens is not
+   a guess. Generated text: the summary already carries aria-label="Themes",
+   which is what assistive technology announces, so the word is purely
+   visual. Handheld keeps the bare vertical grip in the left gutter -- there
+   is no room for a word there. */
+@media (min-width: 769px) and (min-height: 601px), (min-width: 769px) and (orientation: portrait) {
+	/* Sized by its content rather than the grip's fixed 44px. The open state
+	   still widens it to the drawer's 228px, and the handle's margin-left:auto
+	   keeps it pinned to the right edge while it does. */
+	.theme_switcher {
+		width: auto;
+	}
+
+	/* max-content, not auto: auto would stretch the handle to the drawer's
+	   228px the moment it opens, where max-content keeps it the width of its
+	   label and lets margin-left:auto hold it at the right edge. */
+	.theme_handle {
+		width: max-content;
+		height: 18px;
+		gap: 6px;
+		padding: 0 10px;
+	}
+
+	.theme_handle::after {
+		content: "themes";
+		font-size: 11px;
+		font-weight: bold;
+		line-height: 1;
+	}
+}
