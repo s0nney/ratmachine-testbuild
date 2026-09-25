@@ -8,6 +8,7 @@ let angelicStyle = new ExtractTextPlugin('angelic.bundle.css');
 let macosStyle = new ExtractTextPlugin('macos.bundle.css');
 let bmStyle = new ExtractTextPlugin('bm.bundle.css');
 let blameStyle = new ExtractTextPlugin('blame.bundle.css');
+let coffeeStyle = new ExtractTextPlugin('coffee.bundle.css');
 
 let config = {
   entry: {
@@ -17,6 +18,7 @@ let config = {
     'macos.bundle.css': './src/assets/stylesheets/macos.css',
     'bm.bundle.css': './src/assets/stylesheets/bm.css',
     'blame.bundle.css': './src/assets/stylesheets/blame.css',
+    'coffee.bundle.css': './src/assets/stylesheets/coffee.css',
   },
   output: {
     filename: '[name]',
@@ -107,6 +109,19 @@ let config = {
         })
       },
       {
+        test: /coffee.css$/,
+        exclude: /node_modules/,
+        use: coffeeStyle.extract({
+          fallback: 'style-loader',
+          use: {
+            loader: 'css-loader',
+            options: {
+              minimize: true
+            }
+          }
+        })
+      },
+      {
         test: /\.(png|svg|jpg|apng|gif)$/,
         exclude: /node_modules/,
         // emitFile=false: the images already live in public/dist/images, the
@@ -144,6 +159,7 @@ let config = {
     macosStyle,
     bmStyle,
     blameStyle,
+    coffeeStyle,
   ],
   // For more info about webpack logs see: https://webpack.js.org/configuration/stats/
   stats: 'errors-only'
