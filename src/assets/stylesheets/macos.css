@@ -603,3 +603,42 @@ input, textarea, button {
 		background-color: rgba(232,232,255,.85);
 	}
 }
+
+/* --- the Reply button --------------------------------------------------------
+   A post's Reply link is a Platinum push button: window grey, black hairline,
+   the white-and-dark inset bevel, bold label, and dark with white text while
+   pressed. Sized down from the composer's button -- tighter padding, a
+   smaller face -- because it has to sit inside a titlebar. Both layouts: on
+   handheld it sits in the device shell's header just as well. */
+.post_header > a[id^="reply-"] {
+	display: inline-block;
+	min-width: 48px;
+	padding: 0 8px;
+	border: 1px solid #000;
+	border-radius: 3px;
+	background: #dddddd;
+	box-shadow: inset 1px 1px 0 #dddddd, inset 2px 2px 0 #fff, inset -1px -1px 1px #555;
+	color: #000;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 16px;
+	text-align: center;
+	text-decoration: none;
+	cursor: default;
+	user-select: none;
+}
+
+.post_header > a[id^="reply-"]:hover {
+	text-decoration: none;
+}
+
+.post_header > a[id^="reply-"]:active {
+	background: #666666;
+	color: #fff;
+	box-shadow: inset 1px 1px 1px #333, inset -1px -1px 1px #999;
+}
+
+.post_header > a[id^="reply-"]:focus-visible {
+	outline: 2px solid var(--theme-accent);
+	outline-offset: 1px;
+}
