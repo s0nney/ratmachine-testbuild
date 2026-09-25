@@ -620,13 +620,16 @@ input, textarea, button {
 	}
 }
 
-/* --- the Reply button --------------------------------------------------------
+/* --- the Reply and Post buttons ----------------------------------------------
+   Post is the link in the board window's own titlebar, which starts a new
+   thread; it is the same button as Reply.
    A post's Reply link is a Platinum push button: window grey, black hairline,
    the white-and-dark inset bevel, bold label, and dark with white text while
    pressed. Sized down from the composer's button -- tighter padding, a
    smaller face -- because it has to sit inside a titlebar. Both layouts: on
    handheld it sits in the device shell's header just as well. */
-.post_header > a[id^="reply-"] {
+.post_header > a[id^="reply-"],
+.root_post > .post_header > a {
 	display: inline-block;
 	min-width: 48px;
 	/* padding: 0 8px; */
@@ -644,17 +647,62 @@ input, textarea, button {
 	user-select: none;
 }
 
-.post_header > a[id^="reply-"]:hover {
+.post_header > a[id^="reply-"]:hover,
+.root_post > .post_header > a:hover {
 	text-decoration: none;
 }
 
-.post_header > a[id^="reply-"]:active {
+.post_header > a[id^="reply-"]:active,
+.root_post > .post_header > a:active {
 	background: #666666;
 	color: #fff;
 	box-shadow: inset 1px 1px 1px #333, inset -1px -1px 1px #999;
 }
 
-.post_header > a[id^="reply-"]:focus-visible {
+.post_header > a[id^="reply-"]:focus-visible,
+.root_post > .post_header > a:focus-visible {
 	outline: 2px solid var(--theme-accent);
 	outline-offset: 1px;
+}
+
+/* --- post meta and ID as text fields ----------------------------------------
+   The poster ID and the meta line (number, date, board tag or backlink) are
+   drawn as the original's text field: white fill, black hairline, and the
+   grey shadow up and to the left that sinks it into the chrome.
+
+   Styling only. These stay the spans they are, which cannot be typed into
+   -- no readonly needed -- and which keep the board tag and >>backlinks
+   inside the meta working as links, where a real <input> would reduce them
+   to plain text. The cursor stays the arrow rather than a text I-beam, so
+   the fields do not invite typing; the text is still selectable, since
+   copying a post number or an ID is useful. Both layouts: on handheld the ID
+   lives in the message box's signature rather than the header, and gets the
+   same field there.
+
+   The ID gets no display of its own. main.css hides the header copy of it
+   on handheld with display:none, and a display here -- same specificity,
+   later in the cascade -- brought it back as a duplicate. It needs none: in
+   the desktop header and the handheld signature it is a flex item, which is
+   block-level already. */
+.post .post_poster_id,
+.post .post_meta {
+	margin: 2px;
+	padding: 1px 4px;
+	border: 1px solid #000;
+	border-radius: 0;
+	background: #fff;
+	box-shadow: -1px -1px 0 #888;
+	color: #000;
+	opacity: 1;
+	line-height: 1.3;
+	cursor: default;
+}
+
+/* The meta, though, sits in the handheld header as plain inline text, not a
+   flex item, so a long one -- a backlink, a digit check -- wrapped and
+   sliced the field into two open-ended boxes. inline-block keeps it one
+   rectangle: it drops below the Reply button whole and wraps inside itself.
+   Safe here because main never hides the meta. */
+.post .post_meta {
+	display: inline-block;
 }
