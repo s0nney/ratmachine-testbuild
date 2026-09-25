@@ -49,7 +49,7 @@ let config = {
         })
       },
       {
-        test: /\.(png|svg|jpg|apng)$/,
+        test: /\.(png|svg|jpg|apng|gif)$/,
         exclude: /node_modules/,
         use: [
           'file-loader?name=/images/[name].[ext]'
