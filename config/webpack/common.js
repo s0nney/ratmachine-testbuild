@@ -5,12 +5,14 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 let mainStyle = new ExtractTextPlugin('main.bundle.css');
 let cybStyle = new ExtractTextPlugin('cyb.bundle.css');
 let angelicStyle = new ExtractTextPlugin('angelic.bundle.css');
+let macosStyle = new ExtractTextPlugin('macos.bundle.css');
 
 let config = {
   entry: {
     'main.bundle.css': './src/assets/stylesheets/main.css',
     'cyb.bundle.css': './src/assets/stylesheets/cyb.css',
     'angelic.bundle.css': './src/assets/stylesheets/angelic.css',
+    'macos.bundle.css': './src/assets/stylesheets/macos.css',
   },
   output: {
     filename: '[name]',
@@ -62,6 +64,18 @@ let config = {
             }
           }
         })
+      },      {
+        test: /macos.css$/,
+        exclude: /node_modules/,
+        use: macosStyle.extract({
+          fallback: 'style-loader',
+          use: {
+            loader: 'css-loader',
+            options: {
+              minimize: true
+            }
+          }
+        })
       },
       {
         test: /\.(png|svg|jpg|apng|gif)$/,
@@ -91,6 +105,7 @@ let config = {
     mainStyle,
     cybStyle,
     angelicStyle,
+    macosStyle,
   ],
   // For more info about webpack logs see: https://webpack.js.org/configuration/stats/
   stats: 'errors-only'

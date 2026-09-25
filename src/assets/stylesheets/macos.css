@@ -1,0 +1,78 @@
+/* macos: System 7 / Mac OS 8-9 Platinum, on a lavender desktop.
+   One layout for every theme -- keep this to palette and typography.
+
+   The layout in main.css is already Platinum-shaped: bevelled push buttons,
+   ridged window frames, hanging tabs, inset fields. This theme stops dressing
+   that up in anything else and gives it the greys it was drawn for, tinted
+   very slightly violet so the chrome sits with the desktop behind it rather
+   than on top of it. */
+@import "./main.css";
+
+:root {
+	/* Black text on grey, the way every window on that machine did it. */
+	--theme-text-strong: #000000;
+	--theme-text: #101014;
+	--theme-text-rgb: 16,16,20;
+
+	/* Documents are white. Fields are white. Nothing else is. */
+	--theme-field: #ffffff;
+	--theme-input-text: #000000;
+
+	/* The desktop: a flat, slightly dusty lavender. No pattern -- this is the
+	   solid-colour desktop, not one of the tiled ones. */
+	--theme-ground: #8e86b0;
+	--theme-background-image: none;
+
+	/* Selection blue, the one saturated colour, kept periwinkle so it belongs
+	   to the lavender rather than fighting it. */
+	--theme-accent: #4c5fa8;
+	--theme-accent-rgb: 76,95,168;
+
+	/* Platinum grey with a violet cast. The bevel pair is pure white against
+	   a mid grey, which is the entire 3D illusion: flatten those two together
+	   and every button in the application goes flat with them. */
+	--theme-chrome: #d8d5e0;
+	--theme-chrome-rgb: 216,213,224;
+	--theme-bevel-light: #ffffff;
+	--theme-bevel-dark: #7c7789;
+	--theme-tab-face: #c8c4d4;
+	--theme-tab-light: #eceaf2;
+
+	/* Mid grey rather than the black a real window frame used. Every
+	   translucent tint is mixed from this -- including the post header bands
+	   at 40% -- and black there would put black text on a near-black band. */
+	--theme-frame: #6f6a7d;
+	--theme-frame-rgb: 111,106,125;
+
+	--theme-banner-background-color: #d8d5e0;
+	--theme-banner-border-color: #6f6a7d;
+
+	/* Posts read as document windows on the desktop -- but translucent, so
+	   the lavender tints through and each level of nesting lands a shade
+	   lighter than the one holding it. At full opacity the desktop is only
+	   ever a strip at the edges and the theme stops reading as purple. */
+	--theme-post-background: rgba(255,255,255,.5);
+	--theme-post-border: rgba(111,106,125,.55);
+
+	--theme-heading-text: #000000;
+	--theme-link: #22357e;
+	--theme-link-hover: #4c5fa8;
+
+	/* Dark enough for white paper. */
+	--theme-greentext: #157f22;
+	--theme-bluetext: #1a4fa0;
+	--theme-live-on: #0f7a33;
+	--theme-digit-check: #3b4f9e;
+
+	/* Charcoal shipped with Mac OS 8.5 and was the system face through 9;
+	   Chicago was the 7.x one. Geneva is the fallback either way. */
+	--theme-font: Charcoal, Chicago, Geneva, "Lucida Grande", Tahoma, Verdana, sans-serif;
+	--theme-mobile-font: Charcoal, Chicago, Geneva, "Lucida Grande", Tahoma, Verdana, sans-serif;
+	--theme-field-font: Geneva, "Lucida Grande", Verdana, Tahoma, sans-serif;
+
+	color-scheme: light;
+}
+
+input, textarea, button {
+	font-family: var(--theme-font);
+}
