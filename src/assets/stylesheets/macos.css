@@ -92,9 +92,12 @@
 	--theme-link: #22357e;
 	--theme-link-hover: #4c5fa8;
 
-	/* Dark enough for white paper. */
-	--theme-greentext: #157f22;
-	--theme-bluetext: #1a4fa0;
+	/* Quote colours. The post bodies are clear, so these sit on the frames
+	   over the wallpaper rather than on white paper; darkened until the
+	   wallpaper's darkest pixels still leave them 4.5:1 or better on both
+	   layouts (green 5.0/4.8, blue 4.8/4.6 -- desktop/handheld). */
+	--theme-greentext: #053f0c;
+	--theme-bluetext: #0f3479;
 	--theme-live-on: #0f7a33;
 	--theme-digit-check: #3b4f9e;
 
@@ -143,7 +146,12 @@ input, textarea, button {
 	   drawer keep the opaque values -- they float over text, and a
 	   see-through window there would make both unreadable. */
 	--os9-post-frame-bg: rgba(204,204,204,.35);
-	--os9-post-body-bg: rgba(255,255,255,.5);
+	/* Fully clear: the post body is backed by the frames it sits on -- the
+	   board's and the post's own -- and those alone hold black text at
+	   7.8:1 over the wallpaper's darkest pixels (10.4:1 in a reply, 9.7:1
+	   on the selected post). What remains of the document is its black
+	   inset edge and bevel. */
+	--os9-post-body-bg: transparent;
 	--os9-post-selection: rgba(204,204,255,.5);
 
 	/* The board's own window sits behind every post, so its frame is one
@@ -594,8 +602,11 @@ input, textarea, button {
 		background-color: rgba(216,213,224,.85);
 	}
 
+	/* Nothing sits beneath the message box on handheld -- no frames, as on
+	   desktop -- so this alone backs the text. 35% is as clear as it goes
+	   while black holds 7:1 over the wallpaper's darkest pixels (7.4:1). */
 	.post_content {
-		background-color: rgba(255,255,255,.8);
+		background-color: rgba(255,255,255,.35);
 	}
 
 	/* main tints a jumped-to post in the accent; keep the tint, lighter,
@@ -605,7 +616,7 @@ input, textarea, button {
 	}
 
 	.post:target > .post_content {
-		background-color: rgba(232,232,255,.85);
+		background-color: rgba(232,232,255,.45);
 	}
 }
 
