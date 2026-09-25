@@ -4,7 +4,9 @@
 docker compose exec ratmachine sh -c 'cd /app && AMBER_ENV=test crystal spec'
 ```
 
-Current state: **26 examples, 0 failures.**
+Current state on `live-prototype`: **56 examples, 0 failures.** The inventory
+further down predates the poster ID, error-flow and live mode specs and counts
+only the original 26.
 
 ---
 
