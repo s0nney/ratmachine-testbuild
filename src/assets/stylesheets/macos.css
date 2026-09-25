@@ -618,15 +618,15 @@ input, textarea, button {
 .post_header > a[id^="reply-"] {
 	display: inline-block;
 	min-width: 48px;
-	padding: 0 8px;
+	/* padding: 0 8px; */
 	border: 1px solid #000;
 	border-radius: 3px;
-	background: #dddddd;
-	box-shadow: inset 1px 1px 0 #dddddd, inset 2px 2px 0 #fff, inset -1px -1px 1px #555;
+	background: #ddd;
+	box-shadow: inset 1px 1px 0 #ddd, inset 2px 2px 0 #fff, inset -1px -1px 1px #555;
 	color: #000;
-	font-size: 12px;
-	font-weight: bold;
-	line-height: 16px;
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 22px;
 	text-align: center;
 	text-decoration: none;
 	cursor: default;
