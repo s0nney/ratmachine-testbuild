@@ -17,10 +17,8 @@
 	--theme-accent-rgb: 104,255,0;
 	--theme-chrome-rgb: 23,54,27;
 	--theme-frame-rgb: 2,7,2;
-	/* A tiling 104x104 loop of falling binary, behind everything. The ground
-	   stays black because the tile's own background is near-black and the two
-	   have to agree wherever it has not loaded yet. */
-	--theme-background-image: url(../../../public/dist/images/num.gif);
+	/* Plain black: no image. The ground above is the whole background. */
+	--theme-background-image: none;
 	--theme-font: "Lucida Console", Monaco, monospace;
 	--theme-mobile-font: "Lucida Console", Monaco, monospace;
 	--theme-field-font: "Lucida Console", Monaco, monospace;
