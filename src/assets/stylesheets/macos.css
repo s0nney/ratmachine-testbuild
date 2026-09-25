@@ -94,10 +94,15 @@
 
 	/* Quote colours. The post bodies are clear, so these sit on the frames
 	   over the wallpaper rather than on white paper; darkened until the
-	   wallpaper's darkest pixels still leave them 4.5:1 or better on both
-	   layouts (green 5.0/4.8, blue 4.8/4.6 -- desktop/handheld). */
-	--theme-greentext: #053f0c;
-	--theme-bluetext: #0f3479;
+	   wallpaper's darkest pixels leave both at 5.1:1 or better, desktop and
+	   handheld.
+
+	   Measure from raw sRGB pixels and linearise them yourself. The first
+	   figures for these came from ImageMagick 6 greyscale output, which is
+	   gamma-encoded rather than linear luminance, and overstated contrast on
+	   mid-tone backdrops -- a claimed 4.5:1 was really 4.4:1. */
+	--theme-greentext: #04360a;
+	--theme-bluetext: #0b2a66;
 	--theme-live-on: #0f7a33;
 	--theme-digit-check: #3b4f9e;
 
