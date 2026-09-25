@@ -151,6 +151,11 @@ input, textarea, button {
 	   the lavender is gone before it reaches the first post. */
 	--os9-board-frame-bg: rgba(204,204,204,.18);
 
+	/* The top panel, translucent like the posts so the wallpaper reads
+	   through it -- but only so far: its text sits straight on the panel,
+	   with no inset body to back it, so it cannot go as thin as a frame. */
+	--os9-banner-bg: rgba(221,221,221,.6);
+
 	/* The etched pinstripes of an active titlebar: a white line over a grey
 	   one, every two pixels. Straight from the original's .title-bar-text. */
 	--os9-pinstripes:
@@ -354,7 +359,7 @@ input, textarea, button {
 		padding-bottom: 0;
 		border: 1px solid #000;
 		border-radius: 10px 10px 0 0;
-		background-color: var(--os9-window-bg);
+		background-color: var(--os9-banner-bg);
 		box-shadow:
 			1px 1px 0 #000,
 			inset 1px 0 0 #fff, inset 0 1px 0 #fff,
