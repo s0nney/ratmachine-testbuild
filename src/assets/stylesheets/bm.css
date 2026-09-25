@@ -16,23 +16,21 @@
 
 	/* The ground sits a little lighter than the tile, exactly as main's does
 	   over bg.png, so the seam never shows before the image loads. */
-	--theme-ground: #6aa6ee;
+	--theme-ground: #3f9dff;
 
-	/* p17 is a busier tile than main's. The flat wash in front of it is
-	   p17's own average colour, so it pulls every pixel toward that average
-	   without shifting the hue, and the alpha scales the variation by the
-	   same factor.
-	   
-	   0.44 rather than the 0.28 the source images suggest: what matters is
-	   the rendered result, and measuring a bare 384x384 patch of each body
-	   gives main 1.13% greyscale standard deviation against p17's 2.02%
-	   unwashed. 1 - 1.13/2.02 is the number below.
-	   
-	   Done here rather than by editing the PNG so the file stays untouched
-	   and the amount stays visible and adjustable. */
+	/* p19 is a much busier tile than main's bg.png -- 2.84% greyscale
+	   standard deviation at native size against 1.13%. The flat wash in
+	   front of it is p19's own average colour, so it pulls every pixel
+	   toward that average without shifting the hue, and the alpha scales the
+	   variation by the same factor: 1 - 1.13/2.84.
+
+	   Done here rather than by editing the PNG, so the file is untouched and
+	   the amount stays visible and adjustable. Measure a change rather than
+	   eyeballing it: screenshot a bare patch of the body and compare
+	   greyscale standard deviation against main's 1.13%. */
 	--theme-background-image:
-		linear-gradient(rgba(49,130,226,.44), rgba(49,130,226,.44)),
-		url(../../../public/dist/images/p17.png);
+		linear-gradient(rgba(23,150,255,.60), rgba(23,150,255,.60)),
+		url(../../../public/dist/images/p19.png);
 
 	/* Vivid azure standing in for main's vivid violet. */
 	--theme-accent: #00a2ff;
