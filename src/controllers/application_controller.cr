@@ -145,7 +145,7 @@ class ApplicationController < Amber::Controller::Base
         end +
         content(element_name: :p, options: {id: "about"}.to_h) do
           content(element_name: :a, content: "Ratwires", options: {href: "https://github.com/faissaloo/Ratmachine"}.to_h) +
-            " is an anonymous AGPL'd javascriptless single board textboard inspired by " +
+            " is an anonymous AGPL'd javascriptless-by-default single board textboard inspired by " +
             content(element_name: :a, content: "Make Frontend Shit Again", options: {href: "https://makefrontendshitagain.party/"}.to_h) +
             " and " +
             content(element_name: :a, content: "2channel", options: {href: "https://5ch.net/"}.to_h) +
