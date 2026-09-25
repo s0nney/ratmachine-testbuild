@@ -94,8 +94,15 @@ let config = {
       {
         test: /\.(png|svg|jpg|apng|gif)$/,
         exclude: /node_modules/,
+        // emitFile=false: the images already live in public/dist/images, the
+        // very path this would write them to -- so every source image was
+        // also webpack's output, read and written back over itself on each
+        // build. With the watcher treating that write as a change, it looped,
+        // and a second build running at the same moment read a 1.5 MB image
+        // mid-write and saved it truncated at 512 KiB. Only the url()
+        // rewriting is wanted; the files are served where they already are.
         use: [
-          'file-loader?name=/images/[name].[ext]'
+          'file-loader?name=/images/[name].[ext]&emitFile=false'
         ]
       },
       {
