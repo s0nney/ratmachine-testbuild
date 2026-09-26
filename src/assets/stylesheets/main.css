@@ -1668,8 +1668,11 @@ body:has(.board_tab.selected_board) {
 		border: 2px outset var(--theme-bevel-light);
 		border-left: none;
 		border-radius: 0 7px 7px 0;
-		background-image: linear-gradient(to right, var(--theme-tab-light), var(--theme-chrome), var(--theme-tab-face));
-		box-shadow: 2px 2px 0 rgba(0,0,0,.45);
+		/* Transparent: only the outline and the grip lines are drawn, so the
+		   post behind shows through. No drop shadow either -- under a clear
+		   button it would be a stray dark strip along two edges. */
+		background: transparent;
+		box-shadow: none;
 	}
 
 	.theme_handle::before {
