@@ -16,21 +16,16 @@
 
 	/* The ground sits a little lighter than the tile, exactly as main's does
 	   over bg.png, so the seam never shows before the image loads. */
-	--theme-ground: #3f9dff;
+	--theme-ground: #5cadfb;
 
-	/* p19 is a much busier tile than main's bg.png -- 2.84% greyscale
-	   standard deviation at native size against 1.13%. The flat wash in
-	   front of it is p19's own average colour, so it pulls every pixel
-	   toward that average without shifting the hue, and the alpha scales the
-	   variation by the same factor: 1 - 1.13/2.84.
-
-	   Done here rather than by editing the PNG, so the file is untouched and
-	   the amount stays visible and adjustable. Measure a change rather than
-	   eyeballing it: screenshot a bare patch of the body and compare
-	   greyscale standard deviation against main's 1.13%. */
-	--theme-background-image:
-		linear-gradient(rgba(23,150,255,.60), rgba(23,150,255,.60)),
-		url(../../../public/dist/images/p19.png);
+	/* main's own bg.png, recoloured rather than replaced -- the same crinkled
+	   grain, shifted from violet to blue (ImageMagick -modulate 96,120,67).
+	   The shift was searched for, not guessed: it lands on rgb(76,164,250)
+	   against the rgb(76,165,248) the p22-and-wash background rendered at, so
+	   the blue is bm's own. It carries main's subtlety too, 1.16% texture
+	   variation against main's 1.13% -- no wash needed. The ground sits a
+	   little lighter than the tile, as main's does over bg.png. */
+	--theme-background-image: url(../../../public/dist/images/bm.png);
 
 	/* Vivid azure standing in for main's vivid violet. */
 	--theme-accent: #00a2ff;
