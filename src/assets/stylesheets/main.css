@@ -2158,13 +2158,24 @@ body:has(.board_tab.selected_board) {
 		left: 50%;
 		top: 50%;
 		transform: translate(-50%, -50%);
+		box-sizing: border-box;
 		width: auto;
-		height: auto;
-		padding: 4px 10px;
+		height: 32px;
+		padding: 0 16px;
 		border: 2px outset var(--theme-bevel-light);
 		border-radius: 4px;
 		box-shadow: 1px 1px 0 rgba(0,0,0,.4);
-		font-size: 11px;
+		font-size: 15px;
+	}
+
+	/* Sized with the jump buttons beside it: 32px tall, a thumb-sized face.
+	   Its width is capped by the narrowest screen -- on 320px it has to clear
+	   the Overboard tab on its left and the jump pair on its right, which
+	   leaves it about 96px -- so the label grows, not the padding. */
+	.mobile_live_toggle::before {
+		width: 7px;
+		height: 7px;
+		margin-right: 6px;
 	}
 
 	.mobile_live_toggle.live_toggle_on {
