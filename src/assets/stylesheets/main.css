@@ -2184,7 +2184,7 @@ body:has(.board_tab.selected_board) {
 		display: flex;
 		position: absolute;
 		left: 50%;
-		top: 50%;
+		top: 45%;
 		transform: translate(-50%, -50%);
 		box-sizing: border-box;
 		width: auto;
