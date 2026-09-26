@@ -5,7 +5,7 @@
 	--theme-text-strong: #baffaa;
 	--theme-text: #dcffd5;
 	--theme-field: #071009;
-	--theme-ground: #000;
+	--theme-ground: #0d0d0d;
 	--theme-accent: #68ff00;
 	--theme-chrome: #17361b;
 	--theme-bevel-light: #3d7042;
@@ -17,8 +17,9 @@
 	--theme-accent-rgb: 104,255,0;
 	--theme-chrome-rgb: 23,54,27;
 	--theme-frame-rgb: 2,7,2;
-	/* Plain black: no image. The ground above is the whole background. */
-	--theme-background-image: none;
+	/* Shared with blame: its generated near-black tile -- film grain over
+	   concrete mottling, 0.76% variation. Black, but with a surface. */
+	--theme-background-image: url(../../../public/dist/images/blame.png);
 	--theme-font: "Lucida Console", Monaco, monospace;
 	--theme-mobile-font: "Lucida Console", Monaco, monospace;
 	--theme-field-font: "Lucida Console", Monaco, monospace;

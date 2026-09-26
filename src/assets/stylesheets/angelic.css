@@ -14,10 +14,13 @@
 	--theme-field: #fffdf7;
 	--theme-input-text: #40331f;
 
-	/* The tile averages #cfccc2 and runs #b3b0a5 to #dfded6. The ground sits
-	   inside that range so the seam never shows before the image loads. */
+	/* main's own bg.png, recoloured to warm ivory (-modulate 118,16,172),
+	   then calmed back to main's 1.13% texture variation by blending it 32%
+	   toward its own average -- brightening had amplified the grain to 1.67%.
+	   Average rgb(208,204,195), matched to the rgb(207,204,194) the satin
+	   rendered at. The ground sits a little lighter, as main's does. */
 	--theme-ground: #efebe1;
-	--theme-background-image: url(../../../public/dist/images/whitesatin3.jpg);
+	--theme-background-image: url(../../../public/dist/images/angelic.png);
 
 	/* Halo gold. The only saturated colour in the theme, which is what makes
 	   a selected post or the current theme obvious at a glance. */
