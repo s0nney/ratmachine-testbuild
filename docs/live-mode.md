@@ -162,8 +162,9 @@ unworkable in a real deployment.
 ### A tick
 
 Every `TICK` (0.4s) the fiber asks the log what changed. Nothing did, almost
-always, and that costs one mutex and one array lookup per watched board — **no
-database**. When something did:
+always, and the event check costs one mutex and one array lookup per watched
+board with no database access. A separate 30-second hourly-statistics check is
+described below. When something did:
 
 1. Any `:reload` event ⇒ send `{"reload":true}`, client reloads.
 2. Recompute the visible threads (`Post.get_replies`, or
@@ -175,6 +176,16 @@ database**. When something did:
    **insert** if not.
 5. Send the whole `order`, so bumped threads re-sort.
 6. Send the board stats line.
+
+Since September 25, the stats line uses a rolling 60-minute window:
+`N posts made per hour with M identities` (see
+[Collapsed board statistics](boards.md#collapsed-board-statistics)).
+`LiveController#feed` also recomputes it every 30 seconds, even when the event
+log has no changes. This lets counts fall as posts age out of the window.
+If the text changed, the server sends a stats-only SSE payload such as
+`{"stats":"3 posts made per hour with 1 identity"}`. The existing client updates
+`.collapsed_board_header` without replacing or reordering posts. With live mode
+off, the server-rendered counts refresh on page load.
 
 `MAX_LIFETIME` is 10 minutes, then the connection closes and `EventSource`
 reconnects on its own. A forgotten tab does not hold a fiber forever.
@@ -227,6 +238,9 @@ the reader is looking at. That travels as `data-live-reply` on the body and
 - **A database query per tick that has changes** — the visible thread list is
   recomputed wholesale rather than diffed incrementally. Fine for one board,
   wasteful for a busy site.
+- **An hourly-statistics query every 30 seconds per board stream**, even while
+  idle, to expire old posts from the displayed count. Overboard has a static
+  stats message and does not run this board-statistics query.
 - **HTTP/1.1 caps around six connections per host**, and an SSE stream holds
   one permanently, so a reader with several tabs can starve themselves.
   HTTP/2 makes it a non-issue, which turns TLS in production into a

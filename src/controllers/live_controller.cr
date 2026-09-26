@@ -52,6 +52,7 @@ class LiveController < IndexController
     known = start_known(board)
     stats = collapsed_board_stats
     deadline = Time.monotonic + MAX_LIFETIME
+    next_stats_check = Time.monotonic + 30.seconds
 
     send_event(%({"hello":true}))
 
@@ -60,6 +61,15 @@ class LiveController < IndexController
       unless payload.nil?
         stats = payload[:stats]
         send_event(payload[:json])
+      end
+      # Hourly counts can decrease even when no new posts arrive.
+      if Time.monotonic >= next_stats_check
+        fresh_stats = collapsed_board_stats
+        if fresh_stats != stats
+          stats = fresh_stats
+          send_event({stats: stats}.to_json)
+        end
+        next_stats_check = Time.monotonic + 30.seconds
       end
       sleep TICK
     end

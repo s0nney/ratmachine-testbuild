@@ -4,9 +4,15 @@
 docker compose exec ratmachine sh -c 'cd /app && AMBER_ENV=test crystal spec'
 ```
 
-Current state on `live-prototype`: **56 examples, 0 failures.** The inventory
-further down predates the poster ID, error-flow and live mode specs and counts
-only the original 26.
+Verified September 25, 2026 on `live-prototype`: **62 examples, 0 failures**.
+The inventory below is partial; the full-suite total comes from `crystal spec`.
+
+The hourly-statistics change adds three examples in
+`spec/models/board_stats_spec.cr`: rolling-window boundaries and board isolation,
+distinct stored identities across midnight, and posts with missing identities.
+They also verify that a later window ages all fixture posts out. Tests pass an
+explicit `at` time to `Post#board_stats` and set fixture creation times directly
+in the isolated test database. No development posts are changed.
 
 ---
 
@@ -102,6 +108,7 @@ three files costs nothing — there is no coverage to lose.
 | `spec/core/usecase/check_digits_spec.cr` | 5 | Dubs/trips detection |
 | `spec/helpers/captcha_spec.cr` | 8 | `CaptchaHelper.enabled?` and the disabled form |
 | `spec/models/overboard_spec.cr` | 3 | Combined threads, 30-thread limit, and nested-reply activity |
+| `spec/models/board_stats_spec.cr` | 3 | Hourly post counts, time boundaries, board isolation, distinct IDs, and missing IDs |
 | `spec/controllers/guard_spec.cr` | 3 | Anonymous, malformed, and authenticated moderator sessions |
 | `spec/controllers/theme_spec.cr` | 4 | Same-page theme redirects and invalid destination handling |
 | `spec/helpers/poster_id_spec.cr` | 8 | Poster ID shape, per-address/board/day scope, midnight rotation, keying |

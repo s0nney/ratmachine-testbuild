@@ -105,14 +105,14 @@ class ApplicationController < Amber::Controller::Base
   end
 
   # The toggle is a plain link, so switching modes needs no JavaScript either
-  # -- the same trick the theme switcher uses. Rendered in both the desktop
-  # corner and the handheld nav bar; CSS shows whichever fits.
+  # -- the same trick the theme switcher uses. Rendered in the desktop banner
+  # and handheld nav bar; CSS shows the copy suited to the viewport.
   def render_live_toggle(mobile = false)
     on = live_enabled?
     destination = HTTP::Params.encode({"return_to" => request.resource})
     classes = "live_toggle #{on ? "live_toggle_on" : "live_toggle_off"}"
     classes += " mobile_live_toggle" if mobile
-    content(element_name: :a, content: "LIVE", options: {
+    content(element_name: :a, content: "Live", options: {
       :href => "/live/#{on ? "off" : "on"}?#{destination}",
       :class => classes,
       :title => on ? "Live updates on -- click to turn off" : "Live updates off -- click to turn on",

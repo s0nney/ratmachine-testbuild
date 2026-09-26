@@ -448,7 +448,6 @@ code {
 /* Keep a header-shaped end cap under a collapsed board's divider. */
 .collapsed_board_header {
 	display: none;
-	min-height: 1.4em;
 	padding: 8px 12px;
 	text-align: center;
 	margin: 0 1em;
@@ -460,8 +459,7 @@ code {
 	display: block;
 }
 
-/* The board's own header carried the "Post" link the tabs now replace, so it
-   has nothing left to show. */
+/* Desktop restores this disclosure; mobile navigation stays by the composer. */
 .root_post > .post_header {
 	display: none;
 }
@@ -953,6 +951,12 @@ html {
 	.root_post > .post_header,
 	.root_post > .post_content {
 		display: none;
+	}
+
+	/* The desktop disclosure must not leave an inaccessible collapsed board
+	   after resizing into the mobile layout, where its summary is hidden. */
+	.root_post::details-content {
+		content-visibility: visible;
 	}
 
 	.post_header {
@@ -1964,11 +1968,21 @@ body:has(.board_tab.selected_board) {
 .banner_board_tabs .active_board::after { display: none; }
 
 @media (min-width: 769px) and (min-height: 601px), (min-width: 769px) and (orientation: portrait) {
-	body:has(.desktop_collection_tabs .active_board:not([open])) .board_container > .root_post {
-		display: none;
+	.board_container > .root_post {
+		margin: 0 .5em .5em;
+		border: 2px solid var(--theme-post-border);
+		border-radius: 4px;
 	}
-	body:has(.desktop_collection_tabs .active_board:not([open])) .collapsed_board_header {
+	.board_container > .root_post.selected_post {
+		border-color: var(--theme-selected-post-border, var(--theme-accent));
+	}
+	.root_post > .post_header {
+		display: list-item;
+	}
+	.board_container > details.root_post:not([open]) ~ .collapsed_board_header {
 		display: block;
+		border: 2px solid var(--theme-post-border);
+		border-radius: 4px;
 	}
 }
 
@@ -2113,25 +2127,15 @@ body:has(.board_tab.selected_board) {
 	.post_arriving { animation: none; }
 }
 
-/* The toggle. Same fixed corner furniture as the theme switcher, sitting to
-   its left: the switcher is 44px wide at right:40px, so this clears it. */
+/* The toggle shares the banner tab furniture on desktop and is repositioned
+   into the mobile navigation strip below. */
 .live_toggle {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: fixed;
-	top: 0;
-	right: 92px;
-	z-index: 300;
 	box-sizing: border-box;
-	width: 54px;
-	height: 16px;
-	border: 2px outset var(--theme-bevel-light);
-	border-top: none;
-	border-radius: 0 0 7px 7px;
 	background-color: var(--theme-chrome);
 	background-image: linear-gradient(to bottom, var(--theme-tab-light), var(--theme-chrome), var(--theme-tab-face));
-	box-shadow: 2px 2px 0 rgba(0,0,0,.45);
 	color: var(--theme-text);
 	font-family: var(--theme-mono-font, monospace);
 	font-size: 9px;
@@ -2165,9 +2169,7 @@ body:has(.board_tab.selected_board) {
 	box-shadow: 0 0 4px var(--theme-live-on);
 }
 
-/* The desktop copy is fixed to a corner the handheld layout does not have --
-   there the button lives in the nav bar instead, so this one is dropped and
-   the nav copy takes over. */
+/* The desktop copy is hidden on handheld layouts; the nav copy takes over. */
 @media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
 	.live_toggle { display: none; }
 

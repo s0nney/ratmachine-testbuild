@@ -50,7 +50,7 @@ class IndexController < ApplicationController
     "#{mobile ? "mtab" : "tab"}-#{board_slug(board)}"
   end
 
-  # Desktop dividers collapse; mobile board tabs use native horizontal swiping.
+  # Mobile board tabs use native horizontal swiping beside the composer.
   def board_tabs(mobile = false)
     tabs = ""
     @boards.each do |board|
@@ -74,8 +74,12 @@ class IndexController < ApplicationController
   def banner_board_tabs
     content(element_name: :nav, options: {
       class: "banner_board_tabs desktop_collection_tabs",
-      "aria-label": "Default boards"}.to_h) do
-      board_tab("Overboard", "/", @overboard, false)
+      "aria-label": "Boards"}.to_h) do
+      board_tab("Overboard", "/", @overboard, true) + @boards.map do |board|
+        active = @board.try(&.id) == board.id
+        board_tab(board.message.to_s, "/b/#{board_slug(board)}", active, true,
+          " utility_board_tab", tab_anchor(board, false))
+      end.join
     end
   end
 
@@ -121,7 +125,7 @@ class IndexController < ApplicationController
 
   def render_main
     content(:div, options: {class: "board_container"}.to_h) do
-      board_tabs() + (@overboard ? render_overboard : render_thread(@board, true)) +
+      (@overboard ? render_overboard : render_thread(@board, true)) +
         content(element_name: :div, options: {class: "post_header collapsed_board_header"}.to_h) do
           collapsed_board_stats
         end
@@ -164,11 +168,11 @@ class IndexController < ApplicationController
   def collapsed_board_stats
     board = @board
     return "Overboard · choose a board to post" if @overboard
-    return "0 posts made with 0 identities" if board.nil?
+    return "0 posts made per hour with 0 identities" if board.nil?
     stats = board.board_stats
     post_label = stats[:posts] == 1 ? "post" : "posts"
-    identity_label = stats[:unique_ips] == 1 ? "identity" : "identities"
-    "#{stats[:posts]} #{post_label} made with #{stats[:unique_ips]} #{identity_label}"
+    identity_label = stats[:identities] == 1 ? "identity" : "identities"
+    "#{stats[:posts]} #{post_label} made per hour with #{stats[:identities]} #{identity_label}"
   end
 
   # is_root marks the board itself, which frames the thread list rather than
@@ -186,8 +190,8 @@ class IndexController < ApplicationController
       replies = [] of Post
       Post.get_replies(parent).each { |reply| replies << reply } if include_replies
   		if parent.nil? || is_root
-  			# The board tab strip stands in for this; see board_tabs.
-  			post_button = ""
+        path = parent.nil? ? "/" : "/b/#{board_slug(parent)}"
+        post_button = content(element_name: :a, content: "Post", options: {href: path}.to_h)
   		else
   			post_button = content(element_name: :a, content: "Reply", options: {
   				href: "#{board_path_for(parent)}/#{parent.id.to_s}#reply-#{parent.id.to_s}",

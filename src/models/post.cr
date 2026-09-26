@@ -68,19 +68,19 @@ class Post < Granite::Base
     Post.where(parent: nil).order(created_at: :asc)
   end
 
-  # Current threads and replies only; the board wrapper is not a post here.
-  # Missing addresses do not represent a known unique IP.
-  def board_stats
+  # Retained threads and replies created within the preceding 60 minutes.
+  # Count the identities stored on those posts, including daily ID rotation.
+  def board_stats(at : Time = Time.utc)
     posts = 0
-    addresses = Set(String).new
-    Post.where(board: id).each do |post|
+    identities = Set(String).new
+    Post.all("WHERE board = ? AND created_at > ? AND created_at <= ?", [id, at - 1.hour, at]).each do |post|
       posts += 1
-      address = post.ip_address
-      unless address.nil? || address.strip.empty?
-        addresses << address.strip
+      identity = post.poster_id
+      unless identity.nil? || identity.strip.empty?
+        identities << identity.strip
       end
     end
-    {posts: posts, unique_ips: addresses.size}
+    {posts: posts, identities: identities.size}
   end
 
   def self.board?(post : Post)

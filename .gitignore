@@ -2,6 +2,7 @@ resume.txt
 /ratmachine_blueprint/
 production.yml
 /doc/
+/docs/
 /lib/
 /.crystal/
 /.shards/

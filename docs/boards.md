@@ -199,8 +199,8 @@ the sheaf of posts filed behind it, and the tab itself stays put.
   arrow — it files a section you aren't looking at.
 - On handheld the root post scrolls inside the board container. The separate
   posting deck holds both the tabs and composer, joined at the form’s top edge.
-- On desktop, closing the active divider hides the root post and shows an
-  `.collapsed_board_header` with the current post count and unique-IP count.
+- On desktop, closing the root `Post` disclosure hides its posts and shows a
+  `.collapsed_board_header` with the last hour's post and poster-identity counts.
   Mobile always displays the root post, even
   after resizing from a collapsed desktop board.
 - The composer heading displays the current board name for a new thread;
@@ -260,12 +260,32 @@ selection accent only when `.selected_board` is present. The collapsed header is
 
 ### Collapsed board statistics
 
-The desktop collapsed strip shows `N posts made with M identities`, rendered on the
-server with no JavaScript. `Post#board_stats` counts all current threads and
-replies carrying this board's ID, excluding the board wrapper. Identities are counted as
-distinct nonblank stored IP addresses, not verified people or online visitors.
-Only aggregate counts are rendered. Counts refresh when the page is loaded;
-deleted or pruned posts no longer contribute.
+Updated September 25, 2026: replaces the previous all-retained-posts and
+unique-IP totals.
+
+The desktop collapsed strip shows `N posts made per hour with M identities`.
+`Post#board_stats` counts retained threads and replies created in the preceding
+60 minutes on this board, excluding the board wrapper. Identities are distinct
+nonblank stored poster IDs on those posts; daily ID rotation can give the same
+poster two identities in a window spanning midnight. These are not online counts.
+The server renders the initial counts without JavaScript. Live mode updates them
+on posting events and checks every 30 seconds for posts aging out of the window.
+Deleted or purged posts no longer contribute.
+
+The window is rolling, not a calendar-hour bucket or an extrapolated rate:
+`at - 1.hour < created_at <= at`, with `at` defaulting to the current UTC time.
+Posts exactly one hour old and future-dated posts are excluded. Replies count
+alongside top-level threads; bumping an old post does not make it count again.
+For example, three recent posts carrying the same ID display
+`3 posts made per hour with 1 identity`. An empty window displays
+`0 posts made per hour with 0 identities`. A missing poster ID still contributes
+a post but not an identity. No new table or historical posting ledger is used,
+so this is not a count of posts that have already been deleted or purged.
+
+Implementation: `src/models/post.cr` (`board_stats`) and
+`src/controllers/index_controller.cr` (`collapsed_board_stats`). The model returns
+`{posts: ..., identities: ...}`; the former `unique_ips` key is no longer used.
+The Overboard keeps its existing “choose a board to post” message.
 
 The Pinned tab and the Archives board were removed on 2026-09-21; see
 [pinned.md](pinned.md). What follows described how Pinned collected posts from
