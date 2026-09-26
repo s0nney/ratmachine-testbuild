@@ -772,16 +772,25 @@ html {
 		display: none;
 	}
 
-	/* Look is inherited from the shared rule; only the sizing differs here. */
+	/* Look is inherited from the shared rule; only the sizing differs here.
+	   Sized for a thumb: 44px wide, the usual minimum touch target, and 32px
+	   tall -- level with the Overboard tab at the other end of the bar, so
+	   the bar keeps its height. The pair still clears the centred Live
+	   button by about 28px on a 320px screen. */
 	.mobile_board_jump .board_jump_button {
-		width: 30px;
-		padding: 3px 0;
-		margin-top: 2px;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 32px;
+		padding: 0;
+		margin-top: 0;
 	}
 
 	.mobile_board_jump .jump_up::before,
 	.mobile_board_jump .jump_down::before {
-		font-size: 13px;
+		font-size: 20px;
 	}
 
 	html {
