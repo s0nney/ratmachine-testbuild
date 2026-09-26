@@ -17,9 +17,14 @@
 	--theme-accent-rgb: 104,255,0;
 	--theme-chrome-rgb: 23,54,27;
 	--theme-frame-rgb: 2,7,2;
-	/* Shared with blame: its generated near-black tile -- film grain over
-	   concrete mottling, 0.76% variation. Black, but with a surface. */
-	--theme-background-image: url(../../../public/dist/images/blame.png);
+	/* main's own bg.png, restyled near-black -- shared by cyb and blame. A hue
+	   shift cannot reach this dark: -modulate scales the grain with the
+	   brightness, and near black there would be none left. So the grain's
+	   absolute variation is kept instead, around a neutral near-black:
+	   out = 13/255 + (grey - mean) x 0.673. Average gray(13), 0.76%
+	   variation -- the same darkness and subtlety as blame's old generated
+	   tile, but main's crinkle rather than concrete. */
+	--theme-background-image: url(../../../public/dist/images/dark.png);
 	--theme-font: "Lucida Console", Monaco, monospace;
 	--theme-mobile-font: "Lucida Console", Monaco, monospace;
 	--theme-field-font: "Lucida Console", Monaco, monospace;

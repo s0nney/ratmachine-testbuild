@@ -18,14 +18,15 @@
 	--theme-field: #0d0e0f;
 	--theme-input-text: #d4d1ca;
 
-	/* A generated 256x256 tile: film-grain speckle over slow concrete
-	   mottling, squeezed into a sliver of near-black, with a few faint panel
-	   joins -- the megastructure, barely there. Its grain was blurred with
-	   wrap-around edges and the joins span the full tile, so it repeats
-	   without a seam. 4.9% lightness, 0.76% variation: surface, not
-	   pattern. The ground is its average. */
+	/* main's own bg.png, restyled near-black -- shared by cyb and blame. A hue
+	   shift cannot reach this dark: -modulate scales the grain with the
+	   brightness, and near black there would be none left. So the grain's
+	   absolute variation is kept instead, around a neutral near-black:
+	   out = 13/255 + (grey - mean) x 0.673. Average gray(13), 0.76%
+	   variation -- the same darkness and subtlety as blame's old generated
+	   tile, but main's crinkle rather than concrete. The ground is its average. */
 	--theme-ground: #0d0d0d;
-	--theme-background-image: url(../../../public/dist/images/blame.png);
+	--theme-background-image: url(../../../public/dist/images/dark.png);
 
 	/* The one colour: a cold steel blue-grey, like a terminal glowing in the
 	   dark. Used only where the layout already asks for an accent. */
