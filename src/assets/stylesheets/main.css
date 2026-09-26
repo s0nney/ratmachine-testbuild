@@ -2290,3 +2290,29 @@ body:has(.board_tab.selected_board) {
 		border-top: none;
 	}
 }
+
+/* --- theme switcher and Live: one plain border, in every state ---------------
+   A 1px solid black border with a 2px radius, on the theme switcher and both
+   copies of Live, in every theme and both layouts. The same border before and
+   after pressing: open, on and :active are listed alongside the resting
+   state, so no state swaps it for an inset or square-cornered one. Each
+   state's other cues -- colour, background, Live's status dot -- are left as
+   they are.
+
+   Last in the file on purpose. The states it overrides are set earlier at up
+   to three classes of specificity (`.theme_switcher[open] > .theme_handle`,
+   `.corner_controls > .live_toggle.live_toggle_on`), so these match them and
+   win on order; no media query, so it also beats the handheld rules. */
+.theme_switcher > .theme_handle,
+.theme_switcher[open] > .theme_handle,
+.theme_switcher > .theme_handle:active,
+.live_toggle,
+.live_toggle.live_toggle_on,
+.live_toggle:active,
+.corner_controls > .live_toggle,
+.corner_controls > .live_toggle.live_toggle_on,
+.mobile_navigation .mobile_live_toggle,
+.mobile_navigation .mobile_live_toggle.live_toggle_on {
+	border: 1px solid #000;
+	border-radius: 2px;
+}
