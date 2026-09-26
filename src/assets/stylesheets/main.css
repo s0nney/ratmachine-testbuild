@@ -1610,9 +1610,21 @@ body:has(.board_tab.selected_board) {
 	width: 12px;
 	height: 12px;
 	border: 1px inset var(--theme-bevel-light);
-	background-color: #8c53b3;
+	background-color: #be00ff;
 }
-.theme_choice_cyb::before { background-color: #000; box-shadow: inset 0 0 0 2px #68ff00; }
+
+/* Each swatch is its own theme's post-root outline -- the colour its board
+   is framed in -- so the menu previews the one colour that most identifies
+   each theme. The drawer lists every theme at once, and another theme's
+   custom properties are not in scope here, so the values are written out:
+   when a theme's selected-post border or accent changes, change its swatch
+   with it. main's is the rule above. */
+.theme_choice_cyb::before { background-color: #68ff00; }
+.theme_choice_angelic::before { background-color: #e0a915; }
+.theme_choice_macos::before { background-color: #4c5fa8; }
+.theme_choice_bm::before { background-color: #00ebff; }
+.theme_choice_blame::before { background-color: #7d959c; }
+.theme_choice_coffee::before { background-color: #d99a5b; }
 .theme_choice.current_theme { border-style: inset; border-color: var(--theme-accent); }
 .theme_choice.current_theme::after { content: "active"; margin-left: auto; font-size: 11px; }
 .theme_choice:active { border-style: inset; }
