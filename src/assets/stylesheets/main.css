@@ -1640,24 +1640,31 @@ body:has(.board_tab.selected_board) {
    in the mobile bar. Declared after the block above so it wins the cascade --
    same specificity, so source order decides. */
 @media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
+	/* The grip is centred on the screen, not at 45% as it was: the drawer is
+	   centred on the grip (below), and only a grip at the exact middle leaves
+	   the same room above the drawer as below it, so a drawer capped at the
+	   screen height always fits. */
 	.theme_switcher {
-		top: calc(45% - 22px);
+		top: calc(50% - 32px);
 		right: auto;
 		left: 7px;
-		width: 16px;
+		width: 24px;
 	}
 
+	/* The drawer hangs outside the switcher now, so opening must not widen it. */
 	.theme_switcher[open] {
-		max-width: calc(100vw - 21px);
+		width: 24px;
+		max-width: none;
 	}
 
 	/* Back to a vertical grip: the shared rules above are now horizontal, so
-	   the dimensions, the grip lines and the open edge all have to be undone. */
+	   the dimensions, the grip lines and the open edge all have to be undone.
+	   24x64px -- a thumb-sized target, up from 16x44. */
 	.theme_handle {
 		float: left;
 		margin-left: 0;
-		width: 16px;
-		height: 44px;
+		width: 24px;
+		height: 64px;
 		border: 2px outset var(--theme-bevel-light);
 		border-left: none;
 		border-radius: 0 7px 7px 0;
@@ -1666,17 +1673,39 @@ body:has(.board_tab.selected_board) {
 	}
 
 	.theme_handle::before {
-		width: 3px;
-		height: 16px;
+		width: 5px;
+		height: 24px;
 		border-top: none;
 		border-bottom: none;
 		border-left: 1px solid var(--theme-bevel-dark);
 		border-right: 1px solid var(--theme-bevel-light);
 	}
 
+	/* The drawer hangs beside the grip, vertically centred on it, so the grip
+	   sits halfway down the list it opens. It used to start level with the
+	   grip's top and hang down, which ran it off the bottom of any small or
+	   landscape screen.
+
+	   Centred with `translate`, not `transform`: the open animation
+	   (theme-drawer-open) animates transform, and would override a transform
+	   here for its first 140ms and make the drawer jump. The two properties
+	   compose independently.
+
+	   Capped at the screen height less a margin; a screen too short for every
+	   theme scrolls the list rather than clipping it. dvh follows the visible
+	   height as a mobile address bar shows and hides; vh is the fallback. */
 	.theme_drawer {
-		margin-left: 16px;
-		margin-right: 0;
+		position: absolute;
+		left: 24px;
+		top: 50%;
+		translate: 0 -50%;
+		box-sizing: border-box;
+		width: 228px;
+		max-width: calc(100vw - 45px);
+		max-height: calc(100vh - 16px);
+		max-height: calc(100dvh - 16px);
+		overflow-y: auto;
+		margin: 0;
 		box-shadow: 4px 4px 0 rgba(0,0,0,.55), inset 0 0 0 1px var(--theme-frame);
 	}
 }
