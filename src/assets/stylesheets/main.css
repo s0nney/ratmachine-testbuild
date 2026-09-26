@@ -1668,10 +1668,11 @@ body:has(.board_tab.selected_board) {
 		border: 2px outset var(--theme-bevel-light);
 		border-left: none;
 		border-radius: 0 7px 7px 0;
-		/* Transparent: only the outline and the grip lines are drawn, so the
-		   post behind shows through. No drop shadow either -- under a clear
-		   button it would be a stray dark strip along two edges. */
-		background: transparent;
+		/* A light wash of the theme's chrome -- half strength, flat -- so the
+		   grip has some colour while the post behind still shows through. No
+		   drop shadow: under a see-through button it would be a stray dark
+		   strip along two edges. */
+		background: rgba(var(--theme-chrome-rgb), .5);
 		box-shadow: none;
 	}
 
