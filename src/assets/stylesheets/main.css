@@ -1588,16 +1588,11 @@ body:has(.board_tab.selected_board) {
 	animation: theme-drawer-open 140ms ease-out;
 }
 
+/* The drawer's "Appearance" heading is not shown in either layout: it only
+   repeated the button that opened it. The markup still renders it; hiding it
+   here keeps it out of the accessibility tree too. */
 .theme_drawer_title {
-	margin: -3px -3px 7px;
-	padding: 5px 7px;
-	border: 1px inset var(--theme-bevel-light);
-	background-color: var(--theme-tab-face);
-	font-family: monospace;
-	font-size: 13px;
-	font-weight: bold;
-	letter-spacing: 1px;
-	text-transform: uppercase;
+	display: none;
 }
 
 .theme_choice {
@@ -2220,11 +2215,6 @@ body:has(.board_tab.selected_board) {
 		line-height: 1;
 	}
 
-	/* The drawer's "Appearance" heading only repeated the button that opened
-	   it. */
-	.theme_drawer_title {
-		display: none;
-	}
 }
 
 /* --- the corner controls (desktop) -------------------------------------------
